@@ -55,6 +55,12 @@ public class VisaJDBCDAOImpl extends AbstractJDBCDAO<Visa,Integer> implements Vi
     }
 
     @Override
+    protected void prepareStatementForDelete(PreparedStatement statement, Visa visa) throws SQLException {
+        statement.setInt(1,visa.getId());
+
+    }
+
+    @Override
     public String getSelectQuery() {
         return selectQuery;
     }

@@ -49,7 +49,7 @@ public class UserJDBCDAOImpl extends AbstractJDBCDAO<User,Integer> implements Us
             user.setId(rs.getInt("id"));
             user.setLogin(rs.getString("logIn"));
             user.setEmail(rs.getString("email"));
-            user.setRole(Role.valueOf(rs.getString("role")));
+//            user.setRole(Role.valueOf(rs.getString("role")));
         }
         return users;
     }
@@ -59,7 +59,7 @@ public class UserJDBCDAOImpl extends AbstractJDBCDAO<User,Integer> implements Us
         statement.setString(1,user.getLogin());
         statement.setString(2,user.getPassword());
         statement.setString(3,user.getEmail());
-        statement.setString(4,user.getRole().getRoleString());
+//        statement.setString(4,user.getRole().getRoleString());
         statement.setInt(5,user.getId());
     }
 
@@ -68,13 +68,19 @@ public class UserJDBCDAOImpl extends AbstractJDBCDAO<User,Integer> implements Us
         statement.setString(1,user.getLogin());
         statement.setString(2,user.getPassword());
         statement.setString(3,user.getEmail());
-        statement.setString(4,user.getRole().getRoleString());
+//        statement.setString(4,user.getRole().getRoleString());
     }
 
     @Override
     public void prepareStatementForIsDuplicate(PreparedStatement statement, User user) throws SQLException {
         statement.setString(1,user.getLogin());
         statement.setString(2,user.getEmail());
+    }
+
+    @Override
+    protected void prepareStatementForDelete(PreparedStatement statement, User user) throws SQLException {
+        statement.setInt(1,user.getId());
+
     }
 
     @Override

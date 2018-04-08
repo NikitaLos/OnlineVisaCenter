@@ -114,24 +114,24 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     private void validateVisaInfo(VisaInfo visaInfo){
-        Passport passport = visaInfo.getApplication().getClientInfo().getPassport();
-        long durationOfPassport = DAYS.between(passport.getDateOfReceiving(),passport.getDateOfEnding());
-        LocalDate dateFrom = visaInfo.getDateFrom();
-        LocalDate dateTo = visaInfo.getDateTo();
-        Integer daysOfResidence =  visaInfo.getNumOfDaysResidence();
-        List<ClientDocument> documents = visaInfo.getClientDocuments();
-        Visa visa = visaInfo.getVisa();
-
-        if (documents==null|dateTo==null|dateFrom==null|daysOfResidence==null){
-            //todo exception
-        }else {
-            if(documents.size()!=visa.getRequiredDocuments().size()){
-                //todo exception TODO
-            }
-            if(dateTo.isBefore(dateFrom)||DAYS.between(dateFrom,dateTo)>daysOfResidence||durationOfPassport<daysOfResidence){
-                //todo exception
-            }
-        }
+//        Passport passport = visaInfo.getApplication().getClientInfo().getPassport();
+//        long durationOfPassport = DAYS.between(passport.getDateOfReceiving(),passport.getDateOfEnding());
+//        LocalDate dateFrom = visaInfo.getDateFrom();
+//        LocalDate dateTo = visaInfo.getDateTo();
+//        Integer daysOfResidence =  visaInfo.getNumOfDaysResidence();
+//        List<ClientDocument> documents = visaInfo.getClientDocuments();
+//        Visa visa = visaInfo.getVisa();
+//
+//        if (documents==null|dateTo==null|dateFrom==null|daysOfResidence==null){
+//            //todo exception
+//        }else {
+//            if(documents.size()!=visa.getRequiredDocumentTypes().size()){
+//                //todo exception TODO
+//            }
+//            if(dateTo.isBefore(dateFrom)||DAYS.between(dateFrom,dateTo)>daysOfResidence||durationOfPassport<daysOfResidence){
+//                //todo exception
+//            }
+//        }
     }
 
     private void verifyCheck(Application application) {

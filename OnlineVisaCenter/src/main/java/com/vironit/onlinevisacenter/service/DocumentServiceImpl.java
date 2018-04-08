@@ -1,7 +1,7 @@
 package com.vironit.onlinevisacenter.service;
 
 import com.vironit.onlinevisacenter.dao.interfaces.DocumentDAO;
-import com.vironit.onlinevisacenter.entity.Document;
+import com.vironit.onlinevisacenter.entity.DocumentType;
 import com.vironit.onlinevisacenter.service.inrefaces.DocumentService;
 
 public class DocumentServiceImpl implements DocumentService {
@@ -13,21 +13,21 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public void addDocument(Document document) {
-        if(!documentDAO.isDuplicate(document)){
-            documentDAO.create(document);
+    public void addDocument(DocumentType documentType) {
+        if(!documentDAO.isDuplicate(documentType)){
+            documentDAO.create(documentType);
         }else {
             // todo exception
         }
     }
 
     @Override
-    public void deleteDocument(Document document) {
-        documentDAO.delete(document);
+    public void deleteDocument(DocumentType documentType) {
+        documentDAO.delete(documentType);
     }
 
     @Override
-    public Document getDocument(int key) {
+    public DocumentType getDocument(int key) {
         return documentDAO.getByPK(key);
     }
 

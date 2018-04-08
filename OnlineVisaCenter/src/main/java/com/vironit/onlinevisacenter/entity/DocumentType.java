@@ -1,11 +1,21 @@
 package com.vironit.onlinevisacenter.entity;
 
-public class Document implements Identified<Integer>{
+import javax.persistence.*;
+import java.io.Serializable;
 
+@Entity
+@Table(name = "document_type", schema = "visa_center")
+public class DocumentType implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @Column(name = "name")
     private String name;
 
-    @Override
+
+
     public Integer getId() {
         return id;
     }
@@ -27,9 +37,9 @@ public class Document implements Identified<Integer>{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Document document = (Document) o;
+        DocumentType documentType = (DocumentType) o;
 
-        return name != null ? name.equals(document.name) : document.name == null;
+        return name != null ? name.equals(documentType.name) : documentType.name == null;
     }
 
     @Override

@@ -49,6 +49,11 @@ public class CountryJDBCDAOImpl extends AbstractJDBCDAO<Country,Integer> impleme
     }
 
     @Override
+    protected void prepareStatementForDelete(PreparedStatement statement, Country country) throws SQLException {
+        statement.setInt(1,country.getId());
+    }
+
+    @Override
     public String getSelectQuery() {
         return selectQuery;
     }

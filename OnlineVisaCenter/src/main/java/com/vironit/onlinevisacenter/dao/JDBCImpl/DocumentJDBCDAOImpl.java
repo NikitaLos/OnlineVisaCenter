@@ -1,7 +1,7 @@
 package com.vironit.onlinevisacenter.dao.JDBCImpl;
 
 import com.vironit.onlinevisacenter.dao.interfaces.DocumentDAO;
-import com.vironit.onlinevisacenter.entity.Document;
+import com.vironit.onlinevisacenter.entity.DocumentType;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DocumentJDBCDAOImpl extends AbstractJDBCDAO<Document,Integer> implements DocumentDAO {
+public class DocumentJDBCDAOImpl extends AbstractJDBCDAO<DocumentType,Integer> implements DocumentDAO {
 
     private String selectQuery = "select * from visa_center.document";
     private String deleteQuery = "delete from visa_center.document where id = ?";
@@ -23,32 +23,38 @@ public class DocumentJDBCDAOImpl extends AbstractJDBCDAO<Document,Integer> imple
     }
 
     @Override
-    public List<Document> parseResultSet(ResultSet rs) throws SQLException {
-        List<Document> documents = new ArrayList<>();
+    public List<DocumentType> parseResultSet(ResultSet rs) throws SQLException {
+        List<DocumentType> documentTypes = new ArrayList<>();
         while (rs.next()){
-            Document document = new Document();
-            document.setId(rs.getInt("id"));
-            document.setName(rs.getString("name"));
-            documents.add(document);
+            DocumentType documentType = new DocumentType();
+            documentType.setId(rs.getInt("id"));
+            documentType.setName(rs.getString("name"));
+            documentTypes.add(documentType);
         }
-        return documents;
+        return documentTypes;
     }
 
     @Override
-    public void prepareStatementForUpdate(PreparedStatement statement, Document document) throws SQLException {
-        statement.setString(1,document.getName());
-        statement.setInt(2,document.getId());
+    public void prepareStatementForUpdate(PreparedStatement statement, DocumentType documentType) throws SQLException {
+        statement.setString(1, documentType.getName());
+        statement.setInt(2, documentType.getId());
     }
 
     @Override
-    public void prepareStatementForCreate(PreparedStatement statement, Document document) throws SQLException {
-        statement.setString(1,document.getName());
+    public void prepareStatementForCreate(PreparedStatement statement, DocumentType documentType) throws SQLException {
+        statement.setString(1, documentType.getName());
 
     }
 
     @Override
-    public void prepareStatementForIsDuplicate(PreparedStatement statement, Document document) throws SQLException {
-        statement.setString(1,document.getName());
+    public void prepareStatementForIsDuplicate(PreparedStatement statement, DocumentType documentType) throws SQLException {
+        statement.setString(1, documentType.getName());
+    }
+
+    @Override
+    protected void prepareStatementForDelete(PreparedStatement statement, DocumentType documentType) throws SQLException {
+        statement.setInt(1,documentType.getId());
+
     }
 
     @Override

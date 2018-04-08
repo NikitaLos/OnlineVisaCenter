@@ -2,15 +2,55 @@ package com.vironit.onlinevisacenter.entity;
 
 import com.vironit.onlinevisacenter.entity.enums.Role;
 
-public class User implements Identified<Integer> {
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.List;
 
+@Entity
+@Table(name = "user", schema = "visa_center")
+public class User implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String login;
-    private String password;
-    private String email;
-    private Role role;
 
-    @Override
+    @Column(name = "login")
+    private String login;
+
+    @Column(name = "password")
+    private String password;
+
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "role")
+    private String role;
+
+    @OneToMany(
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Application> applications;
+
+    public void addApplication(Application application) {
+        applications.add(application);
+        application.setUser(this);
+    }
+
+    public void removeAppliaction(Application application) {
+        applications.remove(application);
+        application.setUser(null);
+    }
+
+    public List<Application> getApplications() {
+        return applications;
+    }
+
+    public void setApplications(List<Application> applications) {
+        this.applications = applications;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -43,11 +83,11 @@ public class User implements Identified<Integer> {
         this.email = email;
     }
 
-    public Role getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
+    public void setRole(String role) {
         this.role = role;
     }
 

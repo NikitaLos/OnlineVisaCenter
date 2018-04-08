@@ -1,12 +1,36 @@
 package com.vironit.onlinevisacenter.entity;
 
-public class ClientDocument implements Identified<Integer> {
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.List;
 
+@Entity
+@Table(name = "client_document", schema = "visa_center")
+public class ClientDocument implements Serializable {
+
+    @Id
     private Integer id;
-    private Document document;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "document_type_id")
+    private DocumentType documentType;
+
+    @Column(name = "path_on_server")
     private String pathOnServer;
 
-    @Override
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "client_info_id")
+    private ClientInfo clientInfo;
+
+    public ClientInfo getClientInfo() {
+        return clientInfo;
+    }
+
+    public void setClientInfo(ClientInfo clientInfo) {
+        this.clientInfo = clientInfo;
+    }
+
+
     public Integer getId() {
         return id;
     }
@@ -15,12 +39,12 @@ public class ClientDocument implements Identified<Integer> {
         this.id = id;
     }
 
-    public Document getDocument() {
-        return document;
+    public DocumentType getDocumentType() {
+        return documentType;
     }
 
-    public void setDocument(Document document) {
-        this.document = document;
+    public void setDocumentType(DocumentType documentType) {
+        this.documentType = documentType;
     }
 
     public String getPathOnServer() {
@@ -38,13 +62,13 @@ public class ClientDocument implements Identified<Integer> {
 
         ClientDocument that = (ClientDocument) o;
 
-        if (document != null ? !document.equals(that.document) : that.document != null) return false;
+        if (documentType != null ? !documentType.equals(that.documentType) : that.documentType != null) return false;
         return pathOnServer != null ? pathOnServer.equals(that.pathOnServer) : that.pathOnServer == null;
     }
 
     @Override
     public int hashCode() {
-        int result = document != null ? document.hashCode() : 0;
+        int result = documentType != null ? documentType.hashCode() : 0;
         result = 31 * result + (pathOnServer != null ? pathOnServer.hashCode() : 0);
         return result;
     }

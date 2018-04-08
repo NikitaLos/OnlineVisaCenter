@@ -4,37 +4,47 @@ import com.vironit.onlinevisacenter.entity.enums.Result;
 import com.vironit.onlinevisacenter.entity.enums.Status;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "application")
-public class Application implements Identified<Integer> {
+@Table(name = "application", schema = "visa_center")
+public class Application implements Serializable {
 
     @Id
     @Column(name = "id")
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @OneToOne(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id")
     private ClientInfo clientInfo;
 
-//    @Column(name = "client_info_id")
-//    private VisaInfo visaInfo;
+    @OneToOne(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id")
+    private VisaInfo visaInfo;
 
-    private User client;
+    @OneToOne(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id")
+    private Check check;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @Column(name = "status")
+    @Enumerated(EnumType.STRING)
     private Status status;
 
     @Column(name = "result")
+    @Enumerated(EnumType.STRING)
     private Result result;
 
     @Column(name = "comments")
     private String comments;
-
-    @Column(name = "check_id")
-    private Check check;
 
     @Column(name = "date_of_create")
     private LocalDateTime creationTime;
@@ -46,8 +56,6 @@ public class Application implements Identified<Integer> {
         this.result = Result.NO_RESULT;
     }
 
-
-    @Override
     public Integer getId() {
         return id;
     }
@@ -70,14 +78,15 @@ public class Application implements Identified<Integer> {
 
     public void setVisaInfo(VisaInfo visaInfo) {
         this.visaInfo = visaInfo;
+//        visaInfo.setApplication(this);
     }
 
-    public User getClient() {
-        return client;
+    public User getUser() {
+        return user;
     }
 
-    public void setClient(User client) {
-        this.client = client;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Status getStatus() {
@@ -129,7 +138,7 @@ public class Application implements Identified<Integer> {
 
         if (clientInfo != null ? !clientInfo.equals(that.clientInfo) : that.clientInfo != null) return false;
         if (visaInfo != null ? !visaInfo.equals(that.visaInfo) : that.visaInfo != null) return false;
-        if (client != null ? !client.equals(that.client) : that.client != null) return false;
+        if (user != null ? !user.equals(that.user) : that.user != null) return false;
         if (status != that.status) return false;
         if (result != that.result) return false;
         if (comments != null ? !comments.equals(that.comments) : that.comments != null) return false;
@@ -141,7 +150,7 @@ public class Application implements Identified<Integer> {
     public int hashCode() {
         int result1 = clientInfo != null ? clientInfo.hashCode() : 0;
         result1 = 31 * result1 + (visaInfo != null ? visaInfo.hashCode() : 0);
-        result1 = 31 * result1 + (client != null ? client.hashCode() : 0);
+        result1 = 31 * result1 + (user != null ? user.hashCode() : 0);
         result1 = 31 * result1 + (status != null ? status.hashCode() : 0);
         result1 = 31 * result1 + (result != null ? result.hashCode() : 0);
         result1 = 31 * result1 + (comments != null ? comments.hashCode() : 0);

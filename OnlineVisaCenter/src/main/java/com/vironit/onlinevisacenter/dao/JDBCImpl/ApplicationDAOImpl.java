@@ -36,6 +36,11 @@ public class ApplicationDAOImpl extends AbstractJDBCDAO<Application,Integer> {
     }
 
     @Override
+    protected void prepareStatementForDelete(PreparedStatement statement, Application object) {
+
+    }
+
+    @Override
     public String getSelectQuery() {
         return null;
     }

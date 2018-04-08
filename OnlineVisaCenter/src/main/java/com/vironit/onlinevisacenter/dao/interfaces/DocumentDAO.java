@@ -1,15 +1,14 @@
 package com.vironit.onlinevisacenter.dao.interfaces;
 
-import com.vironit.onlinevisacenter.entity.Country;
-import com.vironit.onlinevisacenter.entity.Document;
+import com.vironit.onlinevisacenter.entity.DocumentType;
 
 import java.util.List;
 
 public interface DocumentDAO {
-    void create(Document document);
-    void delete(Document document);
-    Document getByPK(int key);
-    void update(Document document);
-    List<Document> getAll();
-    boolean isDuplicate(Document document);
+    void create(DocumentType documentType);
+    void delete(DocumentType documentType);
+    DocumentType getByPK(int key);
+    void update(DocumentType documentType);
+    List<DocumentType> getAll();
+    boolean isDuplicate(DocumentType documentType);
 }

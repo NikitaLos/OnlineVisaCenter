@@ -8,7 +8,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractJDBCDAO<T extends Identified<PK>,PK extends Serializable>  {
+public abstract class AbstractJDBCDAO<T ,PK extends Serializable>  {
 
     protected Connection connection;
 
@@ -21,6 +21,7 @@ public abstract class AbstractJDBCDAO<T extends Identified<PK>,PK extends Serial
     public abstract void prepareStatementForUpdate(PreparedStatement statement, T object) throws SQLException;
     public abstract void prepareStatementForCreate(PreparedStatement statement, T object) throws SQLException;
     public abstract void prepareStatementForIsDuplicate(PreparedStatement statement, T object) throws SQLException;
+    protected abstract void prepareStatementForDelete(PreparedStatement statement, T object) throws SQLException;
     public abstract String getSelectQuery();
     public abstract String getCreateQuery();
     public abstract String getUpdateQuery();
@@ -53,12 +54,13 @@ public abstract class AbstractJDBCDAO<T extends Identified<PK>,PK extends Serial
     public void delete(T object) {
         String sql = getDeleteQuery();
         try(PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setObject(1, object.getId());
+            prepareStatementForDelete(statement,object);
             statement.executeUpdate();
         } catch (SQLException e) {
             //todo
         }
     }
+
 
     public T getByPK(int key)  {
         List<T> list = new ArrayList<>();

@@ -1,23 +1,48 @@
 package com.vironit.onlinevisacenter.entity;
 
+import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
-public class VisaInfo implements Identified<Integer>{
+@Entity
+@Table(name = "visa_info", schema = "visa_center")
+public class VisaInfo implements Serializable {
 
+    @Id
+    @Column(name = "application_id")
     private Integer id;
-    private Visa visa;
-    private LocalDate dateFrom;
-    private LocalDate dateTo;
-    private LocalDate dateOfReceiving;
-    private String nameOfClient;
-    private String surnameOfClient;
-    private Integer numOfDaysResidence;
-    private Application application;
-    private String visaPathOnServer;
-    private List<ClientDocument> clientDocuments;
 
-    @Override
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "visa_id")
+    private Visa visa;
+
+    @Column(name = "date_from")
+    private LocalDate dateFrom;
+
+    @Column(name = "date_to")
+    private LocalDate dateTo;
+
+    @Column(name = "date_of_receiving")
+    private LocalDate dateOfReceiving;
+
+    @Column(name = "name_client")
+    private String nameOfClient;
+
+    @Column(name = "surname_client")
+    private String surnameOfClient;
+
+    @Column(name = "days_of_residence")
+    private Integer numOfDaysResidence;
+
+    @OneToOne(fetch = FetchType.LAZY,mappedBy = "visaInfo")
+    @MapsId
+    private Application application;
+
+    @Column(name = "visa_path_on_server")
+    private String visaPathOnServer;
+
+
     public Integer getId() {
         return id;
     }
@@ -98,13 +123,7 @@ public class VisaInfo implements Identified<Integer>{
         this.visaPathOnServer = visaPathOnServer;
     }
 
-    public List<ClientDocument> getClientDocuments() {
-        return clientDocuments;
-    }
 
-    public void setClientDocuments(List<ClientDocument> clientDocuments) {
-        this.clientDocuments = clientDocuments;
-    }
 
     @Override
     public boolean equals(Object o) {

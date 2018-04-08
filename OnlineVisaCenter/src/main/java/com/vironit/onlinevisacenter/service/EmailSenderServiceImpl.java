@@ -19,7 +19,7 @@ public class EmailSenderServiceImpl implements SenderService {
 
     @Override
     public void sendResultToClient(Application application) {
-        String email = application.getClient().getEmail();
+        String email = application.getUser().getEmail();
         String message = application.getResult()+application.getComments();
         sendEmail(email,message);
     }

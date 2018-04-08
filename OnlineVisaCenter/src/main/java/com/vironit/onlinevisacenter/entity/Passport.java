@@ -1,16 +1,42 @@
 package com.vironit.onlinevisacenter.entity;
 
+import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Passport implements Identified<Integer>{
+@Entity
+@Table(name = "passport", schema = "visa_center")
+public class Passport implements Serializable {
 
+    @Id
+    @Column(name = "application_id")
     private Integer id;
+
+    @Column(name = "number")
     private String number;
+
+    @Column(name = "country")
     private String countryOfResidence;
+
+    @Column(name = "date_of_receiving")
     private LocalDate dateOfReceiving;
+
+    @Column(name = "date_of_ending")
     private LocalDate dateOfEnding;
 
-    @Override
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "application_id")
+    @MapsId
+    private ClientInfo clientInfo;
+
+    public void setClientInfo(ClientInfo clientInfo) {
+        this.clientInfo = clientInfo;
+    }
+
+    public ClientInfo getClientInfo() {
+        return clientInfo;
+    }
+
     public Integer getId() {
         return id;
     }

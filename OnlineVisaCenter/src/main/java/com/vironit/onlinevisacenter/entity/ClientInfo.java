@@ -3,27 +3,75 @@ package com.vironit.onlinevisacenter.entity;
 import com.vironit.onlinevisacenter.entity.enums.AimOfVisit;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
-@Table(name = "client_info")
-public class ClientInfo implements Identified<Integer>{
+@Table(name = "client_info", schema = "visa_center")
+public class ClientInfo implements Serializable {
 
     @Id
+    @Column(name = "application_id")
     private Integer id;
+
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "surname")
     private String surname;
+
+    @Column(name = "sex")
     private String sex;
+
+    @Column(name = "phone_number")
     private String phoneNumber;
+
+    @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY,mappedBy = "clientInfo")
     @MapsId
     private Application application;
 
+    @OneToOne(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY, optional = false,mappedBy = "clientInfo")
     private Passport passport;
+
+    @Column(name = "path_photo_on_server")
     private String photoPathOnServer;
+
+    @Column(name = "aim_of_visit")
+    @Enumerated(EnumType.STRING)
     private AimOfVisit aimOfVisit;
+
+    @OneToMany(
+            mappedBy = "clientInfo",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<ClientDocument> clientDocuments;
+
+
+
+    public void addClientDocument(ClientDocument clientDocument) {
+        clientDocuments.add(clientDocument);
+        clientDocument.setClientInfo(this);
+    }
+
+    public void removeClientDocument(ClientDocument clientDocument) {
+        clientDocuments.remove(clientDocument);
+        clientDocument.setClientInfo(null);
+    }
+
+
+    public List<ClientDocument> getClientDocuments() {
+        return clientDocuments;
+    }
+
+    public void setClientDocuments(List<ClientDocument> clientDocuments) {
+        this.clientDocuments = clientDocuments;
+    }
 
     public Application getApplication() {
         return application;
@@ -33,7 +81,6 @@ public class ClientInfo implements Identified<Integer>{
         this.application = application;
     }
 
-    @Override
     public Integer getId() {
         return id;
     }

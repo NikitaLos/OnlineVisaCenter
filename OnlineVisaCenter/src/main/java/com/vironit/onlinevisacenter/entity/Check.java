@@ -1,16 +1,30 @@
 package com.vironit.onlinevisacenter.entity;
 
+import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class Check implements Identified<Integer>{
+@Entity
+@Table(name = "check",schema = "visa_center")
+public class Check implements Serializable {
 
+    @Id
+    @Column(name = "application_id")
     private Integer id;
+
+    @Column(name = "amount")
     private Double amount;
+
+    @Column(name = "date_of_payment")
     private LocalDateTime dateOfPayment;
+
+    @OneToOne(fetch = FetchType.LAZY,mappedBy = "check")
+    @MapsId
     private Application application;
+
+    @Column(name = "path_on_server")
     private String pathOnServer;
 
-    @Override
     public Integer getId() {
         return id;
     }

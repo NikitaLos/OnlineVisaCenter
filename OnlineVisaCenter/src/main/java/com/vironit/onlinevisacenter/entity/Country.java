@@ -1,14 +1,37 @@
 package com.vironit.onlinevisacenter.entity;
 
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
-public class Country implements Identified<Integer> {
+@Entity
+@Table(name = "country", schema = "visa_center")
+public class Country implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @Column(name = "name")
     private String name;
+
+    @OneToMany(
+            mappedBy = "country",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
     private List<Visa> availableVisas;
 
-    @Override
+    public void addVisa(Visa visa) {
+        availableVisas.add(visa);
+        visa.setCountry(this);
+    }
+
+    public void removeVisa(Visa visa) {
+        availableVisas.remove(visa);
+        visa.setCountry(null);
+    }
+
     public Integer getId() {
         return id;
     }

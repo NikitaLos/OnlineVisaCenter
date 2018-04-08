@@ -1,15 +1,39 @@
 package com.vironit.onlinevisacenter.entity;
 
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-public class Visa implements Identified<Integer> {
+@Entity
+@Table(name = "visa", schema = "visa_center")
+public class Visa implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String type;
-    private Double price;
-    private List<Document> requiredDocuments;
 
-    @Override
+    @Column(name = "type")
+    private String type;
+
+    @Column(name = "price")
+    private Double price;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "country_id")
+    private Country country;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<DocumentType> requiredDocumentTypes;
+
+    public void addDocumentType(DocumentType documentType){
+        requiredDocumentTypes.add(documentType);
+    }
+
+    public Visa() {
+        this.requiredDocumentTypes = new ArrayList<>();
+    }
+
     public Integer getId() {
         return id;
     }
@@ -34,12 +58,20 @@ public class Visa implements Identified<Integer> {
         this.price = price;
     }
 
-    public List<Document> getRequiredDocuments() {
-        return requiredDocuments;
+    public List<DocumentType> getRequiredDocumentTypes() {
+        return requiredDocumentTypes;
     }
 
-    public void setRequiredDocuments(List<Document> requiredDocuments) {
-        this.requiredDocuments = requiredDocuments;
+    public void setRequiredDocumentTypes(List<DocumentType> requiredDocumentTypes) {
+        this.requiredDocumentTypes = requiredDocumentTypes;
+    }
+
+    public Country getCountry() {
+        return country;
+    }
+
+    public void setCountry(Country country) {
+        this.country = country;
     }
 
     @Override
