@@ -14,7 +14,17 @@ public class DocumentType implements Serializable {
     @Column(name = "name")
     private String name;
 
+    @ManyToOne
+    @JoinColumn(name = "visa_id")
+    private Visa visa;
 
+    public Visa getVisa() {
+        return visa;
+    }
+
+    public void setVisa(Visa visa) {
+        this.visa = visa;
+    }
 
     public Integer getId() {
         return id;

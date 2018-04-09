@@ -9,7 +9,7 @@ import java.time.LocalDate;
 public class Passport implements Serializable {
 
     @Id
-    @Column(name = "application_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "number")
@@ -24,9 +24,7 @@ public class Passport implements Serializable {
     @Column(name = "date_of_ending")
     private LocalDate dateOfEnding;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "application_id")
-    @MapsId
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "passport")
     private ClientInfo clientInfo;
 
     public void setClientInfo(ClientInfo clientInfo) {

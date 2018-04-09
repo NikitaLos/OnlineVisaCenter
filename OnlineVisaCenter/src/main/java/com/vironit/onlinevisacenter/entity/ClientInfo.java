@@ -5,6 +5,7 @@ import com.vironit.onlinevisacenter.entity.enums.AimOfVisit;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -12,7 +13,7 @@ import java.util.List;
 public class ClientInfo implements Serializable {
 
     @Id
-    @Column(name = "application_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "name")
@@ -31,11 +32,11 @@ public class ClientInfo implements Serializable {
     private LocalDate dateOfBirth;
 
     @OneToOne(fetch = FetchType.LAZY,mappedBy = "clientInfo")
-    @MapsId
     private Application application;
 
     @OneToOne(cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY, optional = false,mappedBy = "clientInfo")
+            fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "passport_id")
     private Passport passport;
 
     @Column(name = "path_photo_on_server")
@@ -53,6 +54,9 @@ public class ClientInfo implements Serializable {
     private List<ClientDocument> clientDocuments;
 
 
+    public ClientInfo() {
+        clientDocuments = new ArrayList<>();
+    }
 
     public void addClientDocument(ClientDocument clientDocument) {
         clientDocuments.add(clientDocument);
@@ -135,6 +139,7 @@ public class ClientInfo implements Serializable {
 
     public void setPassport(Passport passport) {
         this.passport = passport;
+//        passport.setClientInfo(this);
     }
 
     public String getPhotoPathOnServer() {

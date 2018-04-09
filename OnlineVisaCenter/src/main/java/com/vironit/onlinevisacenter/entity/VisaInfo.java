@@ -10,7 +10,7 @@ import java.util.List;
 public class VisaInfo implements Serializable {
 
     @Id
-    @Column(name = "application_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @OneToOne(fetch = FetchType.LAZY)
@@ -36,7 +36,6 @@ public class VisaInfo implements Serializable {
     private Integer numOfDaysResidence;
 
     @OneToOne(fetch = FetchType.LAZY,mappedBy = "visaInfo")
-    @MapsId
     private Application application;
 
     @Column(name = "visa_path_on_server")

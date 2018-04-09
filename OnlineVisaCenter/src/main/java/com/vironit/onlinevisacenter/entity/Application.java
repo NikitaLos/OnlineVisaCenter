@@ -18,17 +18,17 @@ public class Application implements Serializable {
 
     @OneToOne(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "client_info_id")
     private ClientInfo clientInfo;
 
     @OneToOne(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "visa_info_id")
     private VisaInfo visaInfo;
 
     @OneToOne(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "check_id")
     private Check check;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -56,6 +56,7 @@ public class Application implements Serializable {
         this.result = Result.NO_RESULT;
     }
 
+
     public Integer getId() {
         return id;
     }
@@ -78,7 +79,6 @@ public class Application implements Serializable {
 
     public void setVisaInfo(VisaInfo visaInfo) {
         this.visaInfo = visaInfo;
-//        visaInfo.setApplication(this);
     }
 
     public User getUser() {

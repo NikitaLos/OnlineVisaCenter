@@ -23,10 +23,14 @@ public class Visa implements Serializable {
     @JoinColumn(name = "country_id")
     private Country country;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "visa")
     private List<DocumentType> requiredDocumentTypes;
 
     public void addDocumentType(DocumentType documentType){
+        requiredDocumentTypes.remove(documentType);
+    }
+
+    public void removeDocumentType(DocumentType documentType){
         requiredDocumentTypes.add(documentType);
     }
 
