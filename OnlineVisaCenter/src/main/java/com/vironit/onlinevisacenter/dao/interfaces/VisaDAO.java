@@ -1,16 +1,15 @@
 package com.vironit.onlinevisacenter.dao.interfaces;
 
 
-import com.vironit.onlinevisacenter.entity.User;
 import com.vironit.onlinevisacenter.entity.Visa;
 
 import java.util.List;
 
 public interface VisaDAO {
-    void create(Visa visa);
+    void save(Visa visa);
     void delete(Visa visa);
-    Visa getByPK(int key);
+    Visa find(Integer key);
     void update(Visa visa);
-    List<Visa> getAll();
+    List<Visa> findAll(Class<Visa> classType);
     boolean isDuplicate(Visa visa);
 }

@@ -1,14 +1,14 @@
 package com.vironit.onlinevisacenter.dao.JDBCImpl;
 
 
-import com.vironit.onlinevisacenter.entity.Identified;
+import com.vironit.onlinevisacenter.dao.interfaces.GenericDAO;
 
 import java.io.Serializable;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractJDBCDAO<T ,PK extends Serializable>  {
+public abstract class AbstractJDBCDAO<T>{
 
     protected Connection connection;
 
@@ -29,7 +29,7 @@ public abstract class AbstractJDBCDAO<T ,PK extends Serializable>  {
     public abstract String getIsDuplicateQuery();
 
 
-    public void create(T object){
+    public void save(T object){
         String sql = getCreateQuery();
         try(PreparedStatement statement = connection.prepareStatement(sql)){
             prepareStatementForCreate(statement,object);
@@ -62,7 +62,7 @@ public abstract class AbstractJDBCDAO<T ,PK extends Serializable>  {
     }
 
 
-    public T getByPK(int key)  {
+    public T find(Integer key)  {
         List<T> list = new ArrayList<>();
         String sql = getSelectQuery()+ " WHERE id = ?";
         try(PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -75,7 +75,7 @@ public abstract class AbstractJDBCDAO<T ,PK extends Serializable>  {
         return list.iterator().next();
     }
 
-    public List<T> getAll()  {
+    public List<T> findAll(Class<T> classType)  {
         List<T> list = new ArrayList<>();
         String sql = getSelectQuery();
         try(PreparedStatement statement = connection.prepareStatement(sql)) {

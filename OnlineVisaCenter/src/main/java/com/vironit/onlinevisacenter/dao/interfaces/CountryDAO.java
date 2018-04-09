@@ -5,10 +5,10 @@ import com.vironit.onlinevisacenter.entity.Country;
 import java.util.List;
 
 public interface CountryDAO {
-    void create(Country country);
+    void save(Country country);
     void delete(Country country);
-    Country getByPK(int key);
+    Country find(Integer key);
     void update(Country country);
-    List<Country> getAll();
+    List<Country> findAll(Class<Country> classType);
     boolean isDuplicate(Country country);
 }

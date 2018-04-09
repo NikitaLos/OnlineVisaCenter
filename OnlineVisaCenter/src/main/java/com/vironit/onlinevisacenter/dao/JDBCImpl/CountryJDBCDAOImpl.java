@@ -7,7 +7,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CountryJDBCDAOImpl extends AbstractJDBCDAO<Country,Integer> implements CountryDAO {
+public class CountryJDBCDAOImpl extends AbstractJDBCDAO<Country> implements CountryDAO {
 
 
     private String selectQuery = "select * from visa_center.country";

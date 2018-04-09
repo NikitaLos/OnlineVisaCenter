@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserJDBCDAOImpl extends AbstractJDBCDAO<User,Integer> implements UserDAO {
+public class UserJDBCDAOImpl extends AbstractJDBCDAO<User> implements UserDAO {
 
     private String selectQuery = "select * from visa_center.user";
     private String deleteQuery = "delete from visa_center.user where id = ?";

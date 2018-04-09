@@ -7,11 +7,11 @@ import com.vironit.onlinevisacenter.entity.User;
 import java.util.List;
 
 public interface ApplicationDAO {
-    void create(Application application);
+    void save(Application application);
     void delete(Application application);
-    Application getByPK(int key);
+    Application find(Integer key);
     void update(Application application);
-    List<Application> getAll();
+    List<Application> findAll(Class<Application> classType);
     boolean isDuplicate(Application application);
     List<Application> getApplicationsByClient(User user);
 

@@ -1,6 +1,6 @@
 package com.vironit.onlinevisacenter.dao.JDBCImpl;
 
-import com.vironit.onlinevisacenter.dao.interfaces.DocumentDAO;
+import com.vironit.onlinevisacenter.dao.interfaces.DocumentTypeDAO;
 import com.vironit.onlinevisacenter.entity.DocumentType;
 
 import java.sql.PreparedStatement;
@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DocumentJDBCDAOImpl extends AbstractJDBCDAO<DocumentType,Integer> implements DocumentDAO {
+public class DocumentTypeJDBCDAOImpl extends AbstractJDBCDAO<DocumentType> implements DocumentTypeDAO {
 
     private String selectQuery = "select * from visa_center.document";
     private String deleteQuery = "delete from visa_center.document where id = ?";
@@ -18,7 +18,7 @@ public class DocumentJDBCDAOImpl extends AbstractJDBCDAO<DocumentType,Integer> i
     private String isDuplicateQuery = "select from visa_center.document where name = ?";
 
 
-    public DocumentJDBCDAOImpl() {
+    public DocumentTypeJDBCDAOImpl() {
         super(ConnectionProvider.getConnection());
     }
 

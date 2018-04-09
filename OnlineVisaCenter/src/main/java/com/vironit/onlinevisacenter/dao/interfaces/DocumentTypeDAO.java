@@ -4,11 +4,11 @@ import com.vironit.onlinevisacenter.entity.DocumentType;
 
 import java.util.List;
 
-public interface DocumentDAO {
-    void create(DocumentType documentType);
+public interface DocumentTypeDAO {
+    void save(DocumentType documentType);
     void delete(DocumentType documentType);
-    DocumentType getByPK(int key);
+    DocumentType find(Integer key);
     void update(DocumentType documentType);
-    List<DocumentType> getAll();
+    List<DocumentType> findAll(Class<DocumentType> classType);
     boolean isDuplicate(DocumentType documentType);
 }

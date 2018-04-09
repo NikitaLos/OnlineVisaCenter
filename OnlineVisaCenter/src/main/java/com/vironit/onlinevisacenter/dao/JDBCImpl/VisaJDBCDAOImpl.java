@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VisaJDBCDAOImpl extends AbstractJDBCDAO<Visa,Integer> implements VisaDAO{
+public class VisaJDBCDAOImpl extends AbstractJDBCDAO<Visa> implements VisaDAO{
 
     private String selectQuery = "select * from visa_center.visa";
     private String deleteQuery = "delete from visa_center.visa where id = ?";
