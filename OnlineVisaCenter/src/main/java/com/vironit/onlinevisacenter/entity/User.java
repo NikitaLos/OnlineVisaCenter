@@ -24,13 +24,11 @@ public class User implements Serializable {
     private String email;
 
     @Column(name = "role")
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
-    @OneToMany(
-            mappedBy = "user",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,
+            mappedBy = "user")
     private List<Application> applications;
 
     public void addApplication(Application application) {
@@ -83,11 +81,11 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 

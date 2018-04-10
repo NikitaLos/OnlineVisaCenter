@@ -3,6 +3,7 @@ package com.vironit.onlinevisacenter.dao.JDBCImpl;
 import com.vironit.onlinevisacenter.dao.interfaces.UserDAO;
 import com.vironit.onlinevisacenter.entity.User;
 import com.vironit.onlinevisacenter.entity.enums.Role;
+import com.vironit.onlinevisacenter.exceptions.dao.EntityFindExeption;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,23 +22,25 @@ public class UserJDBCDAOImpl extends AbstractJDBCDAO<User> implements UserDAO {
 
 
     public UserJDBCDAOImpl() {
-        super(ConnectionProvider.getConnection());
+        super(ConnectionProvider.getConnection(),User.class);
     }
 
 
     @Override
-    public User getUserByLoginAndPassword(User user) {
+    public User getUserByLoginAndPassword(User user) throws EntityFindExeption {
         try (PreparedStatement statement = connection.prepareStatement(getUserByLoginAndPass)){
             statement.setString(1,user.getLogin());
             statement.setString(2,user.getPassword());
             user = parseResultSet(statement.executeQuery()).iterator().next();
             if(user==null){
-                //todo exception
+                logger.warn("unregistered user");
+                throw new EntityFindExeption();
             }
+            return user;
         } catch (SQLException e) {
-            //todo
+            logger.error("entity find error",e);
+            throw new EntityFindExeption(e);
         }
-        return user;
     }
 
 
@@ -49,7 +52,7 @@ public class UserJDBCDAOImpl extends AbstractJDBCDAO<User> implements UserDAO {
             user.setId(rs.getInt("id"));
             user.setLogin(rs.getString("logIn"));
             user.setEmail(rs.getString("email"));
-//            user.setRole(Role.valueOf(rs.getString("role")));
+            user.setRole(Role.valueOf(rs.getString("role")));
         }
         return users;
     }
@@ -59,7 +62,7 @@ public class UserJDBCDAOImpl extends AbstractJDBCDAO<User> implements UserDAO {
         statement.setString(1,user.getLogin());
         statement.setString(2,user.getPassword());
         statement.setString(3,user.getEmail());
-//        statement.setString(4,user.getRole().getRoleString());
+        statement.setString(4,user.getRole().toString());
         statement.setInt(5,user.getId());
     }
 
@@ -68,7 +71,7 @@ public class UserJDBCDAOImpl extends AbstractJDBCDAO<User> implements UserDAO {
         statement.setString(1,user.getLogin());
         statement.setString(2,user.getPassword());
         statement.setString(3,user.getEmail());
-//        statement.setString(4,user.getRole().getRoleString());
+        statement.setString(4, user.getRole().toString());
     }
 
     @Override

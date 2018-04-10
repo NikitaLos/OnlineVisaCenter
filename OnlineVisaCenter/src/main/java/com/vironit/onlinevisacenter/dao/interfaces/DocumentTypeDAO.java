@@ -1,14 +1,19 @@
 package com.vironit.onlinevisacenter.dao.interfaces;
 
 import com.vironit.onlinevisacenter.entity.DocumentType;
+import com.vironit.onlinevisacenter.exceptions.dao.EntityDeleteException;
+import com.vironit.onlinevisacenter.exceptions.dao.EntityFindExeption;
+import com.vironit.onlinevisacenter.exceptions.dao.EntitySaveException;
+import com.vironit.onlinevisacenter.exceptions.dao.EntityUpdateException;
 
 import java.util.List;
 
 public interface DocumentTypeDAO {
-    void save(DocumentType documentType);
-    void delete(DocumentType documentType);
-    DocumentType find(Integer key);
-    void update(DocumentType documentType);
-    List<DocumentType> findAll(Class<DocumentType> classType);
-    boolean isDuplicate(DocumentType documentType);
+    void save(DocumentType documentType) throws EntitySaveException;
+    void delete(DocumentType documentType) throws EntityDeleteException;
+    DocumentType find(Integer key) throws EntityFindExeption;
+    void update(DocumentType documentType) throws EntityUpdateException;
+    List<DocumentType> findAll(Class<DocumentType> classType) throws EntityFindExeption;
+    boolean isDuplicate(DocumentType documentType) throws EntityFindExeption;
+
 }

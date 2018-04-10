@@ -19,7 +19,7 @@ public class DocumentTypeJDBCDAOImpl extends AbstractJDBCDAO<DocumentType> imple
 
 
     public DocumentTypeJDBCDAOImpl() {
-        super(ConnectionProvider.getConnection());
+        super(ConnectionProvider.getConnection(),DocumentType.class);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.vironit.onlinevisacenter.dao.hibernate;
+package com.vironit.onlinevisacenter.dao.jpa;
 
 
 import javax.persistence.EntityManagerFactory;

@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 public class Check implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "amount")
@@ -18,7 +18,7 @@ public class Check implements Serializable {
     @Column(name = "date_of_payment")
     private LocalDateTime dateOfPayment;
 
-    @OneToOne(fetch = FetchType.LAZY,mappedBy = "check")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "check")
     private Application application;
 
     @Column(name = "path_on_server")

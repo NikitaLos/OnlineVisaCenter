@@ -35,7 +35,7 @@ public class VisaInfo implements Serializable {
     @Column(name = "days_of_residence")
     private Integer numOfDaysResidence;
 
-    @OneToOne(fetch = FetchType.LAZY,mappedBy = "visaInfo")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "visaInfo")
     private Application application;
 
     @Column(name = "visa_path_on_server")

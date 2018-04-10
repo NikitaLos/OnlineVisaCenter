@@ -17,7 +17,7 @@ public class CountryJDBCDAOImpl extends AbstractJDBCDAO<Country> implements Coun
     private String isDuplicateQuery = "select from visa_center.country where name = ?";
 
     public CountryJDBCDAOImpl() {
-        super(ConnectionProvider.getConnection());
+        super(ConnectionProvider.getConnection(),Country.class);
     }
 
     @Override

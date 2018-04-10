@@ -31,7 +31,7 @@ public class ClientInfo implements Serializable {
     @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
 
-    @OneToOne(fetch = FetchType.LAZY,mappedBy = "clientInfo")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "clientInfo")
     private Application application;
 
     @OneToOne(cascade = CascadeType.ALL,

@@ -21,7 +21,7 @@ public class VisaJDBCDAOImpl extends AbstractJDBCDAO<Visa> implements VisaDAO{
 
 
     public VisaJDBCDAOImpl() {
-        super(ConnectionProvider.getConnection());
+        super(ConnectionProvider.getConnection(),Visa.class);
     }
 
     @Override
