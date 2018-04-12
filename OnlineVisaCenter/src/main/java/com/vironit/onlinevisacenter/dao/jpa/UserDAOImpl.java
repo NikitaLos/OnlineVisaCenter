@@ -2,7 +2,7 @@ package com.vironit.onlinevisacenter.dao.jpa;
 
 import com.vironit.onlinevisacenter.dao.interfaces.UserDAO;
 import com.vironit.onlinevisacenter.entity.User;
-import com.vironit.onlinevisacenter.exceptions.dao.EntityFindExeption;
+import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
@@ -16,7 +16,7 @@ public class UserDAOImpl extends AbstractJPADAO<User,Integer> implements UserDAO
     }
 
     @Override
-    public boolean isDuplicate(User user) throws EntityFindExeption {
+    public boolean isDuplicate(User user) throws EntityFindException {
         try {
             Query query = entityManager.createQuery("select u from User u where u.login = :login or u.email=:email",User.class);
             List result = query
@@ -26,12 +26,12 @@ public class UserDAOImpl extends AbstractJPADAO<User,Integer> implements UserDAO
             return !result.isEmpty();
         }catch (PersistenceException e){
             logger.error("checking duplicate error",e);
-            throw new EntityFindExeption(e);
+            throw new EntityFindException(e);
         }
     }
 
     @Override
-    public User getUserByLoginAndPassword(User user) throws EntityFindExeption {
+    public User getUserByLoginAndPassword(User user) throws EntityFindException {
         try {
             Query query = entityManager.createQuery("select u from User u where u.login = :login or u.password=:password",User.class);
             return (User) query
@@ -40,7 +40,7 @@ public class UserDAOImpl extends AbstractJPADAO<User,Integer> implements UserDAO
                     .getSingleResult();
         }catch (PersistenceException e){
             logger.error("checking duplicate error",e);
-            throw new EntityFindExeption(e);
+            throw new EntityFindException(e);
         }
     }
 }

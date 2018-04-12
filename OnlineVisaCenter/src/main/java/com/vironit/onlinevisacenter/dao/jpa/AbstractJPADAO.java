@@ -3,7 +3,7 @@ package com.vironit.onlinevisacenter.dao.jpa;
 import com.vironit.onlinevisacenter.ServerLogger;
 import com.vironit.onlinevisacenter.dao.interfaces.GenericDAO;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityDeleteException;
-import com.vironit.onlinevisacenter.exceptions.dao.EntityFindExeption;
+import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntitySaveException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityUpdateException;
 
@@ -40,12 +40,12 @@ public abstract class AbstractJPADAO<T,PK extends Serializable> implements Gener
     }
 
     @Override
-    public T find(PK id) throws EntityFindExeption {
+    public T find(PK id) throws EntityFindException {
         try {
             return entityManager.find(classType,id);
         }catch (PersistenceException e){
             logger.error("find entity error",e);
-            throw new EntityFindExeption(e);
+            throw new EntityFindException(e);
         }
     }
 
@@ -76,12 +76,12 @@ public abstract class AbstractJPADAO<T,PK extends Serializable> implements Gener
     }
 
     @Override
-    public List<T> findAll(Class<T> classType) throws EntityFindExeption {
+    public List<T> findAll(Class<T> classType) throws EntityFindException {
         try {
             return entityManager.createQuery("from "+ classType.getName()).getResultList();
         }catch (PersistenceException e){
             logger.error("findALL entity error",e);
-            throw new EntityFindExeption(e);
+            throw new EntityFindException(e);
         }
     }
 }

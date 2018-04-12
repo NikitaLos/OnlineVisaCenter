@@ -14,25 +14,25 @@ public class CountryServiceImpl implements CountryService {
 
     @Override
     public void addCountry(Country country) {
-        if (!countryDAO.isDuplicate(country)){
-            countryDAO.create(country);
-        }else {
-            //todo exception
-        }
+//        if (!countryDAO.isDuplicate(country)){
+////            countryDAO.save(country);
+////        }else {
+////            //todo exception
+////        }
     }
 
     @Override
     public void deleteCountry(Country country) {
-        countryDAO.delete(country);
+//        countryDAO.delete(country);
     }
 
     @Override
     public void updateCountry(Country country) {
-        countryDAO.update(country);
+//        countryDAO.update(country);
     }
 
     @Override
     public void getCountry(Country country) {
-        countryDAO.getByPK(country.getId());
+//        countryDAO.find(country.getId());
     }
 }

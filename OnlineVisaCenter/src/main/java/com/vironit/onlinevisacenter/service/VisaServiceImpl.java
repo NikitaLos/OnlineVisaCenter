@@ -14,25 +14,26 @@ public class VisaServiceImpl implements VisaService {
 
     @Override
     public void addVisa(Visa visa) {
-        if(!visaDAO.isDuplicate(visa)){
-            visaDAO.create(visa);
-        }else {
-            //todo exception
-        }
+//        if(!visaDAO.isDuplicate(visa)){
+//            visaDAO.save(visa);
+//        }else {
+//            //todo exception
+//        }
     }
 
     @Override
     public void deleteVisa(Visa visa) {
-        visaDAO.delete(visa);
+//        visaDAO.delete(visa);
     }
 
     @Override
     public void updateVisa(Visa visa) {
-        visaDAO.update(visa);
+//        visaDAO.update(visa);
     }
 
     @Override
     public Visa getVisa(Visa visa) {
-        return visaDAO.getByPK(visa.getId());
+//        return visaDAO.find(visa.getId());
+        return null;
     }
 }

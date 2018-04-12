@@ -11,7 +11,7 @@ public class ClientDocument implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
     @JoinColumn(name = "document_type_id")
     private DocumentType documentType;
 
@@ -45,6 +45,7 @@ public class ClientDocument implements Serializable {
 
     public void setDocumentType(DocumentType documentType) {
         this.documentType = documentType;
+        documentType.addClientDocument(this);
     }
 
     public String getPathOnServer() {

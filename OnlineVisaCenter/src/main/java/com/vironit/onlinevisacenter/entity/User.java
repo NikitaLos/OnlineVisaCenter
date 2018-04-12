@@ -33,12 +33,12 @@ public class User implements Serializable {
 
     public void addApplication(Application application) {
         applications.add(application);
-        application.setUser(this);
+//        application.setUser(this);
     }
 
-    public void removeAppliaction(Application application) {
+    public void removeApplication(Application application) {
         applications.remove(application);
-        application.setUser(null);
+//        application.setUser(null);
     }
 
     public List<Application> getApplications() {

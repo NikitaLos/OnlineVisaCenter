@@ -2,13 +2,11 @@ package com.vironit.onlinevisacenter.dao.JDBCImpl;
 
 
 import com.vironit.onlinevisacenter.ServerLogger;
-import com.vironit.onlinevisacenter.dao.interfaces.GenericDAO;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityDeleteException;
-import com.vironit.onlinevisacenter.exceptions.dao.EntityFindExeption;
+import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntitySaveException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityUpdateException;
 
-import java.io.Serializable;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -72,7 +70,7 @@ public abstract class AbstractJDBCDAO<T>{
     }
 
 
-    public T find(Integer key) throws EntityFindExeption {
+    public T find(Integer key) throws EntityFindException {
         List<T> list = new ArrayList<>();
         String sql = getSelectQuery()+ " WHERE id = ?";
         try(PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -82,11 +80,11 @@ public abstract class AbstractJDBCDAO<T>{
             return list.iterator().next();
         } catch (SQLException e) {
             logger.error("find entity error",e);
-            throw new EntityFindExeption(e);
+            throw new EntityFindException(e);
         }
     }
 
-    public List<T> findAll(Class<T> classType) throws EntityFindExeption {
+    public List<T> findAll(Class<T> classType) throws EntityFindException {
         List<T> list = new ArrayList<>();
         String sql = getSelectQuery();
         try(PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -95,11 +93,11 @@ public abstract class AbstractJDBCDAO<T>{
             return list;
         } catch (SQLException e) {
             logger.error("findALL entity error",e);
-            throw new EntityFindExeption(e);
+            throw new EntityFindException(e);
         }
     }
 
-    public boolean isDuplicate(T object) throws EntityFindExeption {
+    public boolean isDuplicate(T object) throws EntityFindException {
         boolean isDuplicate = false;
         String sql = getIsDuplicateQuery();
         try(PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -109,7 +107,7 @@ public abstract class AbstractJDBCDAO<T>{
             return isDuplicate;
         } catch (SQLException e) {
             logger.error("duplicate check error",e);
-            throw new EntityFindExeption(e);
+            throw new EntityFindException(e);
         }
     }
 

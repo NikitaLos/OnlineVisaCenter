@@ -2,6 +2,7 @@ package com.vironit.onlinevisacenter.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -19,14 +20,16 @@ public class Country implements Serializable {
             mappedBy = "country")
     private List<Visa> availableVisas;
 
+    public Country() {
+        availableVisas = new ArrayList<>();
+    }
+
     public void addVisa(Visa visa) {
         availableVisas.add(visa);
-        visa.setCountry(this);
     }
 
     public void removeVisa(Visa visa) {
         availableVisas.remove(visa);
-        visa.setCountry(null);
     }
 
     public Integer getId() {

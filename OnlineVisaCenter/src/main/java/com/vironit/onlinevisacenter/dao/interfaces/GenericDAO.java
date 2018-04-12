@@ -1,7 +1,7 @@
 package com.vironit.onlinevisacenter.dao.interfaces;
 
 import com.vironit.onlinevisacenter.exceptions.dao.EntityDeleteException;
-import com.vironit.onlinevisacenter.exceptions.dao.EntityFindExeption;
+import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntitySaveException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityUpdateException;
 
@@ -10,8 +10,8 @@ import java.util.List;
 
 public interface GenericDAO<T,PK extends Serializable> {
     void save(T t) throws EntitySaveException;
-    T find(PK id) throws EntityFindExeption;
+    T find(PK id) throws EntityFindException;
     void update(T t) throws EntityUpdateException;
     void delete(T t) throws EntityDeleteException;
-    List<T> findAll(Class<T> classType) throws EntityFindExeption;
+    List<T> findAll(Class<T> classType) throws EntityFindException;
 }

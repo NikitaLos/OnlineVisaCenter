@@ -1,9 +1,12 @@
 package com.vironit.onlinevisacenter.service;
 
+import com.vironit.onlinevisacenter.ServerLogger;
 import com.vironit.onlinevisacenter.dao.interfaces.ApplicationDAO;
 import com.vironit.onlinevisacenter.entity.*;
 import com.vironit.onlinevisacenter.entity.enums.AimOfVisit;
 import com.vironit.onlinevisacenter.entity.enums.Status;
+import com.vironit.onlinevisacenter.exceptions.dao.EntitySaveException;
+import com.vironit.onlinevisacenter.exceptions.service.ApplicationServiceException;
 import com.vironit.onlinevisacenter.service.inrefaces.ApplicationService;
 import com.vironit.onlinevisacenter.service.inrefaces.EmbassyService;
 
@@ -12,7 +15,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-import static java.time.temporal.ChronoUnit.DAYS;
 import static java.time.temporal.ChronoUnit.YEARS;
 
 
@@ -20,42 +22,45 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     private ApplicationDAO applicationDAO;
 
+    private ServerLogger logger = new ServerLogger(ApplicationServiceImpl.class);
+
     public ApplicationServiceImpl(ApplicationDAO applicationDAO) {
         this.applicationDAO = applicationDAO;
     }
 
     @Override
-    public void addApplicationToQueue(Application application) {
+    public void addApplicationToQueue(Application application) throws ApplicationServiceException {
         validateApplication(application);
         verifyCheck(application);
-        applicationDAO.create(application);
-    }
-
-    @Override
-    public void validateApplication(Application application) {
-        validateClientInfo(application.getClientInfo());
-        validateVisaInfo(application.getVisaInfo());
+        try {
+            applicationDAO.save(application);
+            logger.info("Application was add to queue");
+        } catch (EntitySaveException e) {
+            throw new ApplicationServiceException(e);
+        }
     }
 
     @Override
     public void updateApplication(Application application) {
         validateApplication(application);
-        applicationDAO.update(application);
+//        applicationDAO.update(application);
     }
 
     @Override
     public void deleteApplicationFromQueue(Application application) {
-        applicationDAO.delete(application);
+//        applicationDAO.delete(application);
     }
 
     @Override
     public Queue<Application> getApplicationQueue() {
-        return new LinkedList<>(applicationDAO.getAll());
+//        return new LinkedList<>(applicationDAO.findAll(Application.class));
+        return null;
     }
 
     @Override
     public Application getApplication(Application application) {
-        return applicationDAO.getByPK(application.getId());
+//        return applicationDAO.find(application.getId());
+        return null;
     }
 
 
@@ -69,18 +74,24 @@ public class ApplicationServiceImpl implements ApplicationService {
     public void denyApplication(Application application, String comments) {
         changeApplicationStatus(application,Status.REVIEWED);
         addCommentsToApplication(application,comments);
-        applicationDAO.update(application);
+//        applicationDAO.update(application);
     }
 
     @Override
     public void transferApplicationToEmbassy(Application application, EmbassyService embassyService) {
         embassyService.addApplicationToQueue(application);
-        applicationDAO.update(application);
+//        applicationDAO.update(application);
     }
 
     @Override
     public List<Application> getUserApplications(User user) {
-        return applicationDAO.getApplicationsByClient(user);
+//        return applicationDAO.findApplicationsByClient(user);
+        return null;
+    }
+
+    private void validateApplication(Application application) {
+        validateClientInfo(application.getClientInfo());
+        validateVisaInfo(application.getVisaInfo());
     }
 
 
@@ -98,8 +109,8 @@ public class ApplicationServiceImpl implements ApplicationService {
         LocalDate dateOfReceiving = passport.getDateOfReceiving();
         String passportNumber = passport.getNumber();
 
-        if(dateOfBirth==null|name==null|surname==null|phoneNumber==null|photo==null|sex==null|aimOfVisit==null|country==null|
-                dateOfEnding==null|dateOfReceiving==null|passportNumber==null){
+        if(dateOfBirth==null|name==null|surname==null|phoneNumber==null|photo==null|sex==null|aimOfVisit==null |
+                country==null| dateOfEnding==null|dateOfReceiving==null|passportNumber==null){
             //todo exception
 
         }else {
@@ -142,13 +153,13 @@ public class ApplicationServiceImpl implements ApplicationService {
             changeApplicationStatus(application,Status.IN_EM_QUEUE);
             //todo exception
         }
-        applicationDAO.update(application);
+//        applicationDAO.update(application);
     }
 
 
     private void addCommentsToApplication(Application application, String comments) {
         application.setComments(comments);
-        applicationDAO.update(application);
+//        applicationDAO.update(application);
     }
 
 }

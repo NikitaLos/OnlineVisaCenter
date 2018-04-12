@@ -3,7 +3,7 @@ package com.vironit.onlinevisacenter.dao.JDBCImpl;
 import com.vironit.onlinevisacenter.dao.interfaces.UserDAO;
 import com.vironit.onlinevisacenter.entity.User;
 import com.vironit.onlinevisacenter.entity.enums.Role;
-import com.vironit.onlinevisacenter.exceptions.dao.EntityFindExeption;
+import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -27,19 +27,19 @@ public class UserJDBCDAOImpl extends AbstractJDBCDAO<User> implements UserDAO {
 
 
     @Override
-    public User getUserByLoginAndPassword(User user) throws EntityFindExeption {
+    public User getUserByLoginAndPassword(User user) throws EntityFindException {
         try (PreparedStatement statement = connection.prepareStatement(getUserByLoginAndPass)){
             statement.setString(1,user.getLogin());
             statement.setString(2,user.getPassword());
             user = parseResultSet(statement.executeQuery()).iterator().next();
             if(user==null){
                 logger.warn("unregistered user");
-                throw new EntityFindExeption();
+                throw new EntityFindException();
             }
             return user;
         } catch (SQLException e) {
             logger.error("entity find error",e);
-            throw new EntityFindExeption(e);
+            throw new EntityFindException(e);
         }
     }
 

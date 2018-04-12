@@ -2,6 +2,8 @@ package com.vironit.onlinevisacenter.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "document_type", schema = "visa_center")
@@ -14,16 +16,19 @@ public class DocumentType implements Serializable {
     @Column(name = "name")
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "visa_id")
-    private Visa visa;
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "documentType")
+    private List<ClientDocument> clientDocuments;
 
-    public Visa getVisa() {
-        return visa;
+    public DocumentType() {
+        clientDocuments = new ArrayList<>();
     }
 
-    public void setVisa(Visa visa) {
-        this.visa = visa;
+    public List<ClientDocument> getClientDocuments() {
+        return clientDocuments;
+    }
+
+    public void setClientDocuments(List<ClientDocument> clientDocuments) {
+        this.clientDocuments = clientDocuments;
     }
 
     public Integer getId() {
@@ -55,5 +60,9 @@ public class DocumentType implements Serializable {
     @Override
     public int hashCode() {
         return name != null ? name.hashCode() : 0;
+    }
+
+    public void addClientDocument(ClientDocument clientDocument) {
+        clientDocuments.add(clientDocument);
     }
 }
