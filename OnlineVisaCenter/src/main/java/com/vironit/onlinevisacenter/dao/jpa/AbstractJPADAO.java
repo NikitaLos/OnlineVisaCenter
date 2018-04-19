@@ -78,9 +78,9 @@ public abstract class AbstractJPADAO<T,PK extends Serializable> implements Gener
     @Override
     public List<T> findAll(Class<T> classType) throws EntityFindException {
         try {
-            return entityManager.createQuery("from "+ classType.getName()).getResultList();
+            return  entityManager.createQuery("from "+ classType.getName()).getResultList();
         }catch (PersistenceException e){
-            logger.error("findALL entity error",e);
+            logger.error("findAll entity error",e);
             throw new EntityFindException(e);
         }
     }

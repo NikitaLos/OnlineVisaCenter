@@ -9,11 +9,11 @@ import java.util.Queue;
 
 public interface ApplicationService extends StatusChangeable {
     void addApplicationToQueue(Application application) throws ApplicationServiceException;
-    void updateApplication(Application application);
-    void deleteApplicationFromQueue(Application application);
-    Queue<Application> getApplicationQueue();
-    Application getApplication(Application application);
-    void approveApplication(Application application);
+    void updateApplication(Application application) throws ApplicationServiceException;
+    void deleteApplicationFromQueue(Application application) throws ApplicationServiceException;
+    Queue<Application> getApplicationQueue() throws ApplicationServiceException;
+    Application getApplication(Application application) throws ApplicationServiceException;
+    void approveApplication(Application application) throws ApplicationServiceException;
     void denyApplication(Application application, String comments);
     void transferApplicationToEmbassy(Application application, EmbassyService embassyService);
     List<Application> getUserApplications(User user);

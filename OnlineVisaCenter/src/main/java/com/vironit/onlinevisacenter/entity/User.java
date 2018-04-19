@@ -4,6 +4,7 @@ import com.vironit.onlinevisacenter.entity.enums.Role;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -31,14 +32,19 @@ public class User implements Serializable {
             mappedBy = "user")
     private List<Application> applications;
 
+    public User() {
+        role = Role.CLIENT;
+        applications = new ArrayList<>();
+    }
+
     public void addApplication(Application application) {
         applications.add(application);
-//        application.setUser(this);
+        application.setUser(this);
     }
 
     public void removeApplication(Application application) {
         applications.remove(application);
-//        application.setUser(null);
+        application.setUser(null);
     }
 
     public List<Application> getApplications() {

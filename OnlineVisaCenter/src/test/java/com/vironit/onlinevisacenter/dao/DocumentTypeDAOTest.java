@@ -37,7 +37,6 @@ public class DocumentTypeDAOTest {
         entityManager.getTransaction().begin();
         entityManager.persist(testDocumentType);
         entityManager.getTransaction().commit();
-
     }
 
 

@@ -10,10 +10,7 @@ import com.vironit.onlinevisacenter.exceptions.dao.EntityDeleteException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntitySaveException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityUpdateException;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
@@ -45,8 +42,7 @@ public class ApplicationDAOTest {
     @After
     public void deleteApplication(){
         entityManager.getTransaction().begin();
-//        entityManager.remove(testApplication);
-        entityManager.createQuery("DELETE from Application where comments='Test Comments'").executeUpdate();
+        entityManager.remove(testApplication);
         entityManager.getTransaction().commit();
         entityManager.getTransaction().begin();
         entityManager.createQuery("DELETE from Visa where type='Test Visa Type' or type='New Test Visa'").executeUpdate();
@@ -62,45 +58,46 @@ public class ApplicationDAOTest {
         entityManager.getTransaction().commit();
     }
 
-
     @Test
     public void saveTest() throws EntitySaveException {
-//        Application application = prepareApplicationForInsert();
-//        applicationDAO.save(application);
-//        assertNotNull(application.getId());
+        Application application = prepareApplicationForInsert();
+        applicationDAO.save(application);
+        assertNotNull(application.getId());
+        entityManager.getTransaction().begin();
+        entityManager.remove(application);
+        entityManager.getTransaction().commit();
     }
-//
-//    @Test
-//    public void updateTest() throws EntityUpdateException, EntityFindException {
-////        testApplication.setType("New Test Visa");
-////        applicationDAO.update(testApplication);
-////        testApplication = applicationDAO.find(testApplication.getId());
-////        assertEquals("New Test Visa", testApplication.getType());
-//    }
-//
-//    @Test
-//    public void findTest() throws EntityFindException {
-//        Application application = applicationDAO.find(testApplication.getId());
-//        assertEquals(testApplication.getCreationTime(),application.getCreationTime());
-//    }
-//
-//    @Test
-//    public void findAllTest() throws EntityFindException {
-//        List<Application> applications = applicationDAO.findAll(Application.class);
-//        assertEquals(applications.size(),1);
-//    }
-//
-//    @Test
-//    public void deleteTest() throws EntityFindException, EntityDeleteException {
-//        Application application = applicationDAO.find(testApplication.getId());
-//        applicationDAO.delete(application);
-//        application =  applicationDAO.find(testApplication.getId());
-//        assertNull(application);
-//    }
-//
-//    public void findApplicationsByClientTest() throws EntityFindException {
-//
-//    }
+
+    @Test
+    public void updateTest() throws EntityUpdateException, EntityFindException {
+        testApplication.setComments("New Test Comments");
+        applicationDAO.update(testApplication);
+        testApplication = applicationDAO.find(testApplication.getId());
+        assertEquals("New Test Comments", testApplication.getComments());
+    }
+
+    @Test
+    public void findTest() throws EntityFindException {
+        Application application = applicationDAO.find(testApplication.getId());
+        assertEquals(testApplication.getCreationTime(),application.getCreationTime());
+    }
+
+    @Test
+    public void findAllTest() throws EntityFindException {
+        List<Application> applications = applicationDAO.findAll(Application.class);
+        assertEquals(applications.size(),1);
+    }
+
+    @Test
+    public void deleteTest() throws EntityFindException, EntityDeleteException {
+        Application application = prepareApplicationForInsert();
+        entityManager.getTransaction().begin();
+        entityManager.persist(application);
+        entityManager.getTransaction().commit();
+        applicationDAO.delete(application);
+        application =  applicationDAO.find(application.getId());
+        assertNull(application);
+    }
 
     private Application prepareApplicationForInsert(){
 
@@ -156,7 +153,6 @@ public class ApplicationDAOTest {
 
         clientDocument.setDocumentType(documentType);
         clientDocument.setPathOnServer("path");
-
 
         visa.setType("Test Visa Type");
         visa.setPrice(999.);

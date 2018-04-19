@@ -5,7 +5,10 @@ import com.vironit.onlinevisacenter.dao.interfaces.ApplicationDAO;
 import com.vironit.onlinevisacenter.entity.*;
 import com.vironit.onlinevisacenter.entity.enums.AimOfVisit;
 import com.vironit.onlinevisacenter.entity.enums.Status;
+import com.vironit.onlinevisacenter.exceptions.dao.EntityDeleteException;
+import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntitySaveException;
+import com.vironit.onlinevisacenter.exceptions.dao.EntityUpdateException;
 import com.vironit.onlinevisacenter.exceptions.service.ApplicationServiceException;
 import com.vironit.onlinevisacenter.service.inrefaces.ApplicationService;
 import com.vironit.onlinevisacenter.service.inrefaces.EmbassyService;
@@ -15,6 +18,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+import static java.time.temporal.ChronoUnit.DAYS;
 import static java.time.temporal.ChronoUnit.YEARS;
 
 
@@ -41,33 +45,48 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public void updateApplication(Application application) {
+    public void updateApplication(Application application) throws ApplicationServiceException {
         validateApplication(application);
-//        applicationDAO.update(application);
+        try {
+            applicationDAO.update(application);
+        } catch (EntityUpdateException e) {
+            throw new ApplicationServiceException(e);
+        }
     }
 
     @Override
-    public void deleteApplicationFromQueue(Application application) {
-//        applicationDAO.delete(application);
+    public void deleteApplicationFromQueue(Application application) throws ApplicationServiceException {
+        try {
+            applicationDAO.delete(application);
+        } catch (EntityDeleteException e) {
+            throw new ApplicationServiceException(e);
+        }
     }
 
     @Override
-    public Queue<Application> getApplicationQueue() {
-//        return new LinkedList<>(applicationDAO.findAll(Application.class));
-        return null;
+    public Queue<Application> getApplicationQueue() throws ApplicationServiceException {
+        try {
+            return new LinkedList<>(applicationDAO.findAll(Application.class));
+        } catch (EntityFindException e) {
+            throw new ApplicationServiceException(e);
+
+        }
     }
 
     @Override
-    public Application getApplication(Application application) {
-//        return applicationDAO.find(application.getId());
-        return null;
+    public Application getApplication(Application application) throws ApplicationServiceException {
+        try {
+            return applicationDAO.find(application.getId());
+        } catch (EntityFindException e) {
+            throw  new ApplicationServiceException(e);
+        }
     }
 
 
     @Override
-    public void approveApplication(Application application) {
+    public void approveApplication(Application application) throws ApplicationServiceException {
         changeApplicationStatus(application,Status.IN_VC_QUEUE);
-        updateApplication(application);
+//        updateApplication(application);
     }
 
     @Override
@@ -97,6 +116,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     private void validateClientInfo(ClientInfo clientInfo){
         LocalDate dateOfBirth = clientInfo.getDateOfBirth();
+        List<ClientDocument> documents = clientInfo.getClientDocuments();
         String name = clientInfo.getName();
         String surname = clientInfo.getSurname();
         String phoneNumber = clientInfo.getPhoneNumber();
@@ -109,11 +129,14 @@ public class ApplicationServiceImpl implements ApplicationService {
         LocalDate dateOfReceiving = passport.getDateOfReceiving();
         String passportNumber = passport.getNumber();
 
-        if(dateOfBirth==null|name==null|surname==null|phoneNumber==null|photo==null|sex==null|aimOfVisit==null |
+        if(documents==null|dateOfBirth==null|name==null|surname==null|phoneNumber==null|photo==null|sex==null|aimOfVisit==null |
                 country==null| dateOfEnding==null|dateOfReceiving==null|passportNumber==null){
             //todo exception
 
         }else {
+            if(documents.size()!=clientInfo.getApplication().getVisaInfo().getVisa().getRequiredDocumentTypes().size()){
+                //todo exception
+            }
             if (YEARS.between(dateOfBirth,LocalDate.now())<18){
                 //todo exception
             }
@@ -125,24 +148,19 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     private void validateVisaInfo(VisaInfo visaInfo){
-//        Passport passport = visaInfo.getApplication().getClientInfo().getPassport();
-//        long durationOfPassport = DAYS.between(passport.getDateOfReceiving(),passport.getDateOfEnding());
-//        LocalDate dateFrom = visaInfo.getDateFrom();
-//        LocalDate dateTo = visaInfo.getDateTo();
-//        Integer daysOfResidence =  visaInfo.getNumOfDaysResidence();
-//        List<ClientDocument> documents = visaInfo.getClientDocuments();
-//        Visa visa = visaInfo.getVisa();
-//
-//        if (documents==null|dateTo==null|dateFrom==null|daysOfResidence==null){
-//            //todo exception
-//        }else {
-//            if(documents.size()!=visa.getRequiredDocumentTypes().size()){
-//                //todo exception TODO
-//            }
-//            if(dateTo.isBefore(dateFrom)||DAYS.between(dateFrom,dateTo)>daysOfResidence||durationOfPassport<daysOfResidence){
-//                //todo exception
-//            }
-//        }
+        Passport passport = visaInfo.getApplication().getClientInfo().getPassport();
+        long durationOfPassport = DAYS.between(passport.getDateOfReceiving(),passport.getDateOfEnding());
+        LocalDate dateFrom = visaInfo.getDateFrom();
+        LocalDate dateTo = visaInfo.getDateTo();
+        Integer daysOfResidence =  visaInfo.getNumOfDaysResidence();
+
+        if (dateTo==null|dateFrom==null|daysOfResidence==null){
+            //todo exception
+        }else {
+            if(dateTo.isBefore(dateFrom)||DAYS.between(dateFrom,dateTo)>daysOfResidence||durationOfPassport<daysOfResidence){
+                //todo exception
+            }
+        }
     }
 
     private void verifyCheck(Application application) {

@@ -20,7 +20,7 @@ public class CreditCardPaymentServiceImpl implements PaymentService {
         check.setDateOfPayment(LocalDateTime.now());
         makeCheckDocument(check);
         application.setCheck(check);
-        applicationService.updateApplication(application);
+//        applicationService.updateApplication(application);
     }
 
     @Override
