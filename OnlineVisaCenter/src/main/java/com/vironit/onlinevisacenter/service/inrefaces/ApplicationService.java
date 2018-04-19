@@ -11,7 +11,7 @@ public interface ApplicationService extends StatusChangeable {
     void addApplicationToQueue(Application application) throws ApplicationServiceException;
     void updateApplication(Application application) throws ApplicationServiceException;
     void deleteApplicationFromQueue(Application application) throws ApplicationServiceException;
-    Queue<Application> getApplicationQueue() throws ApplicationServiceException;
+    List<Application> getApplications() throws ApplicationServiceException;
     Application getApplication(Application application) throws ApplicationServiceException;
     void approveApplication(Application application) throws ApplicationServiceException;
     void denyApplication(Application application, String comments);

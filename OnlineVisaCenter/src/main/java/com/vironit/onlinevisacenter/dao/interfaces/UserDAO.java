@@ -17,4 +17,8 @@ public interface UserDAO {
     List<User> findAll(Class<User> classType) throws EntityFindException;
     boolean isDuplicate(User user) throws EntityFindException;
     User getUserByLoginAndPassword(User user) throws EntityFindException;
+
+    List<User> findAllEmployees() throws EntityFindException;
+
+    void deleteUserById(Integer id) throws EntityDeleteException;
 }

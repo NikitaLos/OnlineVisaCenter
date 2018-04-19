@@ -3,6 +3,7 @@ package com.vironit.onlinevisacenter.dao.JDBCImpl;
 import com.vironit.onlinevisacenter.dao.interfaces.UserDAO;
 import com.vironit.onlinevisacenter.entity.User;
 import com.vironit.onlinevisacenter.entity.enums.Role;
+import com.vironit.onlinevisacenter.exceptions.dao.EntityDeleteException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;
 
 import java.sql.PreparedStatement;
@@ -41,6 +42,16 @@ public class UserJDBCDAOImpl extends AbstractJDBCDAO<User> implements UserDAO {
             logger.error("entity find error",e);
             throw new EntityFindException(e);
         }
+    }
+
+    @Override
+    public List<User> findAllEmployees() {
+        return null;
+    }
+
+    @Override
+    public void deleteUserById(Integer id) throws EntityDeleteException {
+
     }
 
 

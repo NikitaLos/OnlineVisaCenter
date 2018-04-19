@@ -23,7 +23,7 @@
         </tr>
     </table>
     <input type="submit"/>
-    <jsp:text>${message}</jsp:text>
+    <jsp:text>${not_register_message}</jsp:text>
 </form>
 </body>
 </html>

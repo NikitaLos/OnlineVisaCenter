@@ -28,8 +28,7 @@
         </tr>
     </table>
     <input type="submit"/>
-    <jsp:text>${message}</jsp:text>
-
+    <jsp:text>${duplicate_message}</jsp:text>
 </form>
 </body>
 </html>

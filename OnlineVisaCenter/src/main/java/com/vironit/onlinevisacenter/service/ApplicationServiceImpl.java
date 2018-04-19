@@ -12,6 +12,8 @@ import com.vironit.onlinevisacenter.exceptions.dao.EntityUpdateException;
 import com.vironit.onlinevisacenter.exceptions.service.ApplicationServiceException;
 import com.vironit.onlinevisacenter.service.inrefaces.ApplicationService;
 import com.vironit.onlinevisacenter.service.inrefaces.EmbassyService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.LinkedList;
@@ -21,13 +23,14 @@ import java.util.Queue;
 import static java.time.temporal.ChronoUnit.DAYS;
 import static java.time.temporal.ChronoUnit.YEARS;
 
-
+@Component
 public class ApplicationServiceImpl implements ApplicationService {
 
     private ApplicationDAO applicationDAO;
 
     private ServerLogger logger = new ServerLogger(ApplicationServiceImpl.class);
 
+    @Autowired
     public ApplicationServiceImpl(ApplicationDAO applicationDAO) {
         this.applicationDAO = applicationDAO;
     }
@@ -64,9 +67,9 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public Queue<Application> getApplicationQueue() throws ApplicationServiceException {
+    public List<Application> getApplications() throws ApplicationServiceException {
         try {
-            return new LinkedList<>(applicationDAO.findAll(Application.class));
+            return  applicationDAO.findAll(Application.class);
         } catch (EntityFindException e) {
             throw new ApplicationServiceException(e);
 

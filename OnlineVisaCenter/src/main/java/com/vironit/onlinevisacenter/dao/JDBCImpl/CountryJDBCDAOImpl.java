@@ -2,6 +2,7 @@ package com.vironit.onlinevisacenter.dao.JDBCImpl;
 
 import com.vironit.onlinevisacenter.dao.interfaces.CountryDAO;
 import com.vironit.onlinevisacenter.entity.Country;
+import com.vironit.onlinevisacenter.exceptions.dao.EntityDeleteException;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -79,4 +80,8 @@ public class CountryJDBCDAOImpl extends AbstractJDBCDAO<Country> implements Coun
     }
 
 
+    @Override
+    public void deleteByID(Integer countryId) throws EntityDeleteException {
+
+    }
 }

@@ -4,15 +4,16 @@ import com.vironit.onlinevisacenter.dao.interfaces.ApplicationDAO;
 import com.vironit.onlinevisacenter.entity.Application;
 import com.vironit.onlinevisacenter.entity.User;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 import java.util.List;
-
+@Component
 public class ApplicationDAOImpl extends AbstractJPADAO<Application,Integer> implements ApplicationDAO {
 
-    public ApplicationDAOImpl(EntityManager entityManager) {
-        super(entityManager, Application.class);
+    public ApplicationDAOImpl() {
+        super(Application.class);
 
     }
 

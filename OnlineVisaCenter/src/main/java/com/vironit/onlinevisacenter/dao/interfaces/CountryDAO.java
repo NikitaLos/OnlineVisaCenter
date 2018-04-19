@@ -15,4 +15,6 @@ public interface CountryDAO {
     void update(Country country) throws EntityUpdateException;
     List<Country> findAll(Class<Country> classType) throws EntityFindException;
     boolean isDuplicate(Country country) throws EntityFindException;
+
+    void deleteByID(Integer countryId) throws EntityDeleteException;
 }

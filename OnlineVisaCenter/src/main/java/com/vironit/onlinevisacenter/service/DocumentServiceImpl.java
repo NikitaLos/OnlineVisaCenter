@@ -3,11 +3,15 @@ package com.vironit.onlinevisacenter.service;
 import com.vironit.onlinevisacenter.dao.interfaces.DocumentTypeDAO;
 import com.vironit.onlinevisacenter.entity.DocumentType;
 import com.vironit.onlinevisacenter.service.inrefaces.DocumentService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class DocumentServiceImpl implements DocumentService {
 
     DocumentTypeDAO documentTypeDAO;
 
+    @Autowired
     public DocumentServiceImpl(DocumentTypeDAO documentTypeDAO) {
         this.documentTypeDAO = documentTypeDAO;
     }

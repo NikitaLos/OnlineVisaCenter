@@ -6,33 +6,33 @@ import com.vironit.onlinevisacenter.exceptions.dao.EntityDeleteException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntitySaveException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityUpdateException;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import java.io.Serializable;
 import java.util.List;
 
 public abstract class AbstractJPADAO<T,PK extends Serializable> implements GenericDAO<T,PK> {
 
+    @PersistenceContext
     protected EntityManager entityManager;
     private Class<T> classType;
     protected ServerLogger logger;
 
-    protected AbstractJPADAO(EntityManager entityManager, Class<T> classType) {
-        this.entityManager = entityManager;
+    AbstractJPADAO(Class<T> classType) {
+        logger = new ServerLogger(classType);
         this.classType = classType;
-        this.logger = new ServerLogger(classType);
     }
 
 
+    @Transactional
     @Override
     public void save(T object) throws EntitySaveException {
-        EntityTransaction transaction = entityManager.getTransaction();
         try {
-            transaction.begin();
             entityManager.persist(object);
-            transaction.commit();
         }catch (PersistenceException e){
             logger.error("save entity error",e);
             throw new EntitySaveException(e);
@@ -49,26 +49,22 @@ public abstract class AbstractJPADAO<T,PK extends Serializable> implements Gener
         }
     }
 
+    @Transactional
     @Override
     public void update(T object) throws EntityUpdateException {
-        EntityTransaction transaction = entityManager.getTransaction();
         try {
-            transaction.begin();
             entityManager.merge(object);
-            transaction.commit();
         }catch (PersistenceException e){
             logger.error("update entity error",e);
             throw new EntityUpdateException(e);
         }
     }
 
+    @Transactional
     @Override
     public void delete(T object) throws EntityDeleteException {
-        EntityTransaction transaction = entityManager.getTransaction();
         try {
-            transaction.begin();
             entityManager.remove(object);
-            transaction.commit();
         }catch (PersistenceException e){
             logger.error("delete entity error",e);
             throw new EntityDeleteException(e);

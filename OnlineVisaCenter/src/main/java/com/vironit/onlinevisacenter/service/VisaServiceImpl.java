@@ -3,11 +3,15 @@ package com.vironit.onlinevisacenter.service;
 import com.vironit.onlinevisacenter.dao.interfaces.VisaDAO;
 import com.vironit.onlinevisacenter.entity.Visa;
 import com.vironit.onlinevisacenter.service.inrefaces.VisaService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class VisaServiceImpl implements VisaService {
 
     private VisaDAO visaDAO;
 
+    @Autowired
     public VisaServiceImpl(VisaDAO visaDAO) {
         this.visaDAO = visaDAO;
     }
