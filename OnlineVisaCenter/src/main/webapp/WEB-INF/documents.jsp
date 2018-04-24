@@ -1,25 +1,25 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 <%--
   Created by IntelliJ IDEA.
   User: losni
-  Date: 19.04.2018
-  Time: 17:17
+  Date: 20.04.2018
+  Time: 12:23
   To change this template use File | Settings | File Templates.
 --%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Countries</title>
+    <title>Document Types</title>
 </head>
 <body>
-<jsp:text>Add Country</jsp:text>
+<jsp:text>Add Document Type</jsp:text>
 <br/>
-<sf:form action="/employee/add_country" modelAttribute="country" method="POST">
+<sf:form action="/employee/add_document_type" modelAttribute="document_type" method="POST">
     <table style="with: 50%">
         <tr>
             <td>Name</td>
-            <td><sf:input path="name" type="text" /></td>
+            <td><sf:input path="name" type="text"/></td>
         </tr>
     </table>
     <input type="submit"/>
@@ -30,11 +30,11 @@
 
 <jsp:text>All Countries</jsp:text>
 <br/>
-<c:forEach items="${countries}" var="country">
+<c:forEach items="${document_types}" var="document_type">
     <tr>
-        <td>${country.name}</td>
+        <td>${document_type.name}</td>
         <td>
-            <form method="get" action="/employee/delete_country/${country.id}">
+            <form method="get" action="/employee/delete_document_type/${document_type.id}">
                 <button type="submit">Delete</button>
             </form>
         </td>

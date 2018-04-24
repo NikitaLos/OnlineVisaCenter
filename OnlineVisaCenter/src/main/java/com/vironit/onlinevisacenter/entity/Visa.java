@@ -19,12 +19,12 @@ public class Visa implements Serializable {
     @Column(name = "price")
     private Double price;
 
-    @ManyToOne(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "country_id")
     private Country country;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
-    @JoinTable( name = "visa_document_type", schema = "visa_center",
+    @OneToMany
+    @JoinTable(name = "visa_document_type", schema = "visa_center",
                 joinColumns = {@JoinColumn(name = "visa_id")},
                 inverseJoinColumns = {@JoinColumn(name = "document_type_id")})
     private List<DocumentType> requiredDocumentTypes;
@@ -32,6 +32,7 @@ public class Visa implements Serializable {
     public Visa() {
         this.requiredDocumentTypes = new ArrayList<>();
     }
+
 
 
     public void addDocumentType(DocumentType documentType){

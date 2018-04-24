@@ -71,6 +71,17 @@ public abstract class AbstractJPADAO<T,PK extends Serializable> implements Gener
         }
     }
 
+    @Transactional
+    @Override
+    public void deleteById(Integer id) throws EntityDeleteException {
+        try {
+            entityManager.remove(entityManager.find(classType,id));
+        }catch (PersistenceException e){
+            logger.error("delete entity error",e);
+            throw new EntityDeleteException(e);
+        }
+    }
+
     @Override
     public List<T> findAll(Class<T> classType) throws EntityFindException {
         try {

@@ -49,13 +49,11 @@ public class Application implements Serializable {
     @Column(name = "date_of_create")
     private LocalDateTime creationTime;
 
-
     public Application() {
         this.creationTime = LocalDateTime.now();
         this.status = Status.IN_VC_QUEUE;
         this.result = Result.NO_RESULT;
     }
-
 
     public Integer getId() {
         return id;

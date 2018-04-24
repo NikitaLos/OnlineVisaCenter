@@ -20,5 +20,5 @@ public interface UserDAO {
 
     List<User> findAllEmployees() throws EntityFindException;
 
-    void deleteUserById(Integer id) throws EntityDeleteException;
+    void deleteById(Integer id) throws EntityDeleteException;
 }

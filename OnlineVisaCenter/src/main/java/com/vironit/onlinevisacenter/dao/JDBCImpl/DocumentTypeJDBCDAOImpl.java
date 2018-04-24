@@ -2,6 +2,7 @@ package com.vironit.onlinevisacenter.dao.JDBCImpl;
 
 import com.vironit.onlinevisacenter.dao.interfaces.DocumentTypeDAO;
 import com.vironit.onlinevisacenter.entity.DocumentType;
+import com.vironit.onlinevisacenter.exceptions.dao.EntityDeleteException;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -83,4 +84,8 @@ public class DocumentTypeJDBCDAOImpl extends AbstractJDBCDAO<DocumentType> imple
     }
 
 
+    @Override
+    public void deleteById(Integer id) throws EntityDeleteException {
+
+    }
 }

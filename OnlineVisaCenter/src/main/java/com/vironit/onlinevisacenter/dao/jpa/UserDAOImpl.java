@@ -62,15 +62,4 @@ public class UserDAOImpl extends AbstractJPADAO<User,Integer> implements UserDAO
         }
     }
 
-    @Transactional
-    @Override
-    public void deleteUserById(Integer id) throws EntityDeleteException {
-        try {
-            Query query = entityManager.createQuery("delete from User u where u.id=:id");
-            query.setParameter("id",id).executeUpdate();
-        }catch (PersistenceException e){
-            logger.error("delete entity error",e);
-            throw new EntityDeleteException(e);
-        }
-    }
 }

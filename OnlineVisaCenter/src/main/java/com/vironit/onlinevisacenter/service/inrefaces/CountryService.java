@@ -11,9 +11,11 @@ public interface CountryService {
     void addCountry(Country country) throws CountryServiceException, DuplicateException;
     void deleteCountry(Country country) throws CountryServiceException;
     void updateCountry(Country country) throws CountryServiceException;
-    void getCountry(Country country) throws CountryServiceException;
+    Country getCountry(Integer id) throws CountryServiceException;
 
     List<Country> getAll() throws CountryServiceException;
 
-    void deleteCountryById(Integer countryId) throws UserServiceException;
+    void deleteCountryById(Integer id) throws UserServiceException;
+
+    Country getCountryEager(Integer id) throws CountryServiceException;
 }

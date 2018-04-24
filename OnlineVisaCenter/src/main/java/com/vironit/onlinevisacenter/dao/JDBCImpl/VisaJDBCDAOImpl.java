@@ -4,6 +4,7 @@ import com.vironit.onlinevisacenter.dao.interfaces.VisaDAO;
 import com.vironit.onlinevisacenter.entity.User;
 import com.vironit.onlinevisacenter.entity.Visa;
 import com.vironit.onlinevisacenter.entity.enums.Role;
+import com.vironit.onlinevisacenter.exceptions.dao.EntityDeleteException;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -85,4 +86,8 @@ public class VisaJDBCDAOImpl extends AbstractJDBCDAO<Visa> implements VisaDAO{
         return isDuplicateQuery;
     }
 
+    @Override
+    public void deleteById(Integer id) throws EntityDeleteException {
+
+    }
 }

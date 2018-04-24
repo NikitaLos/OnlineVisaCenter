@@ -1,6 +1,6 @@
-package com.vironit.onlinevisacenter.controller.config;
+package com.vironit.onlinevisacenter.config;
 
-import com.vironit.onlinevisacenter.dao.jpa.PersistenceJPAConfig;
+
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 
@@ -13,11 +13,12 @@ public class DispatcherServletInitializer extends AbstractAnnotationConfigDispat
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[]{RootConfig.class,PersistenceJPAConfig.class};
+        return new Class[]{RootConfig.class, JPAConfig.class};
     }
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
         return new Class[]{WebConfig.class};
     }
+
 }

@@ -50,9 +50,10 @@ public class UserJDBCDAOImpl extends AbstractJDBCDAO<User> implements UserDAO {
     }
 
     @Override
-    public void deleteUserById(Integer id) throws EntityDeleteException {
+    public void deleteById(Integer id) throws EntityDeleteException {
 
     }
+
 
 
     @Override

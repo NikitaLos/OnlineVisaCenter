@@ -7,7 +7,10 @@
 <a href="/employee/view_applications">View applications</a><br/>
 <br/>
 <a href="/employee/manage_countries">Manage countries</a><br/>
-
+<br/>
+<a href="/employee/manage_document_types">Manage documents</a><br/>
+<br/>
+<a href="/employee/manage_visas">Manage visas</a><br/>
 <br/>
 <a href="/logout">Log out</a>
 </body>

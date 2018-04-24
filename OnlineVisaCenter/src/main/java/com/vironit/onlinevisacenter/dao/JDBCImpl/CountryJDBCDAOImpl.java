@@ -81,7 +81,7 @@ public class CountryJDBCDAOImpl extends AbstractJDBCDAO<Country> implements Coun
 
 
     @Override
-    public void deleteByID(Integer countryId) throws EntityDeleteException {
+    public void deleteById(Integer countryId) throws EntityDeleteException {
 
     }
 }

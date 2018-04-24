@@ -13,7 +13,9 @@ public class VisaInfo implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @OneToOne(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    @OneToOne(
+//            cascade = CascadeType.PERSIST,
+            fetch = FetchType.LAZY)
     @JoinColumn(name = "visa_id")
     private Visa visa;
 
@@ -35,11 +37,11 @@ public class VisaInfo implements Serializable {
     @Column(name = "days_of_residence")
     private Integer numOfDaysResidence;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "visaInfo")
-    private Application application;
-
     @Column(name = "visa_path_on_server")
     private String visaPathOnServer;
+
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "visaInfo")
+    private Application application;
 
 
     public Integer getId() {

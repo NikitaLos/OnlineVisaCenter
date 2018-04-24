@@ -1,4 +1,4 @@
-package com.vironit.onlinevisacenter.controller.config;
+package com.vironit.onlinevisacenter.config;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

@@ -12,6 +12,7 @@ import java.util.List;
 public interface VisaDAO {
     void save(Visa visa) throws EntitySaveException;
     void delete(Visa visa) throws EntityDeleteException;
+    void deleteById(Integer id) throws EntityDeleteException;
     Visa find(Integer key) throws EntityFindException;
     void update(Visa visa) throws EntityUpdateException;
     List<Visa> findAll(Class<Visa> classType) throws EntityFindException;

@@ -12,13 +12,14 @@ import com.vironit.onlinevisacenter.exceptions.service.UserServiceException;
 import com.vironit.onlinevisacenter.service.inrefaces.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Component
 public class CountryServiceImpl implements CountryService {
 
-    CountryDAO countryDAO;
+    private CountryDAO countryDAO;
 
     @Autowired
     public CountryServiceImpl(CountryDAO countryDAO) {
@@ -57,9 +58,9 @@ public class CountryServiceImpl implements CountryService {
     }
 
     @Override
-    public void getCountry(Country country) throws CountryServiceException {
+    public Country getCountry(Integer id) throws CountryServiceException {
         try {
-            countryDAO.find(country.getId());
+            return countryDAO.find(id);
         } catch (EntityFindException e) {
             throw new CountryServiceException(e);
         }
@@ -77,9 +78,21 @@ public class CountryServiceImpl implements CountryService {
     @Override
     public void deleteCountryById(Integer countryId) throws UserServiceException {
         try {
-            countryDAO.deleteByID(countryId);
+            countryDAO.deleteById(countryId);
         } catch (EntityDeleteException e) {
             throw new UserServiceException(e);
+        }
+    }
+
+    @Transactional
+    @Override
+    public Country getCountryEager(Integer id) throws CountryServiceException {
+        try {
+            Country country = countryDAO.find(id);
+            country.getAvailableVisas().size();
+            return country;
+        } catch (EntityFindException e) {
+            throw new CountryServiceException(e);
         }
     }
 }

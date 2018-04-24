@@ -16,7 +16,9 @@ public class Country implements Serializable {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,
+    @OneToMany(
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL, orphanRemoval = true,
             mappedBy = "country")
     private List<Visa> availableVisas;
 

@@ -47,11 +47,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void logOut(User user) {
-        
-    }
-
-    @Override
     public List<User> findAllEmployees() throws UserServiceException {
         try {
             return userDAO.findAllEmployees();
@@ -63,9 +58,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUserById(Integer id) throws UserServiceException {
         try {
-            userDAO.deleteUserById(id);
+            userDAO.deleteById(id);
         } catch (EntityDeleteException e) {
             throw new UserServiceException(e);
+        }
+    }
+
+    @Override
+    public User getUser(Integer id) throws EntityFindException {
+        try {
+            return userDAO.find(id);
+        } catch (EntityFindException e) {
+            throw new EntityFindException(e);
         }
     }
 

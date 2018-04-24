@@ -11,6 +11,7 @@ import java.util.List;
 public interface DocumentTypeDAO {
     void save(DocumentType documentType) throws EntitySaveException;
     void delete(DocumentType documentType) throws EntityDeleteException;
+    void deleteById(Integer id) throws EntityDeleteException;
     DocumentType find(Integer key) throws EntityFindException;
     void update(DocumentType documentType) throws EntityUpdateException;
     List<DocumentType> findAll(Class<DocumentType> classType) throws EntityFindException;
