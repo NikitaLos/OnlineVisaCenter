@@ -28,7 +28,6 @@ public abstract class AbstractJPADAO<T,PK extends Serializable> implements Gener
     }
 
 
-    @Transactional
     @Override
     public void save(T object) throws EntitySaveException {
         try {
@@ -49,7 +48,6 @@ public abstract class AbstractJPADAO<T,PK extends Serializable> implements Gener
         }
     }
 
-    @Transactional
     @Override
     public void update(T object) throws EntityUpdateException {
         try {
@@ -60,7 +58,6 @@ public abstract class AbstractJPADAO<T,PK extends Serializable> implements Gener
         }
     }
 
-    @Transactional
     @Override
     public void delete(T object) throws EntityDeleteException {
         try {
@@ -71,7 +68,6 @@ public abstract class AbstractJPADAO<T,PK extends Serializable> implements Gener
         }
     }
 
-    @Transactional
     @Override
     public void deleteById(Integer id) throws EntityDeleteException {
         try {

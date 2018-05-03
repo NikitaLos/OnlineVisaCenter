@@ -31,7 +31,7 @@ public class Application implements Serializable {
     @JoinColumn(name = "check_id")
     private Check check;
 
-    @ManyToOne(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 

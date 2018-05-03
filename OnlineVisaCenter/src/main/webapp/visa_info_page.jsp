@@ -19,7 +19,7 @@
             <td>Choose Visa</td>
             <td>
                 <select name="visaId">
-                    <c:forEach  items="${country.availableVisas}" var="visa">
+                    <c:forEach  items="${visas}" var="visa">
                         <option value="${visa.id}">${visa.type}</option>
                     </c:forEach>
                 </select>

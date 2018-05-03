@@ -16,7 +16,7 @@ public class CreditCardPaymentServiceImpl implements PaymentService {
     public void payForVisa(Application application,ApplicationService applicationService) {
         Check check = new Check();
         check.setAmount(application.getVisaInfo().getVisa().getPrice()+visaCenterFee);
-        check.setApplication(application);
+//        check.setApplication(application);
         check.setDateOfPayment(LocalDateTime.now());
         makeCheckDocument(check);
         application.setCheck(check);

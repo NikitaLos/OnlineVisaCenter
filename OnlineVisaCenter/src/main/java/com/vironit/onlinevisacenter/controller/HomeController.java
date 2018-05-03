@@ -1,21 +1,18 @@
 package com.vironit.onlinevisacenter.controller;
 
+import com.vironit.onlinevisacenter.dto.Message;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
 
-@Controller
+@RestController
 public class HomeController {
-    @RequestMapping(value = {"/"}, method = RequestMethod.GET)
-    public String home(){
-        return "index";
-    }
-
     @RequestMapping(value = {"/logout"}, method = RequestMethod.GET)
-    public String logout(HttpSession session){
+    public Message logout(HttpSession session){
         session.invalidate();
-        return "index";
+        return new Message("success");
     }
 }

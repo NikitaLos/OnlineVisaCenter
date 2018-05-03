@@ -16,21 +16,6 @@ public class DocumentType implements Serializable {
     @Column(name = "name")
     private String name;
 
-//    @OneToMany(fetch = FetchType.LAZY,mappedBy = "documentType")
-//    private List<ClientDocument> clientDocuments;
-
-//    public DocumentType() {
-//        clientDocuments = new ArrayList<>();
-//    }
-//
-//    public List<ClientDocument> getClientDocuments() {
-//        return clientDocuments;
-//    }
-//
-//    public void setClientDocuments(List<ClientDocument> clientDocuments) {
-//        this.clientDocuments = clientDocuments;
-//    }
-
     public Integer getId() {
         return id;
     }
@@ -61,8 +46,4 @@ public class DocumentType implements Serializable {
     public int hashCode() {
         return name != null ? name.hashCode() : 0;
     }
-
-//    public void addClientDocument(ClientDocument clientDocument) {
-//        clientDocuments.add(clientDocument);
-//    }
 }

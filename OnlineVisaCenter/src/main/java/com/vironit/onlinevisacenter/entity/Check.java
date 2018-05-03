@@ -18,9 +18,6 @@ public class Check implements Serializable {
     @Column(name = "date_of_payment")
     private LocalDateTime dateOfPayment;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "check")
-    private Application application;
-
     @Column(name = "path_on_server")
     private String pathOnServer;
 
@@ -48,14 +45,6 @@ public class Check implements Serializable {
         this.dateOfPayment = dateOfPayment;
     }
 
-    public Application getApplication() {
-        return application;
-    }
-
-    public void setApplication(Application application) {
-        this.application = application;
-    }
-
     public String getPathOnServer() {
         return pathOnServer;
     }
@@ -74,8 +63,6 @@ public class Check implements Serializable {
         if (amount != null ? !amount.equals(check.amount) : check.amount != null) return false;
         if (dateOfPayment != null ? !dateOfPayment.equals(check.dateOfPayment) : check.dateOfPayment != null)
             return false;
-        if (application != null ? !application.equals(check.application) : check.application != null)
-            return false;
         return pathOnServer != null ? pathOnServer.equals(check.pathOnServer) : check.pathOnServer == null;
     }
 
@@ -83,7 +70,6 @@ public class Check implements Serializable {
     public int hashCode() {
         int result = amount != null ? amount.hashCode() : 0;
         result = 31 * result + (dateOfPayment != null ? dateOfPayment.hashCode() : 0);
-        result = 31 * result + (application != null ? application.hashCode() : 0);
         result = 31 * result + (pathOnServer != null ? pathOnServer.hashCode() : 0);
         return result;
     }

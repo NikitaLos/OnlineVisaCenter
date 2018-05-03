@@ -16,24 +16,6 @@ public class Country implements Serializable {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(
-            fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL, orphanRemoval = true,
-            mappedBy = "country")
-    private List<Visa> availableVisas;
-
-    public Country() {
-        availableVisas = new ArrayList<>();
-    }
-
-    public void addVisa(Visa visa) {
-        availableVisas.add(visa);
-    }
-
-    public void removeVisa(Visa visa) {
-        availableVisas.remove(visa);
-    }
-
     public Integer getId() {
         return id;
     }
@@ -48,14 +30,6 @@ public class Country implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public List<Visa> getAvailableVisas() {
-        return availableVisas;
-    }
-
-    public void setAvailableVisas(List<Visa> availableVisas) {
-        this.availableVisas = availableVisas;
     }
 
     @Override

@@ -11,11 +11,9 @@ import java.util.List;
 
 public interface GenericDAO<T,PK extends Serializable> {
     void save(T t) throws EntitySaveException;
-    T find(PK id) throws EntityFindException;
     void update(T t) throws EntityUpdateException;
     void delete(T t) throws EntityDeleteException;
-
     void deleteById(Integer id) throws EntityDeleteException;
-
+    T find(PK id) throws EntityFindException;
     List<T> findAll(Class<T> classType) throws EntityFindException;
 }

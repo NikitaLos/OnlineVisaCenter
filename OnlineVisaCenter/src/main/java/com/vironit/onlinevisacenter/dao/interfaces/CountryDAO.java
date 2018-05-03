@@ -5,6 +5,7 @@ import com.vironit.onlinevisacenter.exceptions.dao.EntityDeleteException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntitySaveException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityUpdateException;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -15,6 +16,5 @@ public interface CountryDAO {
     void update(Country country) throws EntityUpdateException;
     List<Country> findAll(Class<Country> classType) throws EntityFindException;
     boolean isDuplicate(Country country) throws EntityFindException;
-
     void deleteById(Integer countryId) throws EntityDeleteException;
 }

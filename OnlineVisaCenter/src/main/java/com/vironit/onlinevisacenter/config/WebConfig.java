@@ -15,6 +15,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @EnableWebMvc
 @ComponentScan("com.vironit.onlinevisacenter.controller")
 public class WebConfig implements WebMvcConfigurer {
+
     @Bean
     public ViewResolver viewResolver(){
         InternalResourceViewResolver resolver = new InternalResourceViewResolver();
@@ -24,7 +25,6 @@ public class WebConfig implements WebMvcConfigurer {
         resolver.setExposeContextBeansAsAttributes(true);
         return resolver;
     }
-
 
     @Bean
     public CommonsMultipartResolver multipartResolver() {

@@ -20,10 +20,14 @@ import java.util.Properties;
 @Configuration
 @EnableTransactionManagement
 @PropertySource("classpath:database.properties")
-public class JPAConfig {
+public class JPAConfig{
+
+    private Environment environment;
 
     @Autowired
-    private Environment env;
+    public JPAConfig(Environment environment) {
+        this.environment = environment;
+    }
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
@@ -41,10 +45,10 @@ public class JPAConfig {
     public DataSource dataSource(){
         HikariDataSource dataSource = new HikariDataSource();
         dataSource.setMaximumPoolSize(10);
-        dataSource.setDriverClassName(env.getProperty("postgres.driver"));
-        dataSource.setJdbcUrl(env.getProperty("postgres.url"));
-        dataSource.setUsername(env.getProperty("postgres.username"));
-        dataSource.setPassword(env.getProperty("postgres.pass"));
+        dataSource.setDriverClassName(environment.getProperty("postgres.driver"));
+        dataSource.setJdbcUrl(environment.getProperty("postgres.url"));
+        dataSource.setUsername(environment.getProperty("postgres.username"));
+        dataSource.setPassword(environment.getProperty("postgres.pass"));
         return dataSource;
     }
 
@@ -57,11 +61,11 @@ public class JPAConfig {
 
     private Properties hibernateProperties() {
         Properties properties = new Properties();
-        properties.setProperty("hibernate.hbm2ddl.auto",env.getProperty("hibernate.hbm2ddl.auto"));
-        properties.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));
-        properties.setProperty("hibernate.show_sql",env.getProperty("hibernate.show_sql"));
-        properties.setProperty("hibernate.format_sql",env.getProperty("hibernate.format_sql"));
-        properties.setProperty("hibernate.use_sql_comments",env.getProperty("hibernate.use_sql_comments"));
+        properties.setProperty("hibernate.hbm2ddl.auto", environment.getProperty("hibernate.hbm2ddl.auto"));
+        properties.setProperty("hibernate.dialect", environment.getProperty("hibernate.dialect"));
+        properties.setProperty("hibernate.show_sql", environment.getProperty("hibernate.show_sql"));
+        properties.setProperty("hibernate.format_sql", environment.getProperty("hibernate.format_sql"));
+        properties.setProperty("hibernate.use_sql_comments", environment.getProperty("hibernate.use_sql_comments"));
         return properties;
     }
 }

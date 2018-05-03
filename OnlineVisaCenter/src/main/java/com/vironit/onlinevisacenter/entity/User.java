@@ -28,31 +28,8 @@ public class User implements Serializable {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,
-            mappedBy = "user")
-    private List<Application> applications;
-
     public User() {
         role = Role.CLIENT;
-        applications = new ArrayList<>();
-    }
-
-    public void addApplication(Application application) {
-        applications.add(application);
-        application.setUser(this);
-    }
-
-    public void removeApplication(Application application) {
-        applications.remove(application);
-        application.setUser(null);
-    }
-
-    public List<Application> getApplications() {
-        return applications;
-    }
-
-    public void setApplications(List<Application> applications) {
-        this.applications = applications;
     }
 
     public Integer getId() {

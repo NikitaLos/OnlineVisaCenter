@@ -46,37 +46,6 @@ public class ClientInfo implements Serializable {
     @Enumerated(EnumType.STRING)
     private AimOfVisit aimOfVisit;
 
-    @OneToMany(
-            mappedBy = "clientInfo",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private List<ClientDocument> clientDocuments;
-
-
-    public ClientInfo() {
-        clientDocuments = new ArrayList<>();
-    }
-
-    public void addClientDocument(ClientDocument clientDocument) {
-        clientDocuments.add(clientDocument);
-        clientDocument.setClientInfo(this);
-    }
-
-    public void removeClientDocument(ClientDocument clientDocument) {
-        clientDocuments.remove(clientDocument);
-        clientDocument.setClientInfo(null);
-    }
-
-
-    public List<ClientDocument> getClientDocuments() {
-        return clientDocuments;
-    }
-
-    public void setClientDocuments(List<ClientDocument> clientDocuments) {
-        this.clientDocuments = clientDocuments;
-    }
-
     public Application getApplication() {
         return application;
     }
@@ -139,7 +108,6 @@ public class ClientInfo implements Serializable {
 
     public void setPassport(Passport passport) {
         this.passport = passport;
-//        passport.setClientInfo(this);
     }
 
     public String getPhotoPathOnServer() {

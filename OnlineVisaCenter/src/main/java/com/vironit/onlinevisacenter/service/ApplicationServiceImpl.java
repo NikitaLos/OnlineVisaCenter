@@ -37,8 +37,8 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public void addApplicationToQueue(Application application) throws ApplicationServiceException {
-        validateApplication(application);
-        verifyCheck(application);
+//        validateApplication(application);
+//        verifyCheck(application);
         try {
             applicationDAO.save(application);
             logger.info("Application was add to queue");
@@ -112,43 +112,43 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     private void validateApplication(Application application) {
-        validateClientInfo(application.getClientInfo());
+//        validateClientInfo(application.getClientInfo());
         validateVisaInfo(application.getVisaInfo());
     }
 
 
-    private void validateClientInfo(ClientInfo clientInfo){
-        LocalDate dateOfBirth = clientInfo.getDateOfBirth();
-        List<ClientDocument> documents = clientInfo.getClientDocuments();
-        String name = clientInfo.getName();
-        String surname = clientInfo.getSurname();
-        String phoneNumber = clientInfo.getPhoneNumber();
-        String photo = clientInfo.getPhotoPathOnServer();
-        String sex = clientInfo.getSex();
-        AimOfVisit aimOfVisit = clientInfo.getAimOfVisit();
-        Passport passport = clientInfo.getPassport();
-        String country = passport.getCountryOfResidence();
-        LocalDate dateOfEnding = passport.getDateOfEnding();
-        LocalDate dateOfReceiving = passport.getDateOfReceiving();
-        String passportNumber = passport.getNumber();
-
-        if(documents==null|dateOfBirth==null|name==null|surname==null|phoneNumber==null|photo==null|sex==null|aimOfVisit==null |
-                country==null| dateOfEnding==null|dateOfReceiving==null|passportNumber==null){
-            //todo exception
-
-        }else {
-            if(documents.size()!=clientInfo.getApplication().getVisaInfo().getVisa().getRequiredDocumentTypes().size()){
-                //todo exception
-            }
-            if (YEARS.between(dateOfBirth,LocalDate.now())<18){
-                //todo exception
-            }
-            if(dateOfEnding.isBefore(dateOfReceiving)){
-                //todo exception
-            }
-        }
-
-    }
+//    private void validateClientInfo(ClientInfo clientInfo){
+//        LocalDate dateOfBirth = clientInfo.getDateOfBirth();
+////        List<ClientDocument> documents = clientInfo.getClientDocuments();//todo
+//        String name = clientInfo.getName();
+//        String surname = clientInfo.getSurname();
+//        String phoneNumber = clientInfo.getPhoneNumber();
+//        String photo = clientInfo.getPhotoPathOnServer();
+//        String sex = clientInfo.getSex();
+//        AimOfVisit aimOfVisit = clientInfo.getAimOfVisit();
+//        Passport passport = clientInfo.getPassport();
+//        String country = passport.getCountryOfResidence();
+//        LocalDate dateOfEnding = passport.getDateOfEnding();
+//        LocalDate dateOfReceiving = passport.getDateOfReceiving();
+//        String passportNumber = passport.getNumber();
+//
+//        if(documents==null|dateOfBirth==null|name==null|surname==null|phoneNumber==null|photo==null|sex==null|aimOfVisit==null |
+//                country==null| dateOfEnding==null|dateOfReceiving==null|passportNumber==null){
+//            //todo exception
+//
+//        }else {
+//            if(documents.size()!=clientInfo.getApplication().getVisaInfo().getVisa().getRequiredDocumentTypes().size()){
+//                //todo exception
+//            }
+//            if (YEARS.between(dateOfBirth,LocalDate.now())<18){
+//                //todo exception
+//            }
+//            if(dateOfEnding.isBefore(dateOfReceiving)){
+//                //todo exception
+//            }
+//        }
+//
+//    }
 
     private void validateVisaInfo(VisaInfo visaInfo){
         Passport passport = visaInfo.getApplication().getClientInfo().getPassport();

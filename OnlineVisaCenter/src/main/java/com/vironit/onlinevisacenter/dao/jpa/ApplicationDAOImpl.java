@@ -20,7 +20,9 @@ public class ApplicationDAOImpl extends AbstractJPADAO<Application,Integer> impl
     @Override
     public List<Application> findApplicationsByClient(User user) throws EntityFindException {
         try {
-            return entityManager.find(User.class,user.getId()).getApplications();
+//            return entityManager.find(User.class,user.getId()).getApplications();
+            //todo
+            return null;
         }catch (PersistenceException e){
             logger.error("Find applications by client exception",e);
             throw new EntityFindException(e);

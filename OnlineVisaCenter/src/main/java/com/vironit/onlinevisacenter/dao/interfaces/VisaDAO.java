@@ -1,6 +1,7 @@
 package com.vironit.onlinevisacenter.dao.interfaces;
 
 
+import com.vironit.onlinevisacenter.entity.Country;
 import com.vironit.onlinevisacenter.entity.Visa;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityDeleteException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;
@@ -17,4 +18,6 @@ public interface VisaDAO {
     void update(Visa visa) throws EntityUpdateException;
     List<Visa> findAll(Class<Visa> classType) throws EntityFindException;
     boolean isDuplicate(Visa visa) throws EntityFindException;
+
+    List<Visa> findVisasByCountry(Country country) throws EntityFindException;
 }

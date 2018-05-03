@@ -84,15 +84,4 @@ public class CountryServiceImpl implements CountryService {
         }
     }
 
-    @Transactional
-    @Override
-    public Country getCountryEager(Integer id) throws CountryServiceException {
-        try {
-            Country country = countryDAO.find(id);
-            country.getAvailableVisas().size();
-            return country;
-        } catch (EntityFindException e) {
-            throw new CountryServiceException(e);
-        }
-    }
 }

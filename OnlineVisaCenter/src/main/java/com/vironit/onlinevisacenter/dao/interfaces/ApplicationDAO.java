@@ -6,6 +6,7 @@ import com.vironit.onlinevisacenter.exceptions.dao.EntityDeleteException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntitySaveException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityUpdateException;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,7 @@ public interface ApplicationDAO {
     void update(Application application) throws EntityUpdateException;
     List<Application> findAll(Class<Application> classType) throws EntityFindException;
     List<Application> findApplicationsByClient(User user) throws EntityFindException;
+    void deleteById(Integer id) throws EntityDeleteException;
 
     class ApplicationDAOFake implements ApplicationDAO{
 
@@ -48,6 +50,11 @@ public interface ApplicationDAO {
         @Override
         public List<Application> findApplicationsByClient(User user) throws EntityFindException {
             return new ArrayList<>();
+        }
+
+        @Override
+        public void deleteById(Integer id) throws EntityDeleteException {
+
         }
     }
 
