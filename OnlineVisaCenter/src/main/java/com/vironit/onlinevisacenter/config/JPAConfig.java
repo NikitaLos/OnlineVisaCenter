@@ -17,6 +17,8 @@ import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Properties;
 
+import static org.hibernate.cfg.AvailableSettings.NON_CONTEXTUAL_LOB_CREATION;
+
 @Configuration
 @EnableTransactionManagement
 @PropertySource("classpath:database.properties")
@@ -66,6 +68,7 @@ public class JPAConfig{
         properties.setProperty("hibernate.show_sql", environment.getProperty("hibernate.show_sql"));
         properties.setProperty("hibernate.format_sql", environment.getProperty("hibernate.format_sql"));
         properties.setProperty("hibernate.use_sql_comments", environment.getProperty("hibernate.use_sql_comments"));
+        properties.setProperty(NON_CONTEXTUAL_LOB_CREATION, environment.getProperty("hibernate.jdbc.lob.non_contextual_creation"));
         return properties;
     }
 }
