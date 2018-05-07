@@ -6,13 +6,15 @@ import com.vironit.onlinevisacenter.entity.enums.Role;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityDeleteException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import java.util.List;
-@Component
+
+@Repository
 public class UserDAOImpl extends AbstractJPADAO<User,Integer> implements UserDAO {
 
     public UserDAOImpl() {

@@ -1,5 +1,6 @@
 package com.vironit.onlinevisacenter.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.vironit.onlinevisacenter.entity.enums.AimOfVisit;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "client_info", schema = "visa_center")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class ClientInfo implements Serializable {
 
     @Id
@@ -31,9 +33,6 @@ public class ClientInfo implements Serializable {
     @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "clientInfo")
-    private Application application;
-
     @OneToOne(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "passport_id")
@@ -45,14 +44,6 @@ public class ClientInfo implements Serializable {
     @Column(name = "aim_of_visit")
     @Enumerated(EnumType.STRING)
     private AimOfVisit aimOfVisit;
-
-    public Application getApplication() {
-        return application;
-    }
-
-    public void setApplication(Application application) {
-        this.application = application;
-    }
 
     public Integer getId() {
         return id;

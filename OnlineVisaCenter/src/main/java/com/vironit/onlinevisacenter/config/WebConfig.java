@@ -1,5 +1,6 @@
 package com.vironit.onlinevisacenter.config;
 
+import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -11,7 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 
-@Configuration
+@SpringBootConfiguration
 @EnableWebMvc
 @ComponentScan("com.vironit.onlinevisacenter.controller")
 public class WebConfig implements WebMvcConfigurer {
@@ -28,7 +29,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Bean
     public CommonsMultipartResolver multipartResolver() {
-        CommonsMultipartResolver resolver=new CommonsMultipartResolver();
+        CommonsMultipartResolver resolver = new CommonsMultipartResolver();
         resolver.setDefaultEncoding("utf-8");
         return resolver;
     }

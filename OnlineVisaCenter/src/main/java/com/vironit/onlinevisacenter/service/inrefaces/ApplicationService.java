@@ -1,12 +1,15 @@
 package com.vironit.onlinevisacenter.service.inrefaces;
 
+import com.vironit.onlinevisacenter.dto.request.ApplicationRequestDTO;
+import com.vironit.onlinevisacenter.dto.response.ApplicationResponseDTO;
 import com.vironit.onlinevisacenter.entity.*;
 import com.vironit.onlinevisacenter.entity.Application;
 import com.vironit.onlinevisacenter.exceptions.service.ApplicationServiceException;
+import com.vironit.onlinevisacenter.exceptions.service.UserServiceException;
+import com.vironit.onlinevisacenter.exceptions.service.VisaServiceException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Queue;
 
 public interface ApplicationService extends StatusChangeable {
     @Transactional
@@ -26,9 +29,13 @@ public interface ApplicationService extends StatusChangeable {
 
     List<Application> getApplications() throws ApplicationServiceException;
 
-    Application getApplication(Application application) throws ApplicationServiceException;
+    Application getApplication(Integer id) throws ApplicationServiceException;
 
     void transferApplicationToEmbassy(Application application, EmbassyService embassyService);
 
-    List<Application> getUserApplications(User user);
+    List<Application> getUserApplications(Integer userId) throws ApplicationServiceException;
+
+    Application convertToEntity(ApplicationRequestDTO applicationRequestDTO) throws VisaServiceException, UserServiceException;
+
+    ApplicationResponseDTO convertToDTO(Application application);
 }

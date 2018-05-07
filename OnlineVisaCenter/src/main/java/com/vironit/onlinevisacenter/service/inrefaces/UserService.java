@@ -1,6 +1,7 @@
 package com.vironit.onlinevisacenter.service.inrefaces;
 
 
+import com.vironit.onlinevisacenter.dto.UserDTO;
 import com.vironit.onlinevisacenter.entity.User;
 import com.vironit.onlinevisacenter.exceptions.DuplicateException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;
@@ -24,5 +25,9 @@ public interface UserService {
 
     List<User> findAllEmployees() throws UserServiceException;
 
-    User getUser(Integer id) throws EntityFindException;
+    User getUser(Integer id) throws UserServiceException;
+
+    User convertToEntity(UserDTO userDTO);
+
+    UserDTO convertToDTO(User user);
 }

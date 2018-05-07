@@ -2,8 +2,8 @@ package com.vironit.onlinevisacenter.config;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -17,9 +17,15 @@ import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Properties;
 
+import static org.hibernate.cfg.AvailableSettings.DIALECT;
+import static org.hibernate.cfg.AvailableSettings.HBM2DDL_AUTO;
+import static org.hibernate.cfg.AvailableSettings.SHOW_SQL;
+import static org.hibernate.cfg.AvailableSettings.FORMAT_SQL;
 import static org.hibernate.cfg.AvailableSettings.NON_CONTEXTUAL_LOB_CREATION;
+import static org.hibernate.cfg.AvailableSettings.USE_SQL_COMMENTS;
 
-@Configuration
+
+@SpringBootConfiguration
 @EnableTransactionManagement
 @PropertySource("classpath:database.properties")
 public class JPAConfig{
@@ -63,11 +69,11 @@ public class JPAConfig{
 
     private Properties hibernateProperties() {
         Properties properties = new Properties();
-        properties.setProperty("hibernate.hbm2ddl.auto", environment.getProperty("hibernate.hbm2ddl.auto"));
-        properties.setProperty("hibernate.dialect", environment.getProperty("hibernate.dialect"));
-        properties.setProperty("hibernate.show_sql", environment.getProperty("hibernate.show_sql"));
-        properties.setProperty("hibernate.format_sql", environment.getProperty("hibernate.format_sql"));
-        properties.setProperty("hibernate.use_sql_comments", environment.getProperty("hibernate.use_sql_comments"));
+        properties.setProperty(HBM2DDL_AUTO, environment.getProperty("hibernate.hbm2ddl.auto"));
+        properties.setProperty(DIALECT, environment.getProperty("hibernate.dialect"));
+        properties.setProperty(SHOW_SQL, environment.getProperty("hibernate.show_sql"));
+        properties.setProperty(FORMAT_SQL, environment.getProperty("hibernate.format_sql"));
+        properties.setProperty(USE_SQL_COMMENTS, environment.getProperty("hibernate.use_sql_comments"));
         properties.setProperty(NON_CONTEXTUAL_LOB_CREATION, environment.getProperty("hibernate.jdbc.lob.non_contextual_creation"));
         return properties;
     }

@@ -4,12 +4,13 @@ import com.vironit.onlinevisacenter.dao.interfaces.CountryDAO;
 import com.vironit.onlinevisacenter.entity.Country;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import java.util.List;
 
-@Component
+@Repository
 public class CountryDAOImpl extends AbstractJPADAO<Country,Integer> implements CountryDAO {
 
     public CountryDAOImpl() {

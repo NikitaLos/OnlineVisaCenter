@@ -1,6 +1,7 @@
 package com.vironit.onlinevisacenter.service.inrefaces;
 
 import com.vironit.onlinevisacenter.dto.request.VisaRequestDTO;
+import com.vironit.onlinevisacenter.dto.response.VisaResponseDTO;
 import com.vironit.onlinevisacenter.entity.Country;
 import com.vironit.onlinevisacenter.entity.Visa;
 import com.vironit.onlinevisacenter.exceptions.DuplicateException;
@@ -32,8 +33,10 @@ public interface VisaService {
 
     List<Visa> getAll() throws VisaServiceException;
 
-
     List<Visa> getVisasByCountry(Country country) throws VisaServiceException;
 
-    Visa mapDTOToEntity(VisaRequestDTO visaDTO) throws VisaServiceException, CountryServiceException, DocumentServiceException;
+    Visa convertToEntity(VisaRequestDTO visaDTO) throws VisaServiceException, CountryServiceException, DocumentServiceException;
+
+    VisaResponseDTO convertToDTO(Visa visa);
+
 }

@@ -1,112 +1,83 @@
 package com.vironit.onlinevisacenter.controller;
 
+import com.vironit.onlinevisacenter.dto.CountryDTO;
+import com.vironit.onlinevisacenter.dto.Message;
+import com.vironit.onlinevisacenter.dto.request.ApplicationRequestDTO;
+import com.vironit.onlinevisacenter.dto.response.ApplicationResponseDTO;
+import com.vironit.onlinevisacenter.dto.response.VisaResponseDTO;
 import com.vironit.onlinevisacenter.entity.*;
 import com.vironit.onlinevisacenter.entity.enums.AimOfVisit;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;
 import com.vironit.onlinevisacenter.exceptions.service.ApplicationServiceException;
 import com.vironit.onlinevisacenter.exceptions.service.CountryServiceException;
+import com.vironit.onlinevisacenter.exceptions.service.UserServiceException;
 import com.vironit.onlinevisacenter.exceptions.service.VisaServiceException;
 import com.vironit.onlinevisacenter.service.inrefaces.ApplicationService;
 import com.vironit.onlinevisacenter.service.inrefaces.CountryService;
 import com.vironit.onlinevisacenter.service.inrefaces.UserService;
 import com.vironit.onlinevisacenter.service.inrefaces.VisaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
-@Controller
+@RestController
 public class ClientController {
 
     private CountryService countryService;
     private ApplicationService applicationService;
     private VisaService visaService;
-    private UserService userService;
 
     @Autowired
-    public ClientController(CountryService countryService, ApplicationService applicationService,
-                            VisaService visaService, UserService userService) {
+    public ClientController(CountryService countryService, ApplicationService applicationService, VisaService visaService) {
         this.countryService = countryService;
         this.applicationService = applicationService;
         this.visaService = visaService;
-        this.userService = userService;
     }
 
-    @RequestMapping(value = "/compose_application", method = RequestMethod.GET)
-    public String composeApplication(Model model) throws CountryServiceException {
+    @RequestMapping(value = "/view_countries",method = RequestMethod.GET)
+    public List<CountryDTO> showCountries() throws CountryServiceException {
         List<Country> countries = countryService.getAll();
-        model.addAttribute("countries",countries);
-        model.addAttribute("country",new Country());
-        return "choose_country_page";
+        return countries.stream()
+                .map(country -> countryService.convertToDTO(country))
+                .collect(Collectors.toList());
     }
 
-    @RequestMapping(value = "/add_country", method = RequestMethod.POST)
-    public String addCountry(Integer countryId, Model model) throws CountryServiceException, VisaServiceException {
-        Country country = countryService.getCountry(countryId);
+    @RequestMapping(value = "/visas_by_country_/{country_id}",method = RequestMethod.GET)
+    public List<VisaResponseDTO> getVisasByCountry(@PathVariable("country_id") Integer id) throws VisaServiceException, CountryServiceException {
+        Country country = countryService.getCountry(id);
         List<Visa> visas = visaService.getVisasByCountry(country);
-        model.addAttribute("visas",visas);
-        return "visa_info_page";
+        return visas.stream()
+                .map(visa -> visaService.convertToDTO(visa))
+                .collect(Collectors.toList());
     }
 
-    @RequestMapping(value = "/add_visa_info", method = RequestMethod.POST)
-    public String addVisaInfo(VisaInfo visaInfo, String from, String to, Integer visaId, Model model, HttpSession session) throws  VisaServiceException {
-        Visa visa = visaService.getVisaEager(visaId);
-        Application application = new Application();
-        visaInfo.setVisa(visa);
-        visaInfo.setDateTo(LocalDate.parse(to));
-        visaInfo.setDateFrom(LocalDate.parse(from));
-        application.setVisaInfo(visaInfo);
-        model.addAttribute("aims",AimOfVisit.values());
-        session.setAttribute("application",application);
-        return "client_info_page";
-    }
-
-    @RequestMapping(value = "/add_client_info", method = RequestMethod.POST)
-    public String addClientInfo(ClientInfo clientInfo,Passport passport, String dateBirth, String dateReceiving,
-                          String dateEnding, String aim, Model model, HttpSession session) {
-        clientInfo.setDateOfBirth(LocalDate.parse(dateBirth));
-        clientInfo.setAimOfVisit(AimOfVisit.valueOf(aim));
-        passport.setDateOfReceiving(LocalDate.parse(dateReceiving));
-        passport.setDateOfEnding(LocalDate.parse(dateEnding));
-        clientInfo.setPassport(passport);
-        Application application = (Application) session.getAttribute("application");
-        application.setClientInfo(clientInfo);
-        session.setAttribute("application",application);
-        model.addAttribute("price",application.getVisaInfo().getVisa().getPrice());
-        return "payment";
-    }
-
-    @RequestMapping(value = "/add_client_documents", method = RequestMethod.POST)
-    public String addClientDocuments(List<MultipartFile> files, Model model, HttpSession session) {
-        Application application = (Application) session.getAttribute("application");
-        ClientInfo clientInfo = application.getClientInfo();
-        for (MultipartFile file : files){
-            //todo
-        }
-        return "client_document_page";
-    }
-
-    @RequestMapping(value = "/pay", method = RequestMethod.POST)
-    public String pay(Double price,HttpSession session) throws ApplicationServiceException, EntityFindException {
-        Application application = (Application) session.getAttribute("application");
-        User user = userService.getUser((Integer) session.getAttribute("user_id"));
-        application.setUser(user);
-        Check check = new Check();
-        check.setAmount(price);
-        check.setDateOfPayment(LocalDateTime.now());
-        check.setPathOnServer("233");
-        application.setCheck(check);
+    @RequestMapping(value = "/add_application", method = RequestMethod.POST)
+    public Message composeApplication(@RequestBody ApplicationRequestDTO applicationDTO) throws ApplicationServiceException, VisaServiceException, UserServiceException {
+        Application application = applicationService.convertToEntity(applicationDTO);
         applicationService.addApplicationToQueue(application);
-        return "client_document_page";
+        return new Message("success");
     }
 
+    @RequestMapping(value = "/view_applications_by_user/{user_id}", method = RequestMethod.GET)
+    public List<ApplicationResponseDTO> viewApplicationsByClient(@PathVariable("user_id") Integer userId) throws ApplicationServiceException {
+        List<Application> applications = applicationService.getUserApplications(userId);
+        return applications.stream()
+                .map(application -> applicationService.convertToDTO(application))
+                .collect(Collectors.toList());
+    }
 
+    @RequestMapping(value = "/change_application", method = RequestMethod.POST)
+    public Message changeApplication(@RequestBody ApplicationRequestDTO applicationDTO) throws ApplicationServiceException, VisaServiceException, UserServiceException {
+        Application application = applicationService.convertToEntity(applicationDTO);
+        applicationService.updateApplication(application);
+        return new Message("success");
+    }
 
 }

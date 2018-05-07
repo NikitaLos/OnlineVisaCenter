@@ -1,5 +1,6 @@
 package com.vironit.onlinevisacenter.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.vironit.onlinevisacenter.entity.enums.Result;
 import com.vironit.onlinevisacenter.entity.enums.Status;
 
@@ -9,6 +10,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "application", schema = "visa_center")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Application implements Serializable {
 
     @Id
@@ -49,11 +51,6 @@ public class Application implements Serializable {
     @Column(name = "date_of_create")
     private LocalDateTime creationTime;
 
-    public Application() {
-        this.creationTime = LocalDateTime.now();
-        this.status = Status.IN_VC_QUEUE;
-        this.result = Result.NO_RESULT;
-    }
 
     public Integer getId() {
         return id;

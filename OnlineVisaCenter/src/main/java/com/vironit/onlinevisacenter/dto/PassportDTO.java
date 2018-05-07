@@ -1,33 +1,18 @@
-package com.vironit.onlinevisacenter.entity;
+package com.vironit.onlinevisacenter.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import javax.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDate;
 
-@Entity
-@Table(name = "passport", schema = "visa_center")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class PassportDTO {
 
-public class Passport implements Serializable {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "number")
     private String number;
 
-    @Column(name = "country")
     private String countryOfResidence;
 
-    @Column(name = "date_of_receiving")
     private LocalDate dateOfReceiving;
 
-    @Column(name = "date_of_ending")
     private LocalDate dateOfEnding;
-
 
     public Integer getId() {
         return id;
@@ -67,20 +52,5 @@ public class Passport implements Serializable {
 
     public void setDateOfEnding(LocalDate dateOfEnding) {
         this.dateOfEnding = dateOfEnding;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Passport passport = (Passport) o;
-
-        return number != null ? number.equals(passport.number) : passport.number == null;
-    }
-
-    @Override
-    public int hashCode() {
-        return number != null ? number.hashCode() : 0;
     }
 }

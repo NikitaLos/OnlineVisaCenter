@@ -1,8 +1,11 @@
 package com.vironit.onlinevisacenter.service;
 
 import com.vironit.onlinevisacenter.dao.interfaces.VisaDAO;
+import com.vironit.onlinevisacenter.dto.DocumentTypeDTO;
 import com.vironit.onlinevisacenter.dto.request.VisaRequestDTO;
+import com.vironit.onlinevisacenter.dto.response.VisaResponseDTO;
 import com.vironit.onlinevisacenter.entity.Country;
+import com.vironit.onlinevisacenter.entity.DocumentType;
 import com.vironit.onlinevisacenter.entity.Visa;
 import com.vironit.onlinevisacenter.exceptions.DuplicateException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityDeleteException;
@@ -17,10 +20,12 @@ import com.vironit.onlinevisacenter.service.inrefaces.DocumentService;
 import com.vironit.onlinevisacenter.service.inrefaces.VisaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
-@Component
+@Service
 public class VisaServiceImpl implements VisaService {
 
     private VisaDAO visaDAO;
@@ -102,8 +107,20 @@ public class VisaServiceImpl implements VisaService {
     }
 
     @Override
-    public Visa mapDTOToEntity(VisaRequestDTO visaDTO) throws CountryServiceException, DocumentServiceException {
+    public Visa getVisaEager(Integer id) throws VisaServiceException {
+        try {
+            Visa visa = visaDAO.find(id);
+            visa.getRequiredDocumentTypes().size();
+            return visa;
+        } catch (EntityFindException e) {
+            throw new VisaServiceException(e);
+        }
+    }
+
+    @Override
+    public Visa convertToEntity(VisaRequestDTO visaDTO) throws CountryServiceException, DocumentServiceException {
         Visa visa = new Visa();
+        visa.setId(visaDTO.getId());
         visa.setType(visaDTO.getType());
         visa.setPrice(visaDTO.getPrice());
         visa.setCountry(countryService.getCountry(visaDTO.getCountryId()));
@@ -114,13 +131,17 @@ public class VisaServiceImpl implements VisaService {
     }
 
     @Override
-    public Visa getVisaEager(Integer id) throws VisaServiceException {
-        try {
-            Visa visa = visaDAO.find(id);
-            visa.getRequiredDocumentTypes().size();
-            return visa;
-        } catch (EntityFindException e) {
-            throw new VisaServiceException(e);
+    public VisaResponseDTO convertToDTO(Visa visa) {
+        VisaResponseDTO visaResponseDTO = new VisaResponseDTO();
+        visaResponseDTO.setId(visa.getId());
+        visaResponseDTO.setType(visa.getType());
+        visaResponseDTO.setPrice(visa.getPrice());
+        visaResponseDTO.setCountry(countryService.convertToDTO(visa.getCountry()));
+        List<DocumentTypeDTO> documentTypesDTO = new ArrayList<>();
+        for (DocumentType documentType : visa.getRequiredDocumentTypes()){
+            documentTypesDTO.add(documentService.convertToDTO(documentType));
         }
+        visaResponseDTO.setRequiredDocumentTypes(documentTypesDTO);
+        return visaResponseDTO;
     }
 }

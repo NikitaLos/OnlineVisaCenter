@@ -5,13 +5,16 @@ import com.vironit.onlinevisacenter.entity.Country;
 import com.vironit.onlinevisacenter.entity.User;
 import com.vironit.onlinevisacenter.entity.Visa;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;
+import com.vironit.onlinevisacenter.exceptions.dao.EntityUpdateException;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import java.util.List;
-@Component
+
+@Repository
 public class VisaDAOImpl extends AbstractJPADAO<Visa,Integer> implements VisaDAO {
 
     public VisaDAOImpl() {

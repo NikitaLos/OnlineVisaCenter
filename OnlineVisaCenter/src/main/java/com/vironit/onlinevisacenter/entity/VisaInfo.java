@@ -1,5 +1,7 @@
 package com.vironit.onlinevisacenter.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -7,6 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "visa_info", schema = "visa_center")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class VisaInfo implements Serializable {
 
     @Id
@@ -37,9 +40,6 @@ public class VisaInfo implements Serializable {
 
     @Column(name = "visa_path_on_server")
     private String visaPathOnServer;
-
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "visaInfo")
-    private Application application;
 
 
     public Integer getId() {
@@ -106,13 +106,6 @@ public class VisaInfo implements Serializable {
         this.numOfDaysResidence = numOfDaysResidence;
     }
 
-    public Application getApplication() {
-        return application;
-    }
-
-    public void setApplication(Application application) {
-        this.application = application;
-    }
 
     public String getVisaPathOnServer() {
         return visaPathOnServer;
@@ -123,7 +116,6 @@ public class VisaInfo implements Serializable {
     }
 
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -131,11 +123,30 @@ public class VisaInfo implements Serializable {
 
         VisaInfo visaInfo = (VisaInfo) o;
 
-        return application != null ? application.equals(visaInfo.application) : visaInfo.application == null;
+        if (visa != null ? !visa.equals(visaInfo.visa) : visaInfo.visa != null) return false;
+        if (dateFrom != null ? !dateFrom.equals(visaInfo.dateFrom) : visaInfo.dateFrom != null) return false;
+        if (dateTo != null ? !dateTo.equals(visaInfo.dateTo) : visaInfo.dateTo != null) return false;
+        if (dateOfReceiving != null ? !dateOfReceiving.equals(visaInfo.dateOfReceiving) : visaInfo.dateOfReceiving != null)
+            return false;
+        if (nameOfClient != null ? !nameOfClient.equals(visaInfo.nameOfClient) : visaInfo.nameOfClient != null)
+            return false;
+        if (surnameOfClient != null ? !surnameOfClient.equals(visaInfo.surnameOfClient) : visaInfo.surnameOfClient != null)
+            return false;
+        if (numOfDaysResidence != null ? !numOfDaysResidence.equals(visaInfo.numOfDaysResidence) : visaInfo.numOfDaysResidence != null)
+            return false;
+        return visaPathOnServer != null ? visaPathOnServer.equals(visaInfo.visaPathOnServer) : visaInfo.visaPathOnServer == null;
     }
 
     @Override
     public int hashCode() {
-        return application != null ? application.hashCode() : 0;
+        int result = visa != null ? visa.hashCode() : 0;
+        result = 31 * result + (dateFrom != null ? dateFrom.hashCode() : 0);
+        result = 31 * result + (dateTo != null ? dateTo.hashCode() : 0);
+        result = 31 * result + (dateOfReceiving != null ? dateOfReceiving.hashCode() : 0);
+        result = 31 * result + (nameOfClient != null ? nameOfClient.hashCode() : 0);
+        result = 31 * result + (surnameOfClient != null ? surnameOfClient.hashCode() : 0);
+        result = 31 * result + (numOfDaysResidence != null ? numOfDaysResidence.hashCode() : 0);
+        result = 31 * result + (visaPathOnServer != null ? visaPathOnServer.hashCode() : 0);
+        return result;
     }
 }

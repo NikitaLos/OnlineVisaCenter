@@ -13,11 +13,11 @@
     <title>Log In</title>
 </head>
 <body>
-<form action="/login" method="post">
+<sf:form action="/login" method="post">
     <table style="with: 50%">
         <tr>
             <td>Login</td>
-            <td><input name="login" type="text"  /></td>
+            <td><input name="login" type="text"/></td>
         </tr>
         <tr>
             <td>Password</td>
@@ -26,6 +26,6 @@
     </table>
     <input type="submit"/>
     <jsp:text>${not_register_message}</jsp:text>
-</form>
+</sf:form>
 </body>
 </html>

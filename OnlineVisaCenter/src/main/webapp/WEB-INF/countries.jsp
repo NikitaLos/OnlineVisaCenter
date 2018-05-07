@@ -15,16 +15,16 @@
 <body>
 <jsp:text>Add Country</jsp:text>
 <br/>
-<sf:form action="/employee/add_country" modelAttribute="country" method="POST">
+<form action="/employee/add_country"  method="POST">
     <table style="with: 50%">
         <tr>
             <td>Name</td>
-            <td><sf:input path="name" type="text" /></td>
+            <td><input path="name" type="text" /></td>
         </tr>
     </table>
     <input type="submit"/>
     <jsp:text>${duplicate_message}</jsp:text>
-</sf:form>
+</form>
 
 <br/>
 

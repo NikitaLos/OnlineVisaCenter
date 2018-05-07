@@ -5,11 +5,14 @@ import com.vironit.onlinevisacenter.entity.Application;
 import com.vironit.onlinevisacenter.entity.User;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
+import javax.persistence.Query;
 import java.util.List;
-@Component
+
+@Repository
 public class ApplicationDAOImpl extends AbstractJPADAO<Application,Integer> implements ApplicationDAO {
 
     public ApplicationDAOImpl() {
@@ -18,11 +21,11 @@ public class ApplicationDAOImpl extends AbstractJPADAO<Application,Integer> impl
     }
 
     @Override
-    public List<Application> findApplicationsByClient(User user) throws EntityFindException {
+    public List<Application> findApplicationsByClient(Integer userId) throws EntityFindException {
         try {
-//            return entityManager.find(User.class,user.getId()).getApplications();
-            //todo
-            return null;
+
+            Query query = entityManager.createQuery("select a from Application a where a.user.id = :userId",Application.class);
+            return query.setParameter("userId",userId).getResultList();
         }catch (PersistenceException e){
             logger.error("Find applications by client exception",e);
             throw new EntityFindException(e);

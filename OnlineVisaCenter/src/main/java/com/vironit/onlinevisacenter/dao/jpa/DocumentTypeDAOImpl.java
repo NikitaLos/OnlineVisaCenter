@@ -4,13 +4,14 @@ import com.vironit.onlinevisacenter.dao.interfaces.DocumentTypeDAO;
 import com.vironit.onlinevisacenter.entity.DocumentType;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import java.util.List;
 
-@Component
+@Repository
 public class DocumentTypeDAOImpl extends AbstractJPADAO<DocumentType,Integer> implements DocumentTypeDAO{
 
     public DocumentTypeDAOImpl() {

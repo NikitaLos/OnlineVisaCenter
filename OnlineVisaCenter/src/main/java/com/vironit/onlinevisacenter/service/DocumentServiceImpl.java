@@ -1,6 +1,9 @@
 package com.vironit.onlinevisacenter.service;
 
 import com.vironit.onlinevisacenter.dao.interfaces.DocumentTypeDAO;
+import com.vironit.onlinevisacenter.dto.CountryDTO;
+import com.vironit.onlinevisacenter.dto.DocumentTypeDTO;
+import com.vironit.onlinevisacenter.entity.Country;
 import com.vironit.onlinevisacenter.entity.DocumentType;
 import com.vironit.onlinevisacenter.exceptions.DuplicateException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityDeleteException;
@@ -10,10 +13,11 @@ import com.vironit.onlinevisacenter.exceptions.service.DocumentServiceException;
 import com.vironit.onlinevisacenter.service.inrefaces.DocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Component
+@Service
 public class DocumentServiceImpl implements DocumentService {
 
     private DocumentTypeDAO documentTypeDAO;
@@ -70,6 +74,22 @@ public class DocumentServiceImpl implements DocumentService {
         } catch (EntityDeleteException e) {
             throw new DocumentServiceException(e);
         }
+    }
+
+    @Override
+    public DocumentType convertToEntity(DocumentTypeDTO documentTypeDTO){
+        DocumentType documentType = new DocumentType();
+        documentType.setName(documentTypeDTO.getName());
+        documentType.setId(documentTypeDTO.getId());
+        return documentType;
+    }
+
+    @Override
+    public DocumentTypeDTO convertToDTO(DocumentType documentType){
+        DocumentTypeDTO documentTypeDTO = new DocumentTypeDTO();
+        documentTypeDTO.setName(documentType.getName());
+        documentTypeDTO.setId(documentType.getId());
+        return documentTypeDTO;
     }
 
 }

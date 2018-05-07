@@ -1,5 +1,9 @@
 package com.vironit.onlinevisacenter.dto.request;
 
+import com.vironit.onlinevisacenter.dto.ClientInfoDTO;
+import com.vironit.onlinevisacenter.entity.enums.Result;
+import com.vironit.onlinevisacenter.entity.enums.Status;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -7,75 +11,33 @@ public class ApplicationRequestDTO implements Serializable {
 
     private Integer id;
 
-    private Integer clientInfoId;
+    private ClientInfoDTO clientInfo;
 
-    private Integer visaInfoId;
-
-    private Integer checkId;
+    private VisaInfoRequestDTO visaInfo;
 
     private Integer userId;
 
-    private String status;
+    private Status status;
 
-    private String result;
+    private Result result;
 
     private String comments;
 
     private LocalDateTime creationTime;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getClientInfoId() {
-        return clientInfoId;
-    }
-
-    public void setClientInfoId(Integer clientInfoId) {
-        this.clientInfoId = clientInfoId;
-    }
-
-    public Integer getVisaInfoId() {
-        return visaInfoId;
-    }
-
-    public void setVisaInfoId(Integer visaInfoId) {
-        this.visaInfoId = visaInfoId;
-    }
-
-    public Integer getCheckId() {
-        return checkId;
-    }
-
-    public void setCheckId(Integer checkId) {
-        this.checkId = checkId;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
-    public String getResult() {
+    public Result getResult() {
         return result;
     }
 
-    public void setResult(String result) {
+    public void setResult(Result result) {
         this.result = result;
     }
 
@@ -93,5 +55,37 @@ public class ApplicationRequestDTO implements Serializable {
 
     public void setCreationTime(LocalDateTime creationTime) {
         this.creationTime = creationTime;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public ClientInfoDTO getClientInfo() {
+        return clientInfo;
+    }
+
+    public void setClientInfo(ClientInfoDTO clientInfo) {
+        this.clientInfo = clientInfo;
+    }
+
+    public VisaInfoRequestDTO getVisaInfo() {
+        return visaInfo;
+    }
+
+    public void setVisaInfo(VisaInfoRequestDTO visaInfo) {
+        this.visaInfo = visaInfo;
     }
 }

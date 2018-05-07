@@ -1,6 +1,7 @@
 package com.vironit.onlinevisacenter.service;
 
 import com.vironit.onlinevisacenter.dao.interfaces.UserDAO;
+import com.vironit.onlinevisacenter.dto.UserDTO;
 import com.vironit.onlinevisacenter.entity.User;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityDeleteException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;
@@ -10,11 +11,11 @@ import com.vironit.onlinevisacenter.exceptions.service.LoginationException;
 import com.vironit.onlinevisacenter.exceptions.service.UserServiceException;
 import com.vironit.onlinevisacenter.service.inrefaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Component
+@Service
 public class UserServiceImpl implements UserService {
 
     UserDAO userDAO;
@@ -65,11 +66,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUser(Integer id) throws EntityFindException {
+    public User getUser(Integer id) throws UserServiceException {
         try {
             return userDAO.find(id);
         } catch (EntityFindException e) {
-            throw new EntityFindException(e);
+            throw new UserServiceException(e);
         }
     }
 
@@ -80,6 +81,28 @@ public class UserServiceImpl implements UserService {
         } catch (EntityDeleteException e) {
             throw new UserServiceException(e);
         }
+    }
+
+    @Override
+    public User convertToEntity(UserDTO userDTO)  {
+        User user = new User();
+        user.setId(userDTO.getId());
+        user.setRole(userDTO.getRole());
+        user.setEmail(userDTO.getEmail());
+        user.setPassword(userDTO.getPassword());
+        user.setLogin(userDTO.getLogin());
+        return user;
+    }
+
+    @Override
+    public UserDTO convertToDTO(User user) {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(user.getId());
+        userDTO.setRole(user.getRole());
+        userDTO.setEmail(user.getEmail());
+        userDTO.setPassword(user.getPassword());
+        userDTO.setLogin(user.getLogin());
+        return userDTO;
     }
 
 }

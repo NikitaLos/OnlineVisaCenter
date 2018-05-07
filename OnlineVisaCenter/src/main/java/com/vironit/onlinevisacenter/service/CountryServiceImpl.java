@@ -1,6 +1,7 @@
 package com.vironit.onlinevisacenter.service;
 
 import com.vironit.onlinevisacenter.dao.interfaces.CountryDAO;
+import com.vironit.onlinevisacenter.dto.CountryDTO;
 import com.vironit.onlinevisacenter.entity.Country;
 import com.vironit.onlinevisacenter.exceptions.DuplicateException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityDeleteException;
@@ -11,12 +12,11 @@ import com.vironit.onlinevisacenter.exceptions.service.CountryServiceException;
 import com.vironit.onlinevisacenter.exceptions.service.UserServiceException;
 import com.vironit.onlinevisacenter.service.inrefaces.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Component
+@Service
 public class CountryServiceImpl implements CountryService {
 
     private CountryDAO countryDAO;
@@ -82,6 +82,22 @@ public class CountryServiceImpl implements CountryService {
         } catch (EntityDeleteException e) {
             throw new UserServiceException(e);
         }
+    }
+
+    @Override
+    public Country convertToEntity(CountryDTO countryDTO){
+        Country country = new Country();
+        country.setName(countryDTO.getName());
+        country.setId(countryDTO.getId());
+        return country;
+    }
+
+    @Override
+    public CountryDTO convertToDTO(Country country){
+        CountryDTO countryDTO = new CountryDTO();
+        countryDTO.setName(country.getName());
+        countryDTO.setId(country.getId());
+        return countryDTO;
     }
 
 }

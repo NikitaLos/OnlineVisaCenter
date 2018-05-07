@@ -1,5 +1,6 @@
 package com.vironit.onlinevisacenter.service.inrefaces;
 
+import com.vironit.onlinevisacenter.dto.CountryDTO;
 import com.vironit.onlinevisacenter.entity.Country;
 import com.vironit.onlinevisacenter.exceptions.DuplicateException;
 import com.vironit.onlinevisacenter.exceptions.service.CountryServiceException;
@@ -26,4 +27,7 @@ public interface CountryService {
     List<Country> getAll() throws CountryServiceException;
 
 
+    Country convertToEntity(CountryDTO countryDTO);
+
+    CountryDTO convertToDTO(Country country);
 }

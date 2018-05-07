@@ -1,6 +1,7 @@
 package com.vironit.onlinevisacenter.controller;
 
 import com.vironit.onlinevisacenter.dto.Message;
+import com.vironit.onlinevisacenter.dto.UserDTO;
 import com.vironit.onlinevisacenter.entity.User;
 import com.vironit.onlinevisacenter.exceptions.DuplicateException;
 import com.vironit.onlinevisacenter.exceptions.service.UserServiceException;
@@ -21,8 +22,9 @@ public class RegisterController {
         this.userService = userService;
     }
 
-    @RequestMapping(value = "/register",method = RequestMethod.POST, consumes = "application/json")
-    public Message processRegister(@RequestBody User user) throws UserServiceException, DuplicateException {
+    @RequestMapping(value = "/register",method = RequestMethod.POST)
+    public Message processRegister(@RequestBody UserDTO userDTO) throws UserServiceException, DuplicateException {
+        User user = userService.convertToEntity(userDTO);
         userService.register(user);
         return new Message("success");
     }

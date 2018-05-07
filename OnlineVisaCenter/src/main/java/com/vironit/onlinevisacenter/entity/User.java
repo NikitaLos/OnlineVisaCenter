@@ -1,5 +1,6 @@
 package com.vironit.onlinevisacenter.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.vironit.onlinevisacenter.entity.enums.Role;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "user", schema = "visa_center")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User implements Serializable {
 
     @Id

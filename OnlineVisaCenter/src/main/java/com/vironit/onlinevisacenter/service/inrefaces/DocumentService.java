@@ -1,5 +1,6 @@
 package com.vironit.onlinevisacenter.service.inrefaces;
 
+import com.vironit.onlinevisacenter.dto.DocumentTypeDTO;
 import com.vironit.onlinevisacenter.entity.DocumentType;
 import com.vironit.onlinevisacenter.exceptions.DuplicateException;
 import com.vironit.onlinevisacenter.exceptions.service.DocumentServiceException;
@@ -22,4 +23,7 @@ public interface DocumentService {
 
     List<DocumentType> getAll() throws DocumentServiceException;
 
+    DocumentType convertToEntity(DocumentTypeDTO documentTypeDTO);
+
+    DocumentTypeDTO convertToDTO(DocumentType documentType);
 }
