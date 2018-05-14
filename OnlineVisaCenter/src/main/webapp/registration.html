@@ -1,0 +1,43 @@
+<html ng-app="reg">
+<head>
+    <title>Registration</title>
+</head>
+<body>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script>
+    angular.module('reg', [])
+        .controller('register',function($scope, $http, $window) {
+            $scope.regUser = function(user){
+                console.log(user);
+                $http.post('http://localhost:8888/register', user)
+                    .then(function () {
+                        $window.location.href = "/client_page.html";
+                    }).catch(function (reason) {
+                        $scope.message = reason.data.text;
+                        $scope.messageBool = true;
+                    });
+            };
+        });
+</script>
+<div ng-controller="register">
+<form ng-submit="regUser(user)">
+    <table style="with: 50%">
+        <tr>
+            <td>Login</td>
+            <td><input ng-model ="user.login" /></td>
+        </tr>
+        <tr>
+            <td>email</td>
+            <td><input ng-model="user.email" /></td>
+        </tr>
+        <tr>
+            <td>Password</td>
+            <td><input ng-model="user.password" /></td>
+        </tr>
+    </table>
+    <input type="submit"/>
+    <h3 ng-show="messageBool">{{message}}</h3>
+</form>
+</div>
+</body>
+</html>

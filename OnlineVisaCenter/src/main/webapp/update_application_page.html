@@ -1,0 +1,87 @@
+<html ng-app="visa_center">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Application</title>
+</head>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script src="application_controller.js"></script>
+<body>
+<form ng-controller="application_controller" data-ng-init='getCountry(); getAimsOfVisit(); getApplication()' ng-submit="updateApplication(obtained_application)">
+    <table>
+        <tr>
+            <td>Choose Country</td>
+            <td>
+                <select ng-change="getVisaByCountryId(country.id)" ng-model="country" ng-options="c.name for c in countries"></select >
+            </td>
+        </tr>
+        <tr >
+            <td>Choose Visa</td>
+            <td>
+                <select ng-model="obtained_application.visaInfo.visa.id">
+                    <option ng-repeat="v in visas" value="{{v.id}}">{{v.type}}</option>
+                </select >
+            </td>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <td>Name</td>
+            <td><input ng-model="obtained_application.clientInfo.name"/></td>
+        </tr>
+        <tr>
+            <td>Surname</td>
+            <td><input ng-model="obtained_application.clientInfo.surname"/></td>
+        </tr>
+        <tr>
+            <td>Sex</td>
+            <td><input ng-model="obtained_application.clientInfo.sex" type="radio" value="M"/>M</td>
+            <td><input ng-model="obtained_application.clientInfo.sex" type="radio" value="W"/>W</td>
+        </tr>
+        <tr>
+            <td>Phone number</td>
+            <td><input ng-model="obtained_application.clientInfo.phoneNumber"/></td>
+        </tr>
+        <tr>
+            <td>Date of Birth</td>
+            <td><input ng-model="obtained_application.clientInfo.dateOfBirth" type="date"/></td>
+        </tr>
+        <tr>
+            <td>Aim of Visit</td>
+            <td>
+                <select ng-model="obtained_application.clientInfo.aimOfVisit" ng-options="a as a for a in aims"></select >
+            </td>
+        </tr>
+        <tr>
+            <td>Passport Number</td>
+            <td><input ng-model="obtained_application.clientInfo.passport.number"/></td>
+        </tr>
+        <tr>
+            <td>Country Of Residence</td>
+            <td><input ng-model="obtained_application.clientInfo.passport.countryOfResidence"/></td>
+        </tr>
+        <tr>
+            <td>Date of Receiving</td>
+            <td><input ng-model="obtained_application.clientInfo.passport.dateOfReceiving" type="date"/></td>
+        </tr>
+        <tr>
+            <td>Date of Ending</td>
+            <td><input ng-model="obtained_application.clientInfo.passport.dateOfEnding" type="date"/></td>
+        </tr>
+        <tr>
+            <td>Number of days</td>
+            <td><input ng-model="obtained_application.visaInfo.numOfDaysResidence" type="number"/></td>
+        </tr>
+        <tr>
+            <td>Date from</td>
+            <td><input ng-model="obtained_application.visaInfo.dateFrom" type="date"/></td>
+        </tr>
+        <tr>
+            <td>Date to</td>
+            <td><input ng-model="obtained_application.visaInfo.dateTo" type="date"/></td>
+        </tr>
+    </table>
+    <input  type="submit"/>
+    <h3 ng-show="messageBool">{{message}}</h3>
+</form>
+</body>
+</html>

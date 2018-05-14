@@ -1,0 +1,20 @@
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script src="application_controller.js"></script>
+<html ng-app="visa_center">
+<head>
+    <title>Main Page</title>
+</head>
+<div ng-controller="application_controller"></div>
+<body>
+    <a href="/compose_application.html">Compose application</a>
+
+    <a href="/user_applications.html">My applications</a>
+
+    <br/>
+    <br/>
+
+    <div ng-controller="application_controller">
+        <button ng-click="LogOut()" >Log out</button>
+    </div>
+</body>
+</html>

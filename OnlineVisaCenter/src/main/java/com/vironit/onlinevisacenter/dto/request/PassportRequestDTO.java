@@ -1,21 +1,18 @@
-package com.vironit.onlinevisacenter.dto;
+package com.vironit.onlinevisacenter.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDate;
 
-public class PassportDTO {
-
+public class PassportRequestDTO {
     private Integer id;
 
     private String number;
 
     private String countryOfResidence;
 
-    @JsonFormat(pattern = "MM/dd/yyyy")
     private LocalDate dateOfReceiving;
 
-    @JsonFormat(pattern = "MM/dd/yyyy")
     private LocalDate dateOfEnding;
 
     public Integer getId() {

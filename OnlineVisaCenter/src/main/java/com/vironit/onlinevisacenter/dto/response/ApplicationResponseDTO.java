@@ -1,5 +1,6 @@
 package com.vironit.onlinevisacenter.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.vironit.onlinevisacenter.dto.ClientInfoDTO;
 import com.vironit.onlinevisacenter.dto.UserDTO;
 import com.vironit.onlinevisacenter.entity.enums.Result;
@@ -11,7 +12,7 @@ public class ApplicationResponseDTO {
 
     private Integer id;
 
-    private ClientInfoDTO clientInfo;
+    private ClientInfoResponseDTO clientInfo;
 
     private VisaInfoResponseDTO visaInfo;
 
@@ -23,6 +24,7 @@ public class ApplicationResponseDTO {
 
     private String comments;
 
+    @JsonFormat(pattern = "MM/dd/yyyy hh:mm:ss")
     private LocalDateTime creationTime;
 
     public Integer getId() {
@@ -33,11 +35,11 @@ public class ApplicationResponseDTO {
         this.id = id;
     }
 
-    public ClientInfoDTO getClientInfo() {
+    public ClientInfoResponseDTO getClientInfo() {
         return clientInfo;
     }
 
-    public void setClientInfo(ClientInfoDTO clientInfo) {
+    public void setClientInfo(ClientInfoResponseDTO clientInfo) {
         this.clientInfo = clientInfo;
     }
 

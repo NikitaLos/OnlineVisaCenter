@@ -1,12 +1,10 @@
-package com.vironit.onlinevisacenter.dto;
+package com.vironit.onlinevisacenter.dto.request;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.vironit.onlinevisacenter.entity.enums.AimOfVisit;
 
 import java.time.LocalDate;
 
-public class ClientInfoDTO {
-
+public class ClientInfoRequestDTO {
     private Integer id;
 
     private String name;
@@ -17,10 +15,9 @@ public class ClientInfoDTO {
 
     private String phoneNumber;
 
-    @JsonFormat(pattern = "MM/dd/yyyy")
     private LocalDate dateOfBirth;
 
-    private PassportDTO passport;
+    private PassportRequestDTO passport;
 
     private AimOfVisit aimOfVisit;
 
@@ -72,11 +69,11 @@ public class ClientInfoDTO {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public PassportDTO getPassport() {
+    public PassportRequestDTO getPassport() {
         return passport;
     }
 
-    public void setPassport(PassportDTO passport) {
+    public void setPassport(PassportRequestDTO passport) {
         this.passport = passport;
     }
 

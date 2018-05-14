@@ -1,6 +1,5 @@
 package com.vironit.onlinevisacenter.dto;
 
-import java.io.Serializable;
 
 public class Message  {
     private String text;
@@ -13,4 +12,7 @@ public class Message  {
         return text;
     }
 
+    public void setText(String text) {
+        this.text = text;
+    }
 }

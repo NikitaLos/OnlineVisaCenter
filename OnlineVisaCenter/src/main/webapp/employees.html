@@ -1,0 +1,107 @@
+<html ng-app="admin">
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script>
+    angular.module('admin', [])
+        .controller('admin_page',function($scope, $http, $window) {
+            $scope.addEmployee = function(user){
+                $http.post('http://localhost:8888/admin/add_employee', user)
+                    .then(function () {
+                        $window.location.href = "/employees.html";
+                    }).catch(function (reason) {
+                    $scope.message = reason.data.text;
+                    $scope.messageBool = true;
+                });
+            };
+            $scope.getRoles = function(){
+                $http.get('http://localhost:8888/admin/get_roles')
+                    .then(function (response) {
+                        $scope.roles = response.data;
+                    }).catch(function (reason) {
+                });
+            };
+            $scope.getAllEmployees = function(){
+                $http.get('http://localhost:8888/admin/get_employees')
+                    .then(function (response) {
+                        $scope.employees = response.data;
+                    }).catch(function (reason) {
+                });
+            };
+            $scope.deleteEmployee = function(employeeId){
+                $http.delete('http://localhost:8888/admin/delete_employee/'+employeeId)
+                    .then(function (response) {
+                        $window.location.href = "/employees.html";
+                    }).catch(function (reason) {
+                });
+            };
+
+        });
+</script>
+<head>
+    <title>All Users</title>
+</head>
+<body>
+
+<form ng-controller="admin_page"  data-ng-init="getRoles()" ng-submit="addEmployee(user)">
+    <table style="with: 50%">
+        <tr>
+            <td>Login</td>
+            <td><input ng-model ="user.login" /></td>
+        </tr>
+        <tr>
+            <td>email</td>
+            <td><input ng-model="user.email" /></td>
+        </tr>
+        <tr>
+            <td>Password</td>
+            <td><input ng-model="user.password" /></td>
+        </tr>
+            <td>Role</td>
+            <td>
+                <select ng-model="user.role" ng-options="r as r for r in roles"></select >
+            </td>
+        </tr>
+    </table>
+    <input type="submit"/>
+    <h3 ng-show="messageBool">{{message}}</h3>
+</form>
+
+<br/>
+
+<h3>All Employees</h3>
+<br/>
+
+<div ng-controller="admin_page" data-ng-init='getAllEmployees()'>
+    <table ng-repeat="employee in employees">
+        <tr>
+            <td>Login</td>
+            <td>
+                {{employee.login}}
+            </td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td>
+                {{employee.email}}
+            </td>
+        </tr>
+        <tr>
+            <td>Role</td>
+            <td>
+                {{employee.role}}
+            </td>
+        </tr>
+        <tr>
+            <td>Login</td>
+            <td>
+                {{employee.password}}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button ng-click="deleteEmployee(employee.id)" type="submit">Delete</button>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

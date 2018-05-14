@@ -6,6 +6,7 @@ import com.vironit.onlinevisacenter.exceptions.dao.EntityDeleteException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntitySaveException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityUpdateException;
+import org.hibernate.Session;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -53,7 +54,7 @@ public abstract class AbstractJPADAO<T,PK extends Serializable> implements Gener
     @Override
     public void update(T object) throws EntityUpdateException {
         try {
-            entityManager.merge(object);
+            entityManager.unwrap(Session.class).update(object);
         }catch (PersistenceException e){
             logger.error("update entity error",e);
             throw new EntityUpdateException(e);

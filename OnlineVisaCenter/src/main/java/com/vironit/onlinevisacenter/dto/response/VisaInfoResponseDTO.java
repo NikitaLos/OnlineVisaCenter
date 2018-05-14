@@ -1,5 +1,8 @@
 package com.vironit.onlinevisacenter.dto.response;
 
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.time.LocalDate;
 
 public class VisaInfoResponseDTO {
@@ -8,8 +11,10 @@ public class VisaInfoResponseDTO {
 
     private VisaResponseDTO visa;
 
+    @JsonFormat(pattern = "MM/dd/yyyy")
     private LocalDate dateFrom;
 
+    @JsonFormat(pattern = "MM/dd/yyyy")
     private LocalDate dateTo;
 
     private Integer numOfDaysResidence;

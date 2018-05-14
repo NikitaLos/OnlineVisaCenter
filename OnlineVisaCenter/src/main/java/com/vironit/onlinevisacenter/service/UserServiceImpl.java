@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
             }else{
                 throw new DuplicateException("Such login or email already exists");
             }
-        } catch (EntityFindException | EntitySaveException e) {
+        } catch (EntitySaveException e) {
             throw new UserServiceException(e);
         }
     }
@@ -87,7 +87,9 @@ public class UserServiceImpl implements UserService {
     public User convertToEntity(UserDTO userDTO)  {
         User user = new User();
         user.setId(userDTO.getId());
-        user.setRole(userDTO.getRole());
+        if(userDTO.getRole()!=null){
+            user.setRole(userDTO.getRole());
+        }
         user.setEmail(userDTO.getEmail());
         user.setPassword(userDTO.getPassword());
         user.setLogin(userDTO.getLogin());

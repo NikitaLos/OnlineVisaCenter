@@ -51,7 +51,6 @@ public class Application implements Serializable {
     @Column(name = "date_of_create")
     private LocalDateTime creationTime;
 
-
     public Integer getId() {
         return id;
     }
@@ -131,25 +130,27 @@ public class Application implements Serializable {
 
         Application that = (Application) o;
 
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (clientInfo != null ? !clientInfo.equals(that.clientInfo) : that.clientInfo != null) return false;
         if (visaInfo != null ? !visaInfo.equals(that.visaInfo) : that.visaInfo != null) return false;
+        if (check != null ? !check.equals(that.check) : that.check != null) return false;
         if (user != null ? !user.equals(that.user) : that.user != null) return false;
         if (status != that.status) return false;
         if (result != that.result) return false;
         if (comments != null ? !comments.equals(that.comments) : that.comments != null) return false;
-        if (check != null ? !check.equals(that.check) : that.check != null) return false;
         return creationTime != null ? creationTime.equals(that.creationTime) : that.creationTime == null;
     }
 
     @Override
     public int hashCode() {
-        int result1 = clientInfo != null ? clientInfo.hashCode() : 0;
+        int result1 = id != null ? id.hashCode() : 0;
+        result1 = 31 * result1 + (clientInfo != null ? clientInfo.hashCode() : 0);
         result1 = 31 * result1 + (visaInfo != null ? visaInfo.hashCode() : 0);
+        result1 = 31 * result1 + (check != null ? check.hashCode() : 0);
         result1 = 31 * result1 + (user != null ? user.hashCode() : 0);
         result1 = 31 * result1 + (status != null ? status.hashCode() : 0);
         result1 = 31 * result1 + (result != null ? result.hashCode() : 0);
         result1 = 31 * result1 + (comments != null ? comments.hashCode() : 0);
-        result1 = 31 * result1 + (check != null ? check.hashCode() : 0);
         result1 = 31 * result1 + (creationTime != null ? creationTime.hashCode() : 0);
         return result1;
     }

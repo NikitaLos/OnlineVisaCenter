@@ -22,18 +22,14 @@ public class UserDAOImpl extends AbstractJPADAO<User,Integer> implements UserDAO
     }
 
     @Override
-    public boolean isDuplicate(User user) throws EntityFindException {
-        try {
-            Query query = entityManager.createQuery("select u from User u where u.login = :login or u.email=:email",User.class);
-            List result = query
-                    .setParameter("login",user.getLogin())
-                    .setParameter("email",user.getEmail())
-                    .getResultList();
-            return !result.isEmpty();
-        }catch (PersistenceException e){
-            logger.error("checking duplicate error",e);
-            throw new EntityFindException(e);
-        }
+    public boolean isDuplicate(User user) {
+        Query query = entityManager.createQuery("select u from User u where u.login = :login or u.email=:email",User.class);
+        List result = query
+                .setParameter("login",user.getLogin())
+                .setParameter("email",user.getEmail())
+                .getResultList();
+        return !result.isEmpty();
+
     }
 
     @Override

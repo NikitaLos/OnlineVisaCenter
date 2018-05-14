@@ -1,0 +1,77 @@
+<html ng-app="visa_center">
+<head>
+    <title>Visas</title>
+</head>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script src="application_controller.js"></script>
+<body>
+
+<form ng-controller="application_controller" data-ng-init="getCountry(); getDocumentTypes()" ng-submit="addVisa(visa)">
+    <table style="with: 50%">
+        <tr>
+            <td>Type</td>
+            <td><input ng-model ="visa.type" /></td>
+        </tr>
+        <tr>
+            <td>Price</td>
+            <td><input ng-model ="visa.price" /></td>
+        </tr>
+        <tr>
+            <td>Country</td>
+            <td>
+                <select  ng-model="visa.countryId">
+                    <option ng-repeat="c in countries" value="{{c.id}}">{{c.name}}</option>
+                </select >
+            </td>
+        </tr>
+        <tr>
+            <td>Required Documents</td>
+            <td>
+                <select multiple  ng-model="visa.requiredDocumentTypesId">
+                    <option ng-repeat="d in document_types" value="{{d.id}}">{{d.name}}</option>
+                </select >
+            </td>
+        </tr>
+    </table>
+    <input type="submit"/>
+    <h3 ng-show="messageBool">{{message}}</h3>
+</form>
+
+<br/>
+
+<div ng-controller="application_controller" data-ng-init='getVisas()'>
+    <table ng-repeat="visa in visas">
+        <tr>
+            <td>
+                {{visa.type}}
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                {{visa.price}}
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                {{visa.country.name}}
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                {{visa.requiredDocumentTypes}}
+            </td>
+        </tr>
+
+
+        <tr >
+            <td>
+                <button ng-click="deleteVisa(visa.id)" type="submit">Delete</button>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

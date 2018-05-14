@@ -123,6 +123,7 @@ public class VisaInfo implements Serializable {
 
         VisaInfo visaInfo = (VisaInfo) o;
 
+        if (id != null ? !id.equals(visaInfo.id) : visaInfo.id != null) return false;
         if (visa != null ? !visa.equals(visaInfo.visa) : visaInfo.visa != null) return false;
         if (dateFrom != null ? !dateFrom.equals(visaInfo.dateFrom) : visaInfo.dateFrom != null) return false;
         if (dateTo != null ? !dateTo.equals(visaInfo.dateTo) : visaInfo.dateTo != null) return false;
@@ -139,7 +140,8 @@ public class VisaInfo implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = visa != null ? visa.hashCode() : 0;
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (visa != null ? visa.hashCode() : 0);
         result = 31 * result + (dateFrom != null ? dateFrom.hashCode() : 0);
         result = 31 * result + (dateTo != null ? dateTo.hashCode() : 0);
         result = 31 * result + (dateOfReceiving != null ? dateOfReceiving.hashCode() : 0);

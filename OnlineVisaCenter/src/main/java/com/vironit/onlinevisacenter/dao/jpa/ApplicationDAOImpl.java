@@ -31,4 +31,14 @@ public class ApplicationDAOImpl extends AbstractJPADAO<Application,Integer> impl
             throw new EntityFindException(e);
         }
     }
+
+    @Override
+    public List<Application> findAll(Class<Application> classType) throws EntityFindException {
+        try {
+            return  entityManager.createQuery("select a from Application a order by a.creationTime",Application.class).getResultList();
+        }catch (PersistenceException e){
+            logger.error("findAll entity error",e);
+            throw new EntityFindException(e);
+        }
+    }
 }

@@ -76,11 +76,22 @@ public class Passport implements Serializable {
 
         Passport passport = (Passport) o;
 
-        return number != null ? number.equals(passport.number) : passport.number == null;
+        if (id != null ? !id.equals(passport.id) : passport.id != null) return false;
+        if (number != null ? !number.equals(passport.number) : passport.number != null) return false;
+        if (countryOfResidence != null ? !countryOfResidence.equals(passport.countryOfResidence) : passport.countryOfResidence != null)
+            return false;
+        if (dateOfReceiving != null ? !dateOfReceiving.equals(passport.dateOfReceiving) : passport.dateOfReceiving != null)
+            return false;
+        return dateOfEnding != null ? dateOfEnding.equals(passport.dateOfEnding) : passport.dateOfEnding == null;
     }
 
     @Override
     public int hashCode() {
-        return number != null ? number.hashCode() : 0;
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (number != null ? number.hashCode() : 0);
+        result = 31 * result + (countryOfResidence != null ? countryOfResidence.hashCode() : 0);
+        result = 31 * result + (dateOfReceiving != null ? dateOfReceiving.hashCode() : 0);
+        result = 31 * result + (dateOfEnding != null ? dateOfEnding.hashCode() : 0);
+        return result;
     }
 }

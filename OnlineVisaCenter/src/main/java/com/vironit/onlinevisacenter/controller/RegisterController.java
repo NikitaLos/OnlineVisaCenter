@@ -8,8 +8,7 @@ import com.vironit.onlinevisacenter.exceptions.service.UserServiceException;
 import com.vironit.onlinevisacenter.service.inrefaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,16 +21,9 @@ public class RegisterController {
         this.userService = userService;
     }
 
-    @RequestMapping(value = "/register",method = RequestMethod.POST)
-    public Message processRegister(@RequestBody UserDTO userDTO) throws UserServiceException, DuplicateException {
+    @PostMapping(value = "/register")
+    public void processRegister(@RequestBody UserDTO userDTO) throws UserServiceException, DuplicateException {
         User user = userService.convertToEntity(userDTO);
         userService.register(user);
-        return new Message("success");
-    }
-
-    @ExceptionHandler(DuplicateException.class)
-    @ResponseStatus(HttpStatus.MULTIPLE_CHOICES)
-    public Message duplicateUser(DuplicateException e) {
-        return new Message(e.getMessage());
     }
 }

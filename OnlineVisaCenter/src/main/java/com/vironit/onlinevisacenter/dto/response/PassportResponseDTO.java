@@ -1,11 +1,10 @@
-package com.vironit.onlinevisacenter.dto;
+package com.vironit.onlinevisacenter.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDate;
 
-public class PassportDTO {
-
+public class PassportResponseDTO {
     private Integer id;
 
     private String number;

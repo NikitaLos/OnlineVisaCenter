@@ -1,0 +1,46 @@
+<html ng-app="logIn">
+<head>
+    <meta charset="UTF-8">
+    <title>Log In</title>
+</head>
+<body>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script>
+    angular.module('logIn', [])
+        .controller('login',function($scope, $http, $window) {
+            $scope.logUser = function(user){
+                $http.post('http://localhost:8888/login', user)
+                    .then(function (response) {
+                        if (angular.equals(response.data.role,"ADMIN")){
+                            $window.location.href = "/admin_page.html";
+                        } else if(angular.equals(response.data.role,"EMPLOYEE")){
+                            $window.location.href = "/employee_page.html";
+                        }else {
+                            $window.location.href = "/client_page.html";
+                        }
+                    }).catch(function (reason) {
+                    $scope.message = reason.data.text;
+                    $scope.messageBool = true;
+                });
+            };
+
+        });
+</script>
+<div ng-controller="login">
+    <form ng-submit="logUser(user)">
+        <table >
+            <tr>
+                <td>Login</td>
+                <td><input ng-model="user.login" type="text"/></td>
+            </tr>
+            <tr>
+                <td>Password</td>
+                <td><input ng-model="user.password" type="password"/></td>
+            </tr>
+        </table>
+        <input type="submit"/>
+        <h3 ng-show="messageBool">{{message}}</h3>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html ng-app="visa_center">
+<head>
+    <meta charset="UTF-8">
+    <title>Application</title>
+</head>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script src="application_controller.js"></script>
+<body>
+<div ng-controller="application_controller" data-ng-init="getApplication(); getStatuses()">
+    <table>
+        <tr>
+            <td>Country</td>
+            <td>
+                {{obtained_application.visaInfo.visa.country.name}}
+            </td>
+        </tr>
+        <tr>
+            <td>Visa Info</td>
+            <td>
+                {{obtained_application.visaInfo.visa.type}}
+            </td>
+            <td>
+                {{obtained_application.visaInfo.visa.price}}
+            </td>
+            <td>
+                {{obtained_application.visaInfo.visa.price}}
+            </td>
+            <td>
+                {{obtained_application.visaInfo.dateFrom}}
+            </td>
+            <td>
+                {{obtained_application.visaInfo.dateTo}}
+            </td>
+            <td>
+                {{obtained_application.visaInfo.numOfDaysResidence}}
+            </td>
+            <td>
+                {{obtained_application.visaInfo.visa.requiredDocumentTypes}}
+            </td>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <td>Name</td>
+            <td>{{obtained_application.clientInfo.name}}</td>
+        </tr>
+        <tr>
+            <td>Surname</td>
+            <td>{{obtained_application.clientInfo.surname}}</td>
+        </tr>
+        <tr>
+            <td>Sex</td>
+            <td>{{obtained_application.clientInfo.sex}}</td>
+        </tr>
+        <tr>
+            <td>Phone number</td>
+            <td>{{obtained_application.clientInfo.phoneNumber}}</td>
+        </tr>
+        <tr>
+            <td>Date of Birth</td>
+            <td>{{obtained_application.clientInfo.dateOfBirth}}</td>
+        </tr>
+        <tr>
+            <td>Aim of Visit</td>
+            <td>{{obtained_application.clientInfo.aimOfVisit}}</td>
+        </tr>
+        <tr>
+            <td>Passport Number</td>
+            <td>{{obtained_application.clientInfo.passport.number}}</td>
+        </tr>
+        <tr>
+            <td>Country Of Residence</td>
+            <td>{{obtained_application.clientInfo.passport.countryOfResidence}}</td>
+        </tr>
+        <tr>
+            <td>Date of Receiving</td>
+            <td>{{obtained_application.clientInfo.passport.dateOfReceiving}}</td>
+        </tr>
+        <tr>
+            <td>Date of Ending</td>
+            <td>{{obtained_application.clientInfo.passport.dateOfEnding}}</td>
+        </tr>
+        <tr>
+            <td>Number of days</td>
+            <td>{{obtained_application.visaInfo.numOfDaysResidence}}</td>
+        </tr>
+        <tr>
+            <td>Date from</td>
+            <td>{{obtained_application.visaInfo.dateFrom}}</td>
+        </tr>
+        <tr>
+            <td>Date to</td>
+            <td>{{obtained_application.visaInfo.dateTo}}</td>
+        </tr>
+        <tr>
+            <td>Status</td>
+            <td>{{obtained_application.status}}</td>
+        </tr>
+        <tr>
+            <td>Result</td>
+            <td>{{obtained_application.result}}</td>
+        </tr>
+        <tr>
+            <td>Comments</td>
+            <td>{{obtained_application.comments}}</td>
+        </tr>
+        <tr>
+            <td>Creation time</td>
+            <td>{{obtained_application.creationTime}}</td>
+        </tr>
+    </table>
+
+    <form ng-controller="application_controller"  ng-submit="addCommentsAndStatus(obtained_application.id,app)">
+        <table>
+            <tr >
+                <td>
+                    <input ng-model="app.comments"/></td>
+                <td>
+                </td>
+            </tr>
+            <tr >
+                <td>
+                    <select  ng-model="app.status" ng-options="s as s for s in statuses"></select >
+                </td>
+            </tr>
+        </table>
+        <input type="submit">
+    </form>
+</div>
+</body>
+</html>

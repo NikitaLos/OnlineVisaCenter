@@ -6,7 +6,6 @@ public class DocumentTypeDTO {
 
     private String name;
 
-
     public Integer getId() {
         return id;
     }

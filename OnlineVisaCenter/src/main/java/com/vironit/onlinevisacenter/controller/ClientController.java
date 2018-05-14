@@ -7,23 +7,17 @@ import com.vironit.onlinevisacenter.dto.response.ApplicationResponseDTO;
 import com.vironit.onlinevisacenter.dto.response.VisaResponseDTO;
 import com.vironit.onlinevisacenter.entity.*;
 import com.vironit.onlinevisacenter.entity.enums.AimOfVisit;
-import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;
 import com.vironit.onlinevisacenter.exceptions.service.ApplicationServiceException;
 import com.vironit.onlinevisacenter.exceptions.service.CountryServiceException;
 import com.vironit.onlinevisacenter.exceptions.service.UserServiceException;
 import com.vironit.onlinevisacenter.exceptions.service.VisaServiceException;
 import com.vironit.onlinevisacenter.service.inrefaces.ApplicationService;
 import com.vironit.onlinevisacenter.service.inrefaces.CountryService;
-import com.vironit.onlinevisacenter.service.inrefaces.UserService;
 import com.vironit.onlinevisacenter.service.inrefaces.VisaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,15 +35,13 @@ public class ClientController {
         this.visaService = visaService;
     }
 
-    @RequestMapping(value = "/view_countries",method = RequestMethod.GET)
-    public List<CountryDTO> showCountries() throws CountryServiceException {
-        List<Country> countries = countryService.getAll();
-        return countries.stream()
-                .map(country -> countryService.convertToDTO(country))
-                .collect(Collectors.toList());
+    @GetMapping(value = "/get_aims_of_visit")
+    public AimOfVisit[] getAimsOfVisit() {
+        return AimOfVisit.values();
     }
 
-    @RequestMapping(value = "/visas_by_country_/{country_id}",method = RequestMethod.GET)
+
+    @GetMapping(value = "/get_visas_by_country/{country_id}")
     public List<VisaResponseDTO> getVisasByCountry(@PathVariable("country_id") Integer id) throws VisaServiceException, CountryServiceException {
         Country country = countryService.getCountry(id);
         List<Visa> visas = visaService.getVisasByCountry(country);
@@ -58,26 +50,32 @@ public class ClientController {
                 .collect(Collectors.toList());
     }
 
-    @RequestMapping(value = "/add_application", method = RequestMethod.POST)
-    public Message composeApplication(@RequestBody ApplicationRequestDTO applicationDTO) throws ApplicationServiceException, VisaServiceException, UserServiceException {
+    @PostMapping(value = "/add_application")
+    public void composeApplication(@RequestBody ApplicationRequestDTO applicationDTO,HttpSession session) throws ApplicationServiceException, VisaServiceException, UserServiceException {
+        applicationDTO.setUserId((Integer) session.getAttribute("user_id"));
         Application application = applicationService.convertToEntity(applicationDTO);
         applicationService.addApplicationToQueue(application);
-        return new Message("success");
     }
 
-    @RequestMapping(value = "/view_applications_by_user/{user_id}", method = RequestMethod.GET)
-    public List<ApplicationResponseDTO> viewApplicationsByClient(@PathVariable("user_id") Integer userId) throws ApplicationServiceException {
-        List<Application> applications = applicationService.getUserApplications(userId);
+    @GetMapping(value = "/get_applications_by_user")
+    public List<ApplicationResponseDTO> viewApplicationsByClient(HttpSession session) throws ApplicationServiceException {
+        List<Application> applications = applicationService.getUserApplications((Integer) session.getAttribute("user_id"));
         return applications.stream()
                 .map(application -> applicationService.convertToDTO(application))
                 .collect(Collectors.toList());
     }
 
-    @RequestMapping(value = "/change_application", method = RequestMethod.POST)
-    public Message changeApplication(@RequestBody ApplicationRequestDTO applicationDTO) throws ApplicationServiceException, VisaServiceException, UserServiceException {
+    @PostMapping(value = "/update_application")
+    public void updateApplication(@RequestBody ApplicationRequestDTO applicationDTO,HttpSession session) throws ApplicationServiceException, VisaServiceException, UserServiceException {
+        applicationDTO.setUserId((Integer) session.getAttribute("user_id"));
         Application application = applicationService.convertToEntity(applicationDTO);
         applicationService.updateApplication(application);
-        return new Message("success");
+    }
+
+    @DeleteMapping(value = "/delete_application/{application_id}")
+    public void deleteApplication(@PathVariable("application_id") Integer applicationId) throws ApplicationServiceException {
+        Application application = applicationService.getApplication(applicationId);
+        applicationService.deleteApplicationFromQueue(application);
     }
 
 }

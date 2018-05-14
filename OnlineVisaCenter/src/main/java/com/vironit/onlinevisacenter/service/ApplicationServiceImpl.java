@@ -5,6 +5,8 @@ import com.vironit.onlinevisacenter.dao.interfaces.ApplicationDAO;
 import com.vironit.onlinevisacenter.dto.request.ApplicationRequestDTO;
 import com.vironit.onlinevisacenter.dto.ClientInfoDTO;
 import com.vironit.onlinevisacenter.dto.PassportDTO;
+import com.vironit.onlinevisacenter.dto.request.ClientInfoRequestDTO;
+import com.vironit.onlinevisacenter.dto.request.PassportRequestDTO;
 import com.vironit.onlinevisacenter.dto.request.VisaInfoRequestDTO;
 import com.vironit.onlinevisacenter.dto.response.*;
 import com.vironit.onlinevisacenter.entity.*;
@@ -23,6 +25,7 @@ import com.vironit.onlinevisacenter.service.inrefaces.UserService;
 import com.vironit.onlinevisacenter.service.inrefaces.VisaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -45,8 +48,6 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public void addApplicationToQueue(Application application) throws ApplicationServiceException {
-//        validateApplication(application);
-//        verifyCheck(application);
         try {
             application.setCreationTime(LocalDateTime.now());
             application.setStatus(Status.IN_VC_QUEUE);
@@ -60,7 +61,6 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public void updateApplication(Application application) throws ApplicationServiceException {
-//        validateApplication(application);
         try {
             applicationDAO.update(application);
         } catch (EntityUpdateException e) {
@@ -96,26 +96,6 @@ public class ApplicationServiceImpl implements ApplicationService {
         }
     }
 
-
-    @Override
-    public void approveApplication(Application application) throws ApplicationServiceException {
-        changeApplicationStatus(application,Status.IN_VC_QUEUE);
-//        updateApplication(application);
-    }
-
-    @Override
-    public void denyApplication(Application application, String comments) {
-        changeApplicationStatus(application,Status.REVIEWED);
-        addCommentsToApplication(application,comments);
-//        applicationDAO.update(application);
-    }
-
-    @Override
-    public void transferApplicationToEmbassy(Application application, EmbassyService embassyService) {
-        embassyService.addApplicationToQueue(application);
-//        applicationDAO.update(application);
-    }
-
     @Override
     public List<Application> getUserApplications(Integer userId) throws ApplicationServiceException {
         try {
@@ -125,76 +105,26 @@ public class ApplicationServiceImpl implements ApplicationService {
         }
     }
 
-    private void validateApplication(Application application) {
-//        validateClientInfo(application.getClientInfo());
-//        validateVisaInfo(application.getVisaInfo());
-    }
-
-
-//    private void validateClientInfo(ClientInfo clientInfo){
-//        LocalDate dateOfBirth = clientInfo.getDateOfBirth();
-////        List<ClientDocument> documents = clientInfo.getClientDocuments();//todo
-//        String name = clientInfo.getName();
-//        String surname = clientInfo.getSurname();
-//        String phoneNumber = clientInfo.getPhoneNumber();
-//        String photo = clientInfo.getPhotoPathOnServer();
-//        String sex = clientInfo.getSex();
-//        AimOfVisit aimOfVisit = clientInfo.getAimOfVisit();
-//        Passport passport = clientInfo.getPassport();
-//        String country = passport.getCountryOfResidence();
-//        LocalDate dateOfEnding = passport.getDateOfEnding();
-//        LocalDate dateOfReceiving = passport.getDateOfReceiving();
-//        String passportNumber = passport.getNumber();
-//
-//        if(documents==null|dateOfBirth==null|name==null|surname==null|phoneNumber==null|photo==null|sex==null|aimOfVisit==null |
-//                country==null| dateOfEnding==null|dateOfReceiving==null|passportNumber==null){
-//            //todo exception
-//
-//        }else {
-//            if(documents.size()!=clientInfo.getApplication().getVisaInfo().getVisa().getRequiredDocumentTypes().size()){
-//                //todo exception
-//            }
-//            if (YEARS.between(dateOfBirth,LocalDate.now())<18){
-//                //todo exception
-//            }
-//            if(dateOfEnding.isBefore(dateOfReceiving)){
-//                //todo exception
-//            }
-//        }
-//
-//    }
-
-//    private void validateVisaInfo(VisaInfo visaInfo){
-////        Passport passport = visaInfo.getApplication().getClientInfo().getPassport();
-//        long durationOfPassport = DAYS.between(passport.getDateOfReceiving(),passport.getDateOfEnding());
-//        LocalDate dateFrom = visaInfo.getDateFrom();
-//        LocalDate dateTo = visaInfo.getDateTo();
-//        Integer daysOfResidence =  visaInfo.getNumOfDaysResidence();
-//
-//        if (dateTo==null|dateFrom==null|daysOfResidence==null){
-//            //todo exception
-//        }else {
-//            if(dateTo.isBefore(dateFrom)||DAYS.between(dateFrom,dateTo)>daysOfResidence||durationOfPassport<daysOfResidence){
-//                //todo exception
-//            }
-//        }
-//    }
-
-    private void verifyCheck(Application application) {
-        if (application.getCheck()!=null){
-            changeApplicationStatus(application,Status.IN_VC_QUEUE);
-
-        }else {
-            changeApplicationStatus(application,Status.IN_EM_QUEUE);
-            //todo exception
+    @Override
+    public void addCommentsToApplication(Integer id, String comments) throws ApplicationServiceException {
+        try {
+            Application application = applicationDAO.find(id);
+            application.setComments(comments);
+            applicationDAO.update(application);
+        } catch (EntityUpdateException | EntityFindException e) {
+            throw new ApplicationServiceException(e);
         }
-//        applicationDAO.update(application);
     }
 
-
-    private void addCommentsToApplication(Application application, String comments) {
-        application.setComments(comments);
-//        applicationDAO.update(application);
+    @Override
+    public void changeApplicationStatus(Integer id, Status status) throws ApplicationServiceException {
+        try {
+            Application application = applicationDAO.find(id);
+            application.setStatus(status);
+            applicationDAO.update(application);
+        } catch (EntityUpdateException | EntityFindException e) {
+            throw new ApplicationServiceException(e);
+        }
     }
 
     @Override
@@ -206,8 +136,8 @@ public class ApplicationServiceImpl implements ApplicationService {
         application.setResult(applicationRequestDTO.getResult());
         application.setStatus(applicationRequestDTO.getStatus());
         application.setUser(userService.getUser(applicationRequestDTO.getUserId()));
-        application.setClientInfo(convertClientInfoToEntity(applicationRequestDTO.getClientInfo()));
         application.setVisaInfo(convertVisaInfoToEntity(applicationRequestDTO.getVisaInfo()));
+        application.setClientInfo(convertClientInfoToEntity(applicationRequestDTO.getClientInfo()));
         return application;
     }
 
@@ -225,8 +155,8 @@ public class ApplicationServiceImpl implements ApplicationService {
         return applicationResponseDTO;
     }
 
-    private PassportDTO convertPassportToDTO(Passport passport){
-        PassportDTO passportDTO = new PassportDTO();
+    private PassportResponseDTO convertPassportToDTO(Passport passport){
+        PassportResponseDTO passportDTO = new PassportResponseDTO();
         passportDTO.setDateOfEnding(passport.getDateOfEnding());
         passportDTO.setDateOfReceiving(passport.getDateOfReceiving());
         passportDTO.setNumber(passport.getNumber());
@@ -235,8 +165,8 @@ public class ApplicationServiceImpl implements ApplicationService {
         return passportDTO;
     }
 
-    private ClientInfoDTO convertClientInfoToDTO(ClientInfo clientInfo){
-        ClientInfoDTO clientInfoDTO = new ClientInfoDTO();
+    private ClientInfoResponseDTO convertClientInfoToDTO(ClientInfo clientInfo){
+        ClientInfoResponseDTO clientInfoDTO = new ClientInfoResponseDTO();
         clientInfoDTO.setPassport(convertPassportToDTO(clientInfo.getPassport()));
         clientInfoDTO.setAimOfVisit(clientInfo.getAimOfVisit());
         clientInfoDTO.setDateOfBirth(clientInfo.getDateOfBirth());
@@ -258,7 +188,7 @@ public class ApplicationServiceImpl implements ApplicationService {
         return visaInfoResponseDTO;
     }
 
-    private Passport convertPassportToEntity(PassportDTO passportDTO){
+    private Passport convertPassportToEntity(PassportRequestDTO passportDTO){
         Passport passport = new Passport();
         passport.setId(passportDTO.getId());
         passport.setDateOfEnding(passportDTO.getDateOfEnding());
@@ -268,7 +198,7 @@ public class ApplicationServiceImpl implements ApplicationService {
         return passport;
     }
 
-    private ClientInfo convertClientInfoToEntity(ClientInfoDTO clientInfoDTO){
+    private ClientInfo convertClientInfoToEntity(ClientInfoRequestDTO clientInfoDTO){
         ClientInfo clientInfo = new ClientInfo();
         clientInfo.setId(clientInfoDTO.getId());
         clientInfo.setPassport(convertPassportToEntity(clientInfoDTO.getPassport()));

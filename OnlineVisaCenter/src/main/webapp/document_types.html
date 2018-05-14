@@ -1,0 +1,38 @@
+<html ng-app="visa_center">
+<head>
+    <title>Document Types</title>
+</head>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script src="application_controller.js"></script>
+<body>
+
+<form ng-controller="application_controller"  ng-submit="addDocumentType(document_type)">
+    <table style="with: 50%">
+        <tr>
+            <td>Name</td>
+            <td><input ng-model ="document_type.name" /></td>
+        </tr>
+    </table>
+    <input type="submit"/>
+    <h3 ng-show="messageBool">{{message}}</h3>
+</form>
+
+<br/>
+
+<div ng-controller="application_controller" data-ng-init='getDocumentTypes()'>
+    <table ng-repeat="document_type in document_types">
+        <tr>
+            <td>
+                {{document_type.name}}
+            </td>
+        </tr>
+
+        <tr >
+            <td>
+                <button ng-click="deleteDocumentType(document_type.id)" type="submit">Delete</button>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

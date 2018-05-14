@@ -22,7 +22,7 @@ public class LogInController {
     }
 
 
-    @RequestMapping(value = "/login",method = RequestMethod.POST)
+    @PostMapping(value = "/login")
     public UserDTO processLogin(@RequestBody UserDTO userDTO, HttpSession session) throws LoginationException {
         User user = userService.convertToEntity(userDTO);
         User authorizedUser = userService.logIn(user);
@@ -30,8 +30,13 @@ public class LogInController {
         return userService.convertToDTO(authorizedUser);
     }
 
+    @GetMapping(value = "/logout")
+    public void logOut(HttpSession session)  {
+        session.invalidate();
+    }
+
     @ExceptionHandler(LoginationException.class)
-    @ResponseStatus(HttpStatus.MULTIPLE_CHOICES)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     public Message userNotExist(LoginationException e) {
         return new Message(e.getMessage());
     }

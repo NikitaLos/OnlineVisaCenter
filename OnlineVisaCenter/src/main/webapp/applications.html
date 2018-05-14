@@ -1,0 +1,42 @@
+<html ng-app="visa_center">
+<head>
+    <title>Applications</title>
+</head>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script src="application_controller.js"></script>
+<body>
+<div ng-controller="application_controller" data-ng-init='getAllApplications()'>
+    <table ng-repeat="application in all_applications">
+        <tr>
+            <td>Country</td>
+            <td>
+                {{application.visaInfo.visa.country.name}}
+            </td>
+        </tr>
+        <tr>
+            <td>Visa Type</td>
+            <td>
+                {{application.visaInfo.visa.type}}
+            </td>
+        </tr>
+        <tr >
+            <td>Status</td>
+            <td>
+                {{application.status}}
+            </td>
+        </tr>
+        <tr >
+            <td>Result</td>
+            <td>
+                {{application.result}}
+            </td>
+        </tr>
+        <tr >
+            <td>
+                <button ng-click="showApplicationForEmployee(application.id)" type="submit">Show</button>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

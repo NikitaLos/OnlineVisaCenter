@@ -1,6 +1,6 @@
 package com.vironit.onlinevisacenter.dto.request;
 
-import com.vironit.onlinevisacenter.dto.ClientInfoDTO;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.vironit.onlinevisacenter.entity.enums.Result;
 import com.vironit.onlinevisacenter.entity.enums.Status;
 
@@ -11,7 +11,7 @@ public class ApplicationRequestDTO implements Serializable {
 
     private Integer id;
 
-    private ClientInfoDTO clientInfo;
+    private ClientInfoRequestDTO clientInfo;
 
     private VisaInfoRequestDTO visaInfo;
 
@@ -73,11 +73,11 @@ public class ApplicationRequestDTO implements Serializable {
         this.userId = userId;
     }
 
-    public ClientInfoDTO getClientInfo() {
+    public ClientInfoRequestDTO getClientInfo() {
         return clientInfo;
     }
 
-    public void setClientInfo(ClientInfoDTO clientInfo) {
+    public void setClientInfo(ClientInfoRequestDTO clientInfo) {
         this.clientInfo = clientInfo;
     }
 
