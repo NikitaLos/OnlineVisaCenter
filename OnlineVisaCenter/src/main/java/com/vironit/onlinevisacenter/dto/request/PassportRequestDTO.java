@@ -1,18 +1,30 @@
 package com.vironit.onlinevisacenter.dto.request;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 
+import javax.validation.constraints.Future;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 public class PassportRequestDTO {
+
     private Integer id;
 
+    @NotNull(message = "number can not be null")
+    @Size(min = 2, message = "number must have {min} characters minimum")
     private String number;
 
+    @NotNull(message = "countryOfResidence can not be null")
+    @Size(min = 2, message = "country must have {min} characters minimum")
     private String countryOfResidence;
 
+    @NotNull(message = "dateOfReceiving can not be null")
+    @Past(message = "dateOfReceiving must be in past")
     private LocalDate dateOfReceiving;
 
+    @NotNull(message = "dateOfEnding can not be null")
+    @Future(message = "dateOfEnding must be in future")
     private LocalDate dateOfEnding;
 
     public Integer getId() {

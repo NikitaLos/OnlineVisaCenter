@@ -1,15 +1,21 @@
 package com.vironit.onlinevisacenter.dto.request;
 
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public class VisaRequestDTO {
 
     private Integer id;
 
+    @NotNull(message = "type can not be null")
     private String type;
 
+    @NotNull(message = "price can not be null")
+    @Digits(integer = 4, fraction = 2, message = "price must consist of {integer} integer digits and {fraction} fraction")
     private Double price;
 
+    @NotNull(message = "country can not be null")
     private Integer countryId;
 
     private List<Integer> requiredDocumentTypesId;

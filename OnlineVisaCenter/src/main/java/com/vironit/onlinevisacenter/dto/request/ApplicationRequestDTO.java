@@ -1,18 +1,24 @@
 package com.vironit.onlinevisacenter.dto.request;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+
+import com.vironit.onlinevisacenter.dto.validation.DateValidateGroup;
+import com.vironit.onlinevisacenter.dto.validation.PassportDate;
 import com.vironit.onlinevisacenter.entity.enums.Result;
 import com.vironit.onlinevisacenter.entity.enums.Status;
 
+import javax.validation.Valid;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+@PassportDate(groups = DateValidateGroup.class)
 public class ApplicationRequestDTO implements Serializable {
 
     private Integer id;
 
+    @Valid
     private ClientInfoRequestDTO clientInfo;
 
+    @Valid
     private VisaInfoRequestDTO visaInfo;
 
     private Integer userId;

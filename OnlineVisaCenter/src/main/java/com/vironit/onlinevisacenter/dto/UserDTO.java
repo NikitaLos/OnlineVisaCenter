@@ -2,14 +2,25 @@ package com.vironit.onlinevisacenter.dto;
 
 import com.vironit.onlinevisacenter.entity.enums.Role;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+
 public class UserDTO {
 
     private Integer id;
 
+    @NotNull(message = "login can not be null")
+    @Size(min = 5,max = 20, message = "login must have from {min} to {max} characters")
     private String login;
 
+    @NotNull(message = "password can not be null")
+    @Size(min = 5,max = 20, message = "password must have from {min} to {max} characters")
     private String password;
 
+    @Email
+    @NotNull(message = "email can not be null")
     private String email;
 
     private Role role;

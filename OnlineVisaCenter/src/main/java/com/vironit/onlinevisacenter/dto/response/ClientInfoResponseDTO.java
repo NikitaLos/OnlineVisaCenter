@@ -1,7 +1,6 @@
 package com.vironit.onlinevisacenter.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.vironit.onlinevisacenter.dto.PassportDTO;
 import com.vironit.onlinevisacenter.entity.enums.AimOfVisit;
 
 import java.time.LocalDate;
@@ -17,12 +16,22 @@ public class ClientInfoResponseDTO {
 
     private String phoneNumber;
 
+    private String photoPath;
+
     @JsonFormat(pattern = "MM/dd/yyyy")
     private LocalDate dateOfBirth;
 
     private PassportResponseDTO passport;
 
     private AimOfVisit aimOfVisit;
+
+    public String getPhotoPath() {
+        return photoPath;
+    }
+
+    public void setPhotoPath(String photoPath) {
+        this.photoPath = photoPath;
+    }
 
     public Integer getId() {
         return id;

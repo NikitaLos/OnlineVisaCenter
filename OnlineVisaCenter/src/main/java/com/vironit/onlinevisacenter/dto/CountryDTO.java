@@ -1,9 +1,14 @@
 package com.vironit.onlinevisacenter.dto;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 public class CountryDTO {
 
     private Integer id;
 
+    @NotNull
+    @Size(min = 3, message = "name must have {min} characters minimum")
     private String name;
 
     public Integer getId() {
