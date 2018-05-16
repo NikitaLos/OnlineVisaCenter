@@ -1,6 +1,5 @@
 package com.vironit.onlinevisacenter.service;
 
-import com.vironit.onlinevisacenter.ServerLogger;
 import com.vironit.onlinevisacenter.dao.interfaces.ApplicationDAO;
 import com.vironit.onlinevisacenter.dto.request.ApplicationRequestDTO;
 import com.vironit.onlinevisacenter.dto.request.ClientInfoRequestDTO;
@@ -15,11 +14,13 @@ import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntitySaveException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityUpdateException;
 import com.vironit.onlinevisacenter.exceptions.service.ApplicationServiceException;
+import com.vironit.onlinevisacenter.exceptions.service.SenderServiceException;
 import com.vironit.onlinevisacenter.exceptions.service.UserServiceException;
 import com.vironit.onlinevisacenter.exceptions.service.VisaServiceException;
-import com.vironit.onlinevisacenter.service.inrefaces.ApplicationService;
-import com.vironit.onlinevisacenter.service.inrefaces.UserService;
-import com.vironit.onlinevisacenter.service.inrefaces.VisaService;
+import com.vironit.onlinevisacenter.service.interfaces.ApplicationService;
+import com.vironit.onlinevisacenter.service.interfaces.SenderService;
+import com.vironit.onlinevisacenter.service.interfaces.UserService;
+import com.vironit.onlinevisacenter.service.interfaces.VisaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,19 +33,22 @@ public class ApplicationServiceImpl implements ApplicationService {
     private ApplicationDAO applicationDAO;
     private VisaService visaService;
     private UserService userService;
+    private SenderService senderService;
 
     @Autowired
-    public ApplicationServiceImpl(ApplicationDAO applicationDAO, VisaService visaService, UserService userService) {
+    public ApplicationServiceImpl(ApplicationDAO applicationDAO, VisaService visaService, UserService userService,
+                                  SenderService senderService) {
         this.applicationDAO = applicationDAO;
         this.visaService = visaService;
         this.userService = userService;
+        this.senderService = senderService;
     }
 
     @Override
     public void addApplicationToQueue(Application application) throws ApplicationServiceException {
         try {
             application.setCreationTime(LocalDateTime.now());
-            application.setStatus(Status.IN_VC_QUEUE);
+            application.setStatus(Status.IN_QUEUE);
             application.setResult(Result.NO_RESULT);
             applicationDAO.save(application);
         } catch (EntitySaveException e) {
@@ -71,7 +75,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public List<Application> getApplications() throws ApplicationServiceException {
+    public List<Application> getAllApplications() throws ApplicationServiceException {
         try {
             return  applicationDAO.findAll(Application.class);
         } catch (EntityFindException e) {
@@ -109,11 +113,14 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public void changeApplicationStatus(Integer id, Status status) throws ApplicationServiceException {
+    public Application changeApplicationResultAndStatus(Integer id, Result result) throws ApplicationServiceException {
+        Status status = resolveApplicationStatus(result);
         try {
             Application application = applicationDAO.find(id);
+            application.setResult(result);
             application.setStatus(status);
             applicationDAO.update(application);
+            return application;
         } catch (EntityUpdateException | EntityFindException e) {
             throw new ApplicationServiceException(e);
         }
@@ -155,6 +162,16 @@ public class ApplicationServiceImpl implements ApplicationService {
         passportDTO.setCountryOfResidence(passport.getCountryOfResidence());
         passportDTO.setId(passport.getId());
         return passportDTO;
+    }
+
+    private Status resolveApplicationStatus(Result result) {
+        if (result==Result.APPROVE||result==Result.DENY){
+            return Status.REVIEWED;
+        }else if (result==Result.REQUIRED_CHANGES){
+            return Status.WAITING_FOR_CHANGES;
+        }else{
+            return Status.IN_QUEUE;
+        }
     }
 
     private ClientInfoResponseDTO convertClientInfoToDTO(ClientInfo clientInfo){

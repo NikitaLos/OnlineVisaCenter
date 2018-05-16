@@ -9,13 +9,12 @@ import com.vironit.onlinevisacenter.entity.Application;
 import com.vironit.onlinevisacenter.entity.Country;
 import com.vironit.onlinevisacenter.entity.DocumentType;
 import com.vironit.onlinevisacenter.entity.Visa;
+import com.vironit.onlinevisacenter.entity.enums.Result;
 import com.vironit.onlinevisacenter.entity.enums.Status;
 import com.vironit.onlinevisacenter.exceptions.DuplicateException;
 import com.vironit.onlinevisacenter.exceptions.service.*;
-import com.vironit.onlinevisacenter.service.inrefaces.ApplicationService;
-import com.vironit.onlinevisacenter.service.inrefaces.CountryService;
-import com.vironit.onlinevisacenter.service.inrefaces.DocumentService;
-import com.vironit.onlinevisacenter.service.inrefaces.VisaService;
+import com.vironit.onlinevisacenter.service.EmailSenderServiceImpl;
+import com.vironit.onlinevisacenter.service.interfaces.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,19 +29,21 @@ public class EmployeeController {
     private CountryService countryService;
     private DocumentService documentService;
     private VisaService visaService;
+    private SenderService senderService;
 
     @Autowired
     public EmployeeController(ApplicationService applicationService, CountryService countryService,
-                              DocumentService documentService, VisaService visaService){
+                              DocumentService documentService, VisaService visaService,SenderService senderService){
         this.applicationService = applicationService;
         this.countryService = countryService;
         this.documentService = documentService;
         this.visaService = visaService;
+        this.senderService = senderService;
     }
 
     @GetMapping(value = "/get_applications")
     public List<ApplicationResponseDTO> getApplications() throws ApplicationServiceException {
-        List<Application> applications = applicationService.getApplications();
+        List<Application> applications = applicationService.getAllApplications();
         return applications.stream()
                 .map(application -> applicationService.convertToDTO(application))
                 .collect(Collectors.toList());
@@ -122,14 +123,24 @@ public class EmployeeController {
         applicationService.addCommentsToApplication(id,comments);
     }
 
-    @GetMapping(value = "/change_status/{application_id}")
-    public void changeApplicationStatus(@PathVariable("application_id") Integer id,@RequestParam Status status) throws ApplicationServiceException {
-        applicationService.changeApplicationStatus(id,status);
+    @GetMapping(value = "/change_result/{application_id}")
+    public void changeApplicationResult(@PathVariable("application_id") Integer id,@RequestParam Result result) throws ApplicationServiceException {
+        try {
+            Application application = applicationService.changeApplicationResultAndStatus(id,result);
+            senderService.sendResultToClient(application);
+        } catch (SenderServiceException e) {
+            //todo
+        }
     }
 
     @GetMapping(value = "/get_statuses")
     public Status[] getStatuses() {
         return Status.values();
+    }
+
+    @GetMapping(value = "/get_results")
+    public Result[] getResults() {
+        return Result.values();
     }
 }
 
