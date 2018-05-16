@@ -19,7 +19,8 @@
                             $window.location.href = "/client_page.html";
                         }
                     }).catch(function (reason) {
-                    $scope.message = reason.data.text;
+                    $scope.errorMessage = reason.data.errorMessage;
+                    $scope.errors = reason.data.errors;
                     $scope.messageBool = true;
                 });
             };
@@ -31,7 +32,7 @@
         <table >
             <tr>
                 <td>Login</td>
-                <td><input ng-model="user.login" type="text"/></td>
+                <td><input ng-model="user.login"  type="text"/></td>
             </tr>
             <tr>
                 <td>Password</td>
@@ -39,7 +40,8 @@
             </tr>
         </table>
         <input type="submit"/>
-        <h3 ng-show="messageBool">{{message}}</h3>
+        <h3 ng-show="messageBool">{{errorMessage}}</h3>
+        <h3 ng-repeat="error in errors" ng-show="messageBool">{{error}}</h3>
     </form>
 </div>
 </body>

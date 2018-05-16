@@ -34,19 +34,25 @@ angular.module('visa_center', [])
             localStorage.setItem("applicationId",$scope.application_id);
             $window.location.href = "/update_application_page.html";
         };
-        $scope.updateApplication = function(application){
-            // application.id=$scope.application_id;
-            // application.status=$scope.obtained_application.status;
-            // application.result=$scope.obtained_application.result;
-            // application.comments=$scope.obtained_application.comments;
-            application.creationTime=$scope.obtained_application.creationTime;
-            console.log(application);
-            $http.post('http://localhost:8888/update_application',application)
-                .then(function (response) {
+        $scope.addApplication = function(application){
+            $http.post('http://localhost:8888/add_application',application)
+                .then(function () {
                     $window.location.href = "/user_applications.html";
                 }).catch(function (reason) {
-
-                 });
+                $scope.errorMessage = reason.data.errorMessage;
+                $scope.errors = reason.data.errors;
+                $scope.messageBool = true;
+            });
+        };
+        $scope.updateApplication = function(application){
+            $http.post('http://localhost:8888/update_application',application)
+                .then(function () {
+                    $window.location.href = "/user_applications.html";
+                }).catch(function (reason) {
+                $scope.errorMessage = reason.data.errorMessage;
+                $scope.errors = reason.data.errors;
+                $scope.messageBool = true;
+            });
         };
         $scope.getCountry = function(){
             $http.get('http://localhost:8888/get_countries')
@@ -77,13 +83,7 @@ angular.module('visa_center', [])
                 }).catch(function (reason) {
             });
         };
-        $scope.addApplication = function(application){
-            $http.post('http://localhost:8888/add_application',application)
-                .then(function (response) {
-                    $scope.visas = response.data;
-                }).catch(function (reason) {
-            });
-        };
+
         $scope.showApplication = function(applicationId){
             localStorage.setItem("applicationId",applicationId);
             $window.location.href = "/application.html";
@@ -122,7 +122,8 @@ angular.module('visa_center', [])
                 .then(function (response) {
                     $window.location.href = "/countries.html";
                 }).catch(function (reason) {
-                $scope.message = reason.data.text;
+                $scope.errorMessage = reason.data.errorMessage;
+                $scope.errors = reason.data.errors;
                 $scope.messageBool = true;
             });
         };
@@ -140,7 +141,8 @@ angular.module('visa_center', [])
                 .then(function () {
                     $window.location.href = "/document_types.html";
                 }).catch(function (reason) {
-                $scope.message = reason.data.text;
+                $scope.errorMessage = reason.data.errorMessage;
+                $scope.errors = reason.data.errors;
                 $scope.messageBool = true;
             });
         };
@@ -169,6 +171,28 @@ angular.module('visa_center', [])
             $http.post('http://localhost:8888/employee/add_visa/',visa)
                 .then(function () {
                     $window.location.href = "/visas.html";
+                }).catch(function (reason) {
+                $scope.errorMessage = reason.data.errorMessage;
+                $scope.errors = reason.data.errors;
+                $scope.messageBool = true;
+            });
+        };
+        $scope.getVisa = function(visa_id){
+            $http.get('http://localhost:8888/get_visa/'+visa_id)
+                .then(function (response) {
+                    $scope.chosenVisa = response.data;
+                    $scope.paths = [];
+                    $scope.documentTypes = [];
+
+                }).catch(function (reason) {
+            });
+        };
+        $scope.addDocuments = function(documents,documentTypes){
+            console.log(documents);
+            console.log(documentTypes);
+            $http.post('http://localhost:8888/add_documents/',documents)
+                .then(function (response) {
+                    $scope.chosenVisa = response.data;
                 }).catch(function (reason) {
             });
         };

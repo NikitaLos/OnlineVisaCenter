@@ -110,6 +110,10 @@
             <td>{{obtained_application.creationTime}}</td>
         </tr>
     </table>
+    <tr>
+        <td>Photo</td>
+        <td><img src={{obtained_application.clientInfo.photoPath}}  width="255" height="255"></td>
+    </tr>
 
     <form ng-controller="application_controller"  ng-submit="addCommentsAndStatus(obtained_application.id,app)">
         <table>

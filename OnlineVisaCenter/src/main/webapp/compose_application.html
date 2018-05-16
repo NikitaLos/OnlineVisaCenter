@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <title>Compose application</title>
 </head>
-<body>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 <script src="application_controller.js"></script>
+<body>
 <form ng-controller="application_controller" data-ng-init='getCountry(); getAimsOfVisit()' ng-submit="addApplication(application)">
     <table>
         <tr>
@@ -18,7 +18,7 @@
         <tr ng-show="visaBool">
             <td>Choose Visa</td>
             <td>
-                <select ng-change="infoBool=true" ng-model="application.visaInfo.visaId">
+                <select ng-change="infoBool=true; getVisa(application.visaInfo.visaId)" ng-model="application.visaInfo.visaId">
                     <option ng-repeat="v in visas" value="{{v.id}}">{{v.type}}</option>
                 </select >
             </td>
@@ -80,9 +80,21 @@
             <td>Date to</td>
             <td><input ng-model="application.visaInfo.dateTo" type="date"/></td>
         </tr>
+        <tr>
+            <td>Photo path</td>
+            <td><input ng-model="application.clientInfo.photoPath" type="text"/></td>
+        </tr>
+        <!--<tr ng-show="infoBool" ng-repeat="document_type in chosenVisa.requiredDocumentTypes">-->
+            <!--<td>-->
+                <!--{{document_type.name}} path-->
+            <!--</td>-->
+            <!--<td><input ng-model="documents" type="text"/></td>-->
+        <!--</tr>-->
     </table>
     <input ng-show="infoBool" type="submit"/>
-    <h3 ng-show="messageBool">{{message}}</h3>
+    <h3 ng-show="messageBool">{{errorMessage}}</h3>
+    <h3 ng-repeat="error in errors" ng-show="messageBool">{{error}}</h3>
+
 </form>
 </body>
 </html>

@@ -109,6 +109,10 @@
             <td>Creation time</td>
             <td>{{obtained_application.creationTime}}</td>
         </tr>
+        <tr>
+            <td>Photo</td>
+            <td><img src={{obtained_application.clientInfo.photoPath}}  width="255" height="255"></td>
+        </tr>
         <tr >
             <td>
                 <button ng-click="deleteApplication(obtained_application.id)" type="submit">Delete</button>

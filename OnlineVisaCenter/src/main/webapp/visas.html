@@ -34,7 +34,8 @@
         </tr>
     </table>
     <input type="submit"/>
-    <h3 ng-show="messageBool">{{message}}</h3>
+    <h3 ng-show="messageBool">{{errorMessage}}</h3>
+    <h3 ng-repeat="error in errors" ng-show="messageBool">{{error}}</h3>
 </form>
 
 <br/>
@@ -64,7 +65,6 @@
                 {{visa.requiredDocumentTypes}}
             </td>
         </tr>
-
 
         <tr >
             <td>

@@ -8,7 +8,8 @@
                     .then(function () {
                         $window.location.href = "/employees.html";
                     }).catch(function (reason) {
-                    $scope.message = reason.data.text;
+                    $scope.errorMessage = reason.data.errorMessage;
+                    $scope.errors = reason.data.errors;
                     $scope.messageBool = true;
                 });
             };
@@ -62,7 +63,8 @@
         </tr>
     </table>
     <input type="submit"/>
-    <h3 ng-show="messageBool">{{message}}</h3>
+    <h3 ng-show="messageBool">{{errorMessage}}</h3>
+    <h3 ng-repeat="error in errors" ng-show="messageBool">{{error}}</h3>
 </form>
 
 <br/>

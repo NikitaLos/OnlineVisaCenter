@@ -1,4 +1,5 @@
-<html ng-app="visa_center">
+<!DOCTYPE html>
+<html lang="en" ng-app="visa_center">
 <head>
     <meta charset="UTF-8">
     <title>Update Application</title>
@@ -11,19 +12,19 @@
         <tr>
             <td>Choose Country</td>
             <td>
-                <select ng-change="getVisaByCountryId(country.id)" ng-model="country" ng-options="c.name for c in countries"></select >
+                <select ng-change=" getVisaByCountryId(country.id)" ng-model="country" ng-options="c.name for c in countries"></select >
             </td>
         </tr>
-        <tr >
+        <tr ng-show="visaBool">
             <td>Choose Visa</td>
             <td>
-                <select ng-model="obtained_application.visaInfo.visa.id">
+                <select ng-change="infoBool=true;" ng-model="obtained_application.visaInfo.visa.id">
                     <option ng-repeat="v in visas" value="{{v.id}}">{{v.type}}</option>
                 </select >
             </td>
         </tr>
     </table>
-    <table>
+    <table ng-show="infoBool">
         <tr>
             <td>Name</td>
             <td><input ng-model="obtained_application.clientInfo.name"/></td>
@@ -79,9 +80,15 @@
             <td>Date to</td>
             <td><input ng-model="obtained_application.visaInfo.dateTo" type="date"/></td>
         </tr>
+        <tr>
+            <td>Photo path</td>
+            <td><input ng-model="application.clientInfo.photoPath" type="text"/></td>
+        </tr>
     </table>
-    <input  type="submit"/>
-    <h3 ng-show="messageBool">{{message}}</h3>
+    <input ng-show="infoBool" type="submit"/>
+    <h3 ng-show="messageBool">{{errorMessage}}</h3>
+    <h3 ng-repeat="error in errors" ng-show="messageBool">{{error}}</h3>
+
 </form>
 </body>
 </html>
