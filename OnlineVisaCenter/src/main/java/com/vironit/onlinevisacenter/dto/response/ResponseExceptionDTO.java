@@ -1,4 +1,4 @@
-package com.vironit.onlinevisacenter.dto;
+package com.vironit.onlinevisacenter.dto.response;
 
 import java.util.List;
 
@@ -7,10 +7,7 @@ public class ResponseExceptionDTO {
     private String errorMessage;
     private List<String> errors;
 
-    public ResponseExceptionDTO() {
-    }
-
-    public ResponseExceptionDTO(List<String> errors) {
+       public ResponseExceptionDTO(List<String> errors) {
         this.errors = errors;
     }
 

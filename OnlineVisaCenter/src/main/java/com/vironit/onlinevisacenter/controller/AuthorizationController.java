@@ -1,12 +1,12 @@
 package com.vironit.onlinevisacenter.controller;
 
-import com.vironit.onlinevisacenter.dto.ResponseExceptionDTO;
+import com.vironit.onlinevisacenter.dto.response.ResponseExceptionDTO;
 import com.vironit.onlinevisacenter.dto.UserDTO;
 import com.vironit.onlinevisacenter.entity.User;
 import com.vironit.onlinevisacenter.exceptions.DuplicateException;
 import com.vironit.onlinevisacenter.exceptions.service.LoginationException;
 import com.vironit.onlinevisacenter.exceptions.service.UserServiceException;
-import com.vironit.onlinevisacenter.service.inrefaces.UserService;
+import com.vironit.onlinevisacenter.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,9 +26,11 @@ public class AuthorizationController {
     }
 
     @PostMapping(value = "/register")
-    public void processRegister(@Valid @RequestBody UserDTO userDTO) throws UserServiceException, DuplicateException {
+    public void processRegister(@Valid @RequestBody UserDTO userDTO, HttpSession session) throws UserServiceException, DuplicateException, LoginationException {
         User user = userService.convertToEntity(userDTO);
         userService.register(user);
+        User authorizedUser = userService.logIn(user);
+        session.setAttribute("user_id",authorizedUser.getId());
     }
 
     @PostMapping(value = "/login")

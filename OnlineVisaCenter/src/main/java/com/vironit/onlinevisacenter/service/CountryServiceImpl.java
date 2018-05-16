@@ -10,7 +10,7 @@ import com.vironit.onlinevisacenter.exceptions.dao.EntitySaveException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityUpdateException;
 import com.vironit.onlinevisacenter.exceptions.service.CountryServiceException;
 import com.vironit.onlinevisacenter.exceptions.service.UserServiceException;
-import com.vironit.onlinevisacenter.service.inrefaces.CountryService;
+import com.vironit.onlinevisacenter.service.interfaces.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,15 +32,6 @@ public class CountryServiceImpl implements CountryService {
             countryDAO.checkDuplicate(country);
             countryDAO.save(country);
         } catch (EntityFindException | EntitySaveException e) {
-            throw new CountryServiceException(e);
-        }
-    }
-
-    @Override
-    public void deleteCountry(Country country) throws CountryServiceException {
-        try {
-            countryDAO.delete(country);
-        } catch (EntityDeleteException e) {
             throw new CountryServiceException(e);
         }
     }

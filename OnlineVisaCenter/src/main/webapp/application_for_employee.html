@@ -7,7 +7,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 <script src="application_controller.js"></script>
 <body>
-<div ng-controller="application_controller" data-ng-init="getApplication(); getStatuses()">
+<div ng-controller="application_controller" data-ng-init="getApplication(); getResults()">
     <table>
         <tr>
             <td>Country</td>
@@ -115,7 +115,7 @@
         <td><img src={{obtained_application.clientInfo.photoPath}}  width="255" height="255"></td>
     </tr>
 
-    <form ng-controller="application_controller"  ng-submit="addCommentsAndStatus(obtained_application.id,app)">
+    <form ng-controller="application_controller"  ng-submit="addCommentsAndResult(obtained_application.id,app)">
         <table>
             <tr >
                 <td>
@@ -125,7 +125,7 @@
             </tr>
             <tr >
                 <td>
-                    <select  ng-model="app.status" ng-options="s as s for s in statuses"></select >
+                    <select  ng-model="app.result" ng-options="s as s for s in results"></select >
                 </td>
             </tr>
         </table>

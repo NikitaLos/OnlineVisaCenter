@@ -4,7 +4,7 @@ import com.vironit.onlinevisacenter.entity.User;
 import com.vironit.onlinevisacenter.entity.enums.Role;
 import com.vironit.onlinevisacenter.exceptions.AuthorizationException;
 import com.vironit.onlinevisacenter.exceptions.service.UserServiceException;
-import com.vironit.onlinevisacenter.service.inrefaces.UserService;
+import com.vironit.onlinevisacenter.service.interfaces.UserService;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Autowired;

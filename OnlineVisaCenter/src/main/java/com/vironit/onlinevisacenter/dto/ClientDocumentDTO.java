@@ -1,6 +1,7 @@
 package com.vironit.onlinevisacenter.dto;
 
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 public class ClientDocumentDTO {
@@ -10,6 +11,7 @@ public class ClientDocumentDTO {
     @NotNull
     private String pathOnServer;
 
+    @Valid
     private DocumentTypeDTO documentType;
 
     public Integer getId() {

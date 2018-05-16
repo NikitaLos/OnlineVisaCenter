@@ -1,40 +1,29 @@
 package com.vironit.onlinevisacenter.service;
 
 import com.vironit.onlinevisacenter.entity.Application;
-import com.vironit.onlinevisacenter.entity.Check;
-import com.vironit.onlinevisacenter.entity.User;
-import com.vironit.onlinevisacenter.entity.VisaInfo;
-import com.vironit.onlinevisacenter.service.inrefaces.SenderService;
+import com.vironit.onlinevisacenter.exceptions.service.SenderServiceException;
+import com.vironit.onlinevisacenter.service.interfaces.SenderService;
+import org.springframework.stereotype.Service;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
+@Service
 public class EmailSenderServiceImpl implements SenderService {
 
     private final String username = "losnikita1995@gmail.com";
     private final String password = "Novopolotsk13051995";
 
     @Override
-    public void sendResultToClient(Application application) {
+    public void sendResultToClient(Application application) throws SenderServiceException {
         String email = application.getUser().getEmail();
-        String message = application.getResult()+application.getComments();
+        String message = application.getResult() + application.getComments() +application.getStatus();
         sendEmail(email,message);
     }
 
-    @Override
-    public void sendCheckToUser(Check check, User user) {
-
-    }
-
-    @Override
-    public void sendVisaToUser(VisaInfo visa, User user) {
-
-    }
-
-
-    private void sendEmail(String email, String messageText){
+    private void sendEmail(String email, String messageText) throws SenderServiceException {
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
@@ -48,7 +37,6 @@ public class EmailSenderServiceImpl implements SenderService {
                     }
                 });
         try {
-
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(username));
             message.setRecipients(Message.RecipientType.TO,
@@ -56,10 +44,8 @@ public class EmailSenderServiceImpl implements SenderService {
             message.setSubject("Your result of visa application");
             message.setText(messageText);
             Transport.send(message);
-
         } catch (MessagingException e) {
-            //todo
+            throw new SenderServiceException("Error of sending email");
         }
     }
-
 }

@@ -106,10 +106,17 @@ angular.module('visa_center', [])
                 }).catch(function (reason) {
             });
         };
-        $scope.addCommentsAndStatus = function(id,app){
+        $scope.getResults = function(){
+            $http.get('http://localhost:8888/employee/get_results')
+                .then(function (response) {
+                    $scope.results = response.data;
+                }).catch(function (reason) {
+            });
+        };
+        $scope.addCommentsAndResult = function(id,app){
             $http({url:'http://localhost:8888/employee/add_comments/'+id, method:"GET", params: {comments: app.comments}})
                 .then(function () {
-                    $http({url:'http://localhost:8888/employee/change_status/'+id, method:"GET", params:{ status: app.status}})
+                    $http({url:'http://localhost:8888/employee/change_result/'+id, method:"GET", params:{ result: app.result}})
                         .then(function () {
                             $window.location.href= "/applications.html";
                         }).catch(function (reason) {

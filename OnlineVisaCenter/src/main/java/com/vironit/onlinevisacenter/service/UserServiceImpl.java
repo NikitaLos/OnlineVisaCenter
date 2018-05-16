@@ -9,7 +9,7 @@ import com.vironit.onlinevisacenter.exceptions.dao.EntitySaveException;
 import com.vironit.onlinevisacenter.exceptions.DuplicateException;
 import com.vironit.onlinevisacenter.exceptions.service.LoginationException;
 import com.vironit.onlinevisacenter.exceptions.service.UserServiceException;
-import com.vironit.onlinevisacenter.service.inrefaces.UserService;
+import com.vironit.onlinevisacenter.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -67,15 +67,6 @@ public class UserServiceImpl implements UserService {
         try {
             return userDAO.find(id);
         } catch (EntityFindException e) {
-            throw new UserServiceException(e);
-        }
-    }
-
-    @Override
-    public void deleteUser(User user) throws UserServiceException {
-        try {
-            userDAO.delete(user);
-        } catch (EntityDeleteException e) {
             throw new UserServiceException(e);
         }
     }

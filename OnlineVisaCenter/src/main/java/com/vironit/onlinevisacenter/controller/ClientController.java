@@ -11,15 +11,14 @@ import com.vironit.onlinevisacenter.exceptions.service.ApplicationServiceExcepti
 import com.vironit.onlinevisacenter.exceptions.service.CountryServiceException;
 import com.vironit.onlinevisacenter.exceptions.service.UserServiceException;
 import com.vironit.onlinevisacenter.exceptions.service.VisaServiceException;
-import com.vironit.onlinevisacenter.service.inrefaces.ApplicationService;
-import com.vironit.onlinevisacenter.service.inrefaces.CountryService;
-import com.vironit.onlinevisacenter.service.inrefaces.VisaService;
+import com.vironit.onlinevisacenter.service.interfaces.ApplicationService;
+import com.vironit.onlinevisacenter.service.interfaces.CountryService;
+import com.vironit.onlinevisacenter.service.interfaces.VisaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 

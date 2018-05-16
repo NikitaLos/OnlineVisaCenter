@@ -1,4 +1,4 @@
-package com.vironit.onlinevisacenter.service.inrefaces;
+package com.vironit.onlinevisacenter.service.interfaces;
 
 import com.vironit.onlinevisacenter.dto.CountryDTO;
 import com.vironit.onlinevisacenter.entity.Country;
@@ -12,8 +12,6 @@ import java.util.List;
 public interface CountryService {
     @Transactional
     void addCountry(Country country) throws CountryServiceException, DuplicateException;
-    @Transactional
-    void deleteCountry(Country country) throws CountryServiceException;
     @Transactional
     void updateCountry(Country country) throws CountryServiceException;
     @Transactional

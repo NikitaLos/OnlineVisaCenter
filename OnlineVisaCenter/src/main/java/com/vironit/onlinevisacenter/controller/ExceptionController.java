@@ -1,6 +1,6 @@
 package com.vironit.onlinevisacenter.controller;
 
-import com.vironit.onlinevisacenter.dto.ResponseExceptionDTO;
+import com.vironit.onlinevisacenter.dto.response.ResponseExceptionDTO;
 import com.vironit.onlinevisacenter.exceptions.AuthorizationException;
 import com.vironit.onlinevisacenter.exceptions.DuplicateException;
 import com.vironit.onlinevisacenter.exceptions.service.*;

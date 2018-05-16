@@ -1,4 +1,4 @@
-package com.vironit.onlinevisacenter.service.inrefaces;
+package com.vironit.onlinevisacenter.service.interfaces;
 
 import com.vironit.onlinevisacenter.dto.request.VisaRequestDTO;
 import com.vironit.onlinevisacenter.dto.response.VisaResponseDTO;
@@ -15,8 +15,6 @@ import java.util.List;
 public interface VisaService {
     @Transactional
     void addVisa(Visa visa) throws VisaServiceException, DuplicateException;
-    @Transactional
-    void deleteVisa(Visa visa) throws VisaServiceException;
     @Transactional
     void updateVisa(Visa visa) throws VisaServiceException;
     @Transactional

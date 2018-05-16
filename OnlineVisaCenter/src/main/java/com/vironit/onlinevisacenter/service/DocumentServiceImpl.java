@@ -8,7 +8,7 @@ import com.vironit.onlinevisacenter.exceptions.dao.EntityDeleteException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntitySaveException;
 import com.vironit.onlinevisacenter.exceptions.service.DocumentServiceException;
-import com.vironit.onlinevisacenter.service.inrefaces.DocumentService;
+import com.vironit.onlinevisacenter.service.interfaces.DocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,15 +30,6 @@ public class DocumentServiceImpl implements DocumentService {
             documentTypeDAO.checkDuplicate(documentType);
             documentTypeDAO.save(documentType);
         } catch (EntityFindException | EntitySaveException e) {
-            throw new DocumentServiceException(e);
-        }
-    }
-
-    @Override
-    public void deleteDocument(DocumentType documentType) throws DocumentServiceException {
-        try {
-            documentTypeDAO.delete(documentType);
-        } catch (EntityDeleteException e) {
             throw new DocumentServiceException(e);
         }
     }

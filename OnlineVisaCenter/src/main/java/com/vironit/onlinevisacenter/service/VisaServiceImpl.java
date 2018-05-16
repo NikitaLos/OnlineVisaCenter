@@ -15,9 +15,9 @@ import com.vironit.onlinevisacenter.exceptions.dao.EntityUpdateException;
 import com.vironit.onlinevisacenter.exceptions.service.CountryServiceException;
 import com.vironit.onlinevisacenter.exceptions.service.DocumentServiceException;
 import com.vironit.onlinevisacenter.exceptions.service.VisaServiceException;
-import com.vironit.onlinevisacenter.service.inrefaces.CountryService;
-import com.vironit.onlinevisacenter.service.inrefaces.DocumentService;
-import com.vironit.onlinevisacenter.service.inrefaces.VisaService;
+import com.vironit.onlinevisacenter.service.interfaces.CountryService;
+import com.vironit.onlinevisacenter.service.interfaces.DocumentService;
+import com.vironit.onlinevisacenter.service.interfaces.VisaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,15 +44,6 @@ public class VisaServiceImpl implements VisaService {
             visaDAO.checkDuplicate(visa);
             visaDAO.save(visa);
         } catch (EntityFindException | EntitySaveException e) {
-            throw new VisaServiceException(e);
-        }
-    }
-
-    @Override
-    public void deleteVisa(Visa visa) throws VisaServiceException {
-        try {
-            visaDAO.delete(visa);
-        } catch (EntityDeleteException e) {
             throw new VisaServiceException(e);
         }
     }

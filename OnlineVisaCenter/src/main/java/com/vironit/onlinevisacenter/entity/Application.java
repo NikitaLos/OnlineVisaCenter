@@ -28,11 +28,6 @@ public class Application implements Serializable {
     @JoinColumn(name = "visa_info_id")
     private VisaInfo visaInfo;
 
-    @OneToOne(cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "check_id")
-    private Check check;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
@@ -107,14 +102,6 @@ public class Application implements Serializable {
         this.comments = comments;
     }
 
-    public Check getCheck() {
-        return check;
-    }
-
-    public void setCheck(Check check) {
-        this.check = check;
-    }
-
     public LocalDateTime getCreationTime() {
         return creationTime;
     }
@@ -133,7 +120,6 @@ public class Application implements Serializable {
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (clientInfo != null ? !clientInfo.equals(that.clientInfo) : that.clientInfo != null) return false;
         if (visaInfo != null ? !visaInfo.equals(that.visaInfo) : that.visaInfo != null) return false;
-        if (check != null ? !check.equals(that.check) : that.check != null) return false;
         if (user != null ? !user.equals(that.user) : that.user != null) return false;
         if (status != that.status) return false;
         if (result != that.result) return false;
@@ -146,7 +132,6 @@ public class Application implements Serializable {
         int result1 = id != null ? id.hashCode() : 0;
         result1 = 31 * result1 + (clientInfo != null ? clientInfo.hashCode() : 0);
         result1 = 31 * result1 + (visaInfo != null ? visaInfo.hashCode() : 0);
-        result1 = 31 * result1 + (check != null ? check.hashCode() : 0);
         result1 = 31 * result1 + (user != null ? user.hashCode() : 0);
         result1 = 31 * result1 + (status != null ? status.hashCode() : 0);
         result1 = 31 * result1 + (result != null ? result.hashCode() : 0);
