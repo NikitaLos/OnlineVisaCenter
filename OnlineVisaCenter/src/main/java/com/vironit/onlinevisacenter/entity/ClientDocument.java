@@ -21,6 +21,18 @@ public class ClientDocument implements Serializable {
     @JoinColumn(name = "client_info_id")
     private ClientInfo clientInfo;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "document_type_id")
+    private DocumentType documentType;
+
+    public DocumentType getDocumentType() {
+        return documentType;
+    }
+
+    public void setDocumentType(DocumentType documentType) {
+        this.documentType = documentType;
+    }
+
     public ClientInfo getClientInfo() {
         return clientInfo;
     }

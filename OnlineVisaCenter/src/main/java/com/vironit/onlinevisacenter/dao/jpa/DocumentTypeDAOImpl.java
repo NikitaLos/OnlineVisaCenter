@@ -2,6 +2,7 @@ package com.vironit.onlinevisacenter.dao.jpa;
 
 import com.vironit.onlinevisacenter.dao.interfaces.DocumentTypeDAO;
 import com.vironit.onlinevisacenter.entity.DocumentType;
+import com.vironit.onlinevisacenter.exceptions.DuplicateException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
@@ -20,13 +21,14 @@ public class DocumentTypeDAOImpl extends AbstractJPADAO<DocumentType,Integer> im
 
 
     @Override
-    public boolean isDuplicate(DocumentType documentType) throws EntityFindException {
+    public void checkDuplicate(DocumentType documentType) throws EntityFindException, DuplicateException {
         try {
             Query query = entityManager.createQuery("select d from DocumentType d where d.name = :name",DocumentType.class);
             List result = query.setParameter("name",documentType.getName()).getResultList();
-            return !result.isEmpty();
+            if (!result.isEmpty()){
+                throw new DuplicateException("Such a document type already exists");
+            }
         }catch (PersistenceException e){
-            logger.error("checking duplicate error",e);
             throw new EntityFindException(e);
         }
     }

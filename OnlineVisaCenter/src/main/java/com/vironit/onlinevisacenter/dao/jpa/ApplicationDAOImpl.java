@@ -17,7 +17,6 @@ public class ApplicationDAOImpl extends AbstractJPADAO<Application,Integer> impl
 
     public ApplicationDAOImpl() {
         super(Application.class);
-
     }
 
     @Override
@@ -27,7 +26,6 @@ public class ApplicationDAOImpl extends AbstractJPADAO<Application,Integer> impl
             Query query = entityManager.createQuery("select a from Application a where a.user.id = :userId",Application.class);
             return query.setParameter("userId",userId).getResultList();
         }catch (PersistenceException e){
-            logger.error("Find applications by client exception",e);
             throw new EntityFindException(e);
         }
     }
@@ -37,7 +35,6 @@ public class ApplicationDAOImpl extends AbstractJPADAO<Application,Integer> impl
         try {
             return  entityManager.createQuery("select a from Application a order by a.creationTime",Application.class).getResultList();
         }catch (PersistenceException e){
-            logger.error("findAll entity error",e);
             throw new EntityFindException(e);
         }
     }

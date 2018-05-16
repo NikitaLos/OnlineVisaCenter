@@ -12,18 +12,12 @@ import java.util.List;
 public interface DocumentService {
     @Transactional
     void addDocument(DocumentType documentType) throws DuplicateException, DocumentServiceException;
-
     @Transactional
     void deleteDocument(DocumentType documentType) throws DocumentServiceException;
-
     @Transactional
     void deleteDocumentById(Integer id) throws DocumentServiceException;
-
     DocumentType getDocument(int key) throws DocumentServiceException;
-
     List<DocumentType> getAll() throws DocumentServiceException;
-
     DocumentType convertToEntity(DocumentTypeDTO documentTypeDTO);
-
     DocumentTypeDTO convertToDTO(DocumentType documentType);
 }

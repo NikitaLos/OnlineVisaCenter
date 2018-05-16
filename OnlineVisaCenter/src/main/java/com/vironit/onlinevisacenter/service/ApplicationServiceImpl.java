@@ -3,8 +3,6 @@ package com.vironit.onlinevisacenter.service;
 import com.vironit.onlinevisacenter.ServerLogger;
 import com.vironit.onlinevisacenter.dao.interfaces.ApplicationDAO;
 import com.vironit.onlinevisacenter.dto.request.ApplicationRequestDTO;
-import com.vironit.onlinevisacenter.dto.ClientInfoDTO;
-import com.vironit.onlinevisacenter.dto.PassportDTO;
 import com.vironit.onlinevisacenter.dto.request.ClientInfoRequestDTO;
 import com.vironit.onlinevisacenter.dto.request.PassportRequestDTO;
 import com.vironit.onlinevisacenter.dto.request.VisaInfoRequestDTO;
@@ -20,12 +18,10 @@ import com.vironit.onlinevisacenter.exceptions.service.ApplicationServiceExcepti
 import com.vironit.onlinevisacenter.exceptions.service.UserServiceException;
 import com.vironit.onlinevisacenter.exceptions.service.VisaServiceException;
 import com.vironit.onlinevisacenter.service.inrefaces.ApplicationService;
-import com.vironit.onlinevisacenter.service.inrefaces.EmbassyService;
 import com.vironit.onlinevisacenter.service.inrefaces.UserService;
 import com.vironit.onlinevisacenter.service.inrefaces.VisaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -36,8 +32,6 @@ public class ApplicationServiceImpl implements ApplicationService {
     private ApplicationDAO applicationDAO;
     private VisaService visaService;
     private UserService userService;
-
-    private ServerLogger logger = new ServerLogger(ApplicationServiceImpl.class);
 
     @Autowired
     public ApplicationServiceImpl(ApplicationDAO applicationDAO, VisaService visaService, UserService userService) {
@@ -53,7 +47,6 @@ public class ApplicationServiceImpl implements ApplicationService {
             application.setStatus(Status.IN_VC_QUEUE);
             application.setResult(Result.NO_RESULT);
             applicationDAO.save(application);
-            logger.info("Application was add to queue");
         } catch (EntitySaveException e) {
             throw new ApplicationServiceException(e);
         }
@@ -83,7 +76,6 @@ public class ApplicationServiceImpl implements ApplicationService {
             return  applicationDAO.findAll(Application.class);
         } catch (EntityFindException e) {
             throw new ApplicationServiceException(e);
-
         }
     }
 
@@ -171,6 +163,7 @@ public class ApplicationServiceImpl implements ApplicationService {
         clientInfoDTO.setAimOfVisit(clientInfo.getAimOfVisit());
         clientInfoDTO.setDateOfBirth(clientInfo.getDateOfBirth());
         clientInfoDTO.setSex(clientInfo.getSex());
+        clientInfoDTO.setPhotoPath(clientInfo.getPhotoPathOnServer());
         clientInfoDTO.setPhoneNumber(clientInfo.getPhoneNumber());
         clientInfoDTO.setName(clientInfo.getName());
         clientInfoDTO.setSurname(clientInfo.getSurname());
@@ -205,6 +198,7 @@ public class ApplicationServiceImpl implements ApplicationService {
         clientInfo.setAimOfVisit(clientInfoDTO.getAimOfVisit());
         clientInfo.setDateOfBirth(clientInfoDTO.getDateOfBirth());
         clientInfo.setSex(clientInfoDTO.getSex());
+        clientInfo.setPhotoPathOnServer(clientInfoDTO.getPhotoPath());
         clientInfo.setPhoneNumber(clientInfoDTO.getPhoneNumber());
         clientInfo.setName(clientInfoDTO.getName());
         clientInfo.setSurname(clientInfoDTO.getSurname());

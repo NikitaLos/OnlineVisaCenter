@@ -7,10 +7,8 @@ import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntitySaveException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityUpdateException;
 import org.hibernate.Session;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import java.io.Serializable;
@@ -23,10 +21,7 @@ public abstract class AbstractJPADAO<T,PK extends Serializable> implements Gener
 
     private Class<T> classType;
 
-    protected ServerLogger logger;
-
     AbstractJPADAO(Class<T> classType) {
-        logger = new ServerLogger(classType);
         this.classType = classType;
     }
 
@@ -36,7 +31,6 @@ public abstract class AbstractJPADAO<T,PK extends Serializable> implements Gener
         try {
             entityManager.persist(object);
         }catch (PersistenceException e){
-            logger.error("save entity error",e);
             throw new EntitySaveException(e);
         }
     }
@@ -46,7 +40,6 @@ public abstract class AbstractJPADAO<T,PK extends Serializable> implements Gener
         try {
             return entityManager.find(classType,id);
         }catch (PersistenceException e){
-            logger.error("find entity error",e);
             throw new EntityFindException(e);
         }
     }
@@ -56,7 +49,6 @@ public abstract class AbstractJPADAO<T,PK extends Serializable> implements Gener
         try {
             entityManager.unwrap(Session.class).update(object);
         }catch (PersistenceException e){
-            logger.error("update entity error",e);
             throw new EntityUpdateException(e);
         }
     }
@@ -66,7 +58,6 @@ public abstract class AbstractJPADAO<T,PK extends Serializable> implements Gener
         try {
             entityManager.remove(object);
         }catch (PersistenceException e){
-            logger.error("delete entity error",e);
             throw new EntityDeleteException(e);
         }
     }
@@ -76,7 +67,6 @@ public abstract class AbstractJPADAO<T,PK extends Serializable> implements Gener
         try {
             entityManager.remove(entityManager.find(classType,id));
         }catch (PersistenceException e){
-            logger.error("delete entity error",e);
             throw new EntityDeleteException(e);
         }
     }
@@ -86,7 +76,6 @@ public abstract class AbstractJPADAO<T,PK extends Serializable> implements Gener
         try {
             return  entityManager.createQuery("from "+ classType.getName()).getResultList();
         }catch (PersistenceException e){
-            logger.error("findAll entity error",e);
             throw new EntityFindException(e);
         }
     }

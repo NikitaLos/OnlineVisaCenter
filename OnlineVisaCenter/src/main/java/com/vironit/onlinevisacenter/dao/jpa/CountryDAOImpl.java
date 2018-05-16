@@ -2,8 +2,8 @@ package com.vironit.onlinevisacenter.dao.jpa;
 
 import com.vironit.onlinevisacenter.dao.interfaces.CountryDAO;
 import com.vironit.onlinevisacenter.entity.Country;
+import com.vironit.onlinevisacenter.exceptions.DuplicateException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.PersistenceException;
@@ -18,13 +18,14 @@ public class CountryDAOImpl extends AbstractJPADAO<Country,Integer> implements C
     }
 
     @Override
-    public boolean isDuplicate(Country country) throws EntityFindException {
+    public void checkDuplicate(Country country) throws EntityFindException, DuplicateException {
         try {
             Query query = entityManager.createQuery("select c from Country c where c.name = :name",Country.class);
             List result = query.setParameter("name",country.getName()).getResultList();
-            return !result.isEmpty();
+            if (!result.isEmpty()){
+                throw new DuplicateException("Such a country already exists");
+            }
         }catch (PersistenceException e){
-            logger.error("checking duplicate error",e);
             throw new EntityFindException(e);
         }
     }

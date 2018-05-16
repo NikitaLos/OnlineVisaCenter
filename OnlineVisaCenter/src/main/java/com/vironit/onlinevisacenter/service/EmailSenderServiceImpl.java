@@ -16,7 +16,6 @@ public class EmailSenderServiceImpl implements SenderService {
     private final String username = "losnikita1995@gmail.com";
     private final String password = "Novopolotsk13051995";
 
-
     @Override
     public void sendResultToClient(Application application) {
         String email = application.getUser().getEmail();

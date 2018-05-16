@@ -1,9 +1,7 @@
 package com.vironit.onlinevisacenter.service;
 
 import com.vironit.onlinevisacenter.dao.interfaces.DocumentTypeDAO;
-import com.vironit.onlinevisacenter.dto.CountryDTO;
 import com.vironit.onlinevisacenter.dto.DocumentTypeDTO;
-import com.vironit.onlinevisacenter.entity.Country;
 import com.vironit.onlinevisacenter.entity.DocumentType;
 import com.vironit.onlinevisacenter.exceptions.DuplicateException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityDeleteException;
@@ -12,7 +10,6 @@ import com.vironit.onlinevisacenter.exceptions.dao.EntitySaveException;
 import com.vironit.onlinevisacenter.exceptions.service.DocumentServiceException;
 import com.vironit.onlinevisacenter.service.inrefaces.DocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,11 +27,8 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     public void addDocument(DocumentType documentType) throws DuplicateException, DocumentServiceException {
         try {
-            if(!documentTypeDAO.isDuplicate(documentType)){
-                documentTypeDAO.save(documentType);
-            }else {
-                throw new DuplicateException("Such a document already exists");
-            }
+            documentTypeDAO.checkDuplicate(documentType);
+            documentTypeDAO.save(documentType);
         } catch (EntityFindException | EntitySaveException e) {
             throw new DocumentServiceException(e);
         }

@@ -1,26 +1,35 @@
 package com.vironit.onlinevisacenter.controller;
 
-import com.vironit.onlinevisacenter.dto.Message;
+import com.vironit.onlinevisacenter.dto.ResponseExceptionDTO;
 import com.vironit.onlinevisacenter.dto.UserDTO;
 import com.vironit.onlinevisacenter.entity.User;
+import com.vironit.onlinevisacenter.exceptions.DuplicateException;
 import com.vironit.onlinevisacenter.exceptions.service.LoginationException;
+import com.vironit.onlinevisacenter.exceptions.service.UserServiceException;
 import com.vironit.onlinevisacenter.service.inrefaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 @RestController
-public class LogInController {
+public class AuthorizationController {
 
     private UserService userService;
 
     @Autowired
-    public LogInController(UserService userService) {
+    public AuthorizationController(UserService userService) {
         this.userService = userService;
     }
 
+    @PostMapping(value = "/register")
+    public void processRegister(@Valid @RequestBody UserDTO userDTO) throws UserServiceException, DuplicateException {
+        User user = userService.convertToEntity(userDTO);
+        userService.register(user);
+    }
 
     @PostMapping(value = "/login")
     public UserDTO processLogin(@RequestBody UserDTO userDTO, HttpSession session) throws LoginationException {
@@ -36,8 +45,7 @@ public class LogInController {
     }
 
     @ExceptionHandler(LoginationException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public Message userNotExist(LoginationException e) {
-        return new Message(e.getMessage());
+    public ResponseEntity<ResponseExceptionDTO> userNotExist(LoginationException e) {
+        return new ResponseEntity<>(new ResponseExceptionDTO(e.getMessage()), HttpStatus.NOT_FOUND);
     }
 }

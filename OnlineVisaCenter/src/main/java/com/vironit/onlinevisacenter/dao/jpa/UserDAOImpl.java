@@ -3,13 +3,10 @@ package com.vironit.onlinevisacenter.dao.jpa;
 import com.vironit.onlinevisacenter.dao.interfaces.UserDAO;
 import com.vironit.onlinevisacenter.entity.User;
 import com.vironit.onlinevisacenter.entity.enums.Role;
-import com.vironit.onlinevisacenter.exceptions.dao.EntityDeleteException;
+import com.vironit.onlinevisacenter.exceptions.DuplicateException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import java.util.List;
@@ -22,14 +19,15 @@ public class UserDAOImpl extends AbstractJPADAO<User,Integer> implements UserDAO
     }
 
     @Override
-    public boolean isDuplicate(User user) {
+    public void checkDuplicate(User user) throws DuplicateException {
         Query query = entityManager.createQuery("select u from User u where u.login = :login or u.email=:email",User.class);
         List result = query
                 .setParameter("login",user.getLogin())
                 .setParameter("email",user.getEmail())
                 .getResultList();
-        return !result.isEmpty();
-
+        if (!result.isEmpty()){
+            throw new DuplicateException("Such login or email already exists");
+        }
     }
 
     @Override
@@ -41,7 +39,6 @@ public class UserDAOImpl extends AbstractJPADAO<User,Integer> implements UserDAO
                     .setParameter("password",user.getPassword())
                     .getSingleResult();
         }catch (PersistenceException e){
-            logger.error("find entity error",e);
             throw new EntityFindException(e);
         }
     }
@@ -55,7 +52,6 @@ public class UserDAOImpl extends AbstractJPADAO<User,Integer> implements UserDAO
                     .setParameter("admin_role",Role.ADMIN)
                     .getResultList();
         }catch (PersistenceException e){
-            logger.error("find entity error",e);
             throw new EntityFindException(e);
         }
     }

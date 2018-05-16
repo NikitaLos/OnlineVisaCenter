@@ -14,26 +14,17 @@ import java.util.List;
 public interface ApplicationService {
     @Transactional
     void addApplicationToQueue(Application application) throws ApplicationServiceException;
-
     @Transactional
     void updateApplication(Application application) throws ApplicationServiceException;
-
     @Transactional
     void deleteApplicationFromQueue(Application application) throws ApplicationServiceException;
-
     List<Application> getApplications() throws ApplicationServiceException;
-
     Application getApplication(Integer id) throws ApplicationServiceException;
-
     List<Application> getUserApplications(Integer userId) throws ApplicationServiceException;
-
     Application convertToEntity(ApplicationRequestDTO applicationRequestDTO) throws VisaServiceException, UserServiceException;
-
     ApplicationResponseDTO convertToDTO(Application application);
-
     @Transactional
     void addCommentsToApplication(Integer id, String comments) throws ApplicationServiceException;
-
     @Transactional
     void changeApplicationStatus(Integer id, Status status) throws ApplicationServiceException;
 }

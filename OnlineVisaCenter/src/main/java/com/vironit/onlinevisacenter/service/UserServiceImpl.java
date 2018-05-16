@@ -18,7 +18,7 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
 
-    UserDAO userDAO;
+    private UserDAO userDAO;
 
     @Autowired
     public UserServiceImpl(UserDAO userDAO) {
@@ -28,11 +28,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public void register(User user) throws DuplicateException, UserServiceException {
         try {
-            if(!userDAO.isDuplicate(user)) {
-                userDAO.save(user);
-            }else{
-                throw new DuplicateException("Such login or email already exists");
-            }
+            userDAO.checkDuplicate(user);
+            userDAO.save(user);
         } catch (EntitySaveException e) {
             throw new UserServiceException(e);
         }

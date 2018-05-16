@@ -19,7 +19,6 @@ import com.vironit.onlinevisacenter.service.inrefaces.CountryService;
 import com.vironit.onlinevisacenter.service.inrefaces.DocumentService;
 import com.vironit.onlinevisacenter.service.inrefaces.VisaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -42,11 +41,8 @@ public class VisaServiceImpl implements VisaService {
     @Override
     public void addVisa(Visa visa) throws VisaServiceException, DuplicateException {
         try {
-            if(!visaDAO.isDuplicate(visa)){
-                visaDAO.save(visa);
-            }else {
-                throw new DuplicateException("such a visa already exists");
-            }
+            visaDAO.checkDuplicate(visa);
+            visaDAO.save(visa);
         } catch (EntityFindException | EntitySaveException e) {
             throw new VisaServiceException(e);
         }
@@ -106,16 +102,6 @@ public class VisaServiceImpl implements VisaService {
         }
     }
 
-    @Override
-    public Visa getVisaEager(Integer id) throws VisaServiceException {
-        try {
-            Visa visa = visaDAO.find(id);
-            visa.getRequiredDocumentTypes().size();
-            return visa;
-        } catch (EntityFindException e) {
-            throw new VisaServiceException(e);
-        }
-    }
 
     @Override
     public Visa convertToEntity(VisaRequestDTO visaDTO) throws CountryServiceException, DocumentServiceException {
@@ -124,8 +110,10 @@ public class VisaServiceImpl implements VisaService {
         visa.setType(visaDTO.getType());
         visa.setPrice(visaDTO.getPrice());
         visa.setCountry(countryService.getCountry(visaDTO.getCountryId()));
-        for (int id : visaDTO.getRequiredDocumentTypesId()){
-            visa.addDocumentType(documentService.getDocument(id));
+        if(visaDTO.getRequiredDocumentTypesId()!=null) {
+            for (int id : visaDTO.getRequiredDocumentTypesId()) {
+                visa.addDocumentType(documentService.getDocument(id));
+            }
         }
         return visa;
     }

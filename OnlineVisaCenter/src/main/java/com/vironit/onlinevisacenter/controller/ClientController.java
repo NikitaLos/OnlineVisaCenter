@@ -1,10 +1,10 @@
 package com.vironit.onlinevisacenter.controller;
 
-import com.vironit.onlinevisacenter.dto.CountryDTO;
-import com.vironit.onlinevisacenter.dto.Message;
+import com.vironit.onlinevisacenter.dto.ClientDocumentDTO;
 import com.vironit.onlinevisacenter.dto.request.ApplicationRequestDTO;
 import com.vironit.onlinevisacenter.dto.response.ApplicationResponseDTO;
 import com.vironit.onlinevisacenter.dto.response.VisaResponseDTO;
+import com.vironit.onlinevisacenter.dto.validation.ValidationSequence;
 import com.vironit.onlinevisacenter.entity.*;
 import com.vironit.onlinevisacenter.entity.enums.AimOfVisit;
 import com.vironit.onlinevisacenter.exceptions.service.ApplicationServiceException;
@@ -15,9 +15,11 @@ import com.vironit.onlinevisacenter.service.inrefaces.ApplicationService;
 import com.vironit.onlinevisacenter.service.inrefaces.CountryService;
 import com.vironit.onlinevisacenter.service.inrefaces.VisaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,11 +52,23 @@ public class ClientController {
                 .collect(Collectors.toList());
     }
 
+    @GetMapping(value = "/get_visa/{visa_id}")
+    public VisaResponseDTO getVisasById(@PathVariable("visa_id") Integer id) throws VisaServiceException {
+        Visa visa =  visaService.getVisa(id);
+        return visaService.convertToDTO(visa);
+
+    }
+
     @PostMapping(value = "/add_application")
-    public void composeApplication(@RequestBody ApplicationRequestDTO applicationDTO,HttpSession session) throws ApplicationServiceException, VisaServiceException, UserServiceException {
+    public void addApplication(@Validated(ValidationSequence.class) @RequestBody ApplicationRequestDTO applicationDTO, HttpSession session) throws ApplicationServiceException, VisaServiceException, UserServiceException {
         applicationDTO.setUserId((Integer) session.getAttribute("user_id"));
         Application application = applicationService.convertToEntity(applicationDTO);
         applicationService.addApplicationToQueue(application);
+    }
+
+    @PostMapping(value = "/add_documents")
+    public void addDocuments(@RequestBody List<ClientDocumentDTO> documents) {
+        //todo
     }
 
     @GetMapping(value = "/get_applications_by_user")
@@ -66,7 +80,7 @@ public class ClientController {
     }
 
     @PostMapping(value = "/update_application")
-    public void updateApplication(@RequestBody ApplicationRequestDTO applicationDTO,HttpSession session) throws ApplicationServiceException, VisaServiceException, UserServiceException {
+    public void updateApplication(@Validated(ValidationSequence.class) @RequestBody ApplicationRequestDTO applicationDTO, HttpSession session) throws ApplicationServiceException, VisaServiceException, UserServiceException {
         applicationDTO.setUserId((Integer) session.getAttribute("user_id"));
         Application application = applicationService.convertToEntity(applicationDTO);
         applicationService.updateApplication(application);

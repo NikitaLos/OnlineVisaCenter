@@ -64,7 +64,7 @@ public class AuthorizationAspect {
         }
     }
 
-    @Before("execution(* com.vironit.onlinevisacenter.controller.ApplicationController.*(..))")
+    @Before("execution(* com.vironit.onlinevisacenter.controller.ClientEmployeeController.*(..))")
     public void ClientAndEmployeeAuthorization() throws AuthorizationException, UserServiceException {
         ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         HttpSession session = attr.getRequest().getSession(false);

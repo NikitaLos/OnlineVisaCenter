@@ -14,20 +14,13 @@ import java.util.List;
 public interface UserService {
     @Transactional
     void register(User user) throws DuplicateException, UserServiceException;
-
     @Transactional
     void deleteUser(User user) throws UserServiceException;
-
     @Transactional
     void deleteUserById(Integer id) throws UserServiceException;
-
     User logIn(User user) throws LoginationException;
-
     List<User> findAllEmployees() throws UserServiceException;
-
     User getUser(Integer id) throws UserServiceException;
-
     User convertToEntity(UserDTO userDTO);
-
     UserDTO convertToDTO(User user);
 }

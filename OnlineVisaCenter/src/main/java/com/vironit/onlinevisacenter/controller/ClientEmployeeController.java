@@ -22,23 +22,21 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-public class ApplicationController  {
+public class ClientEmployeeController {
 
     private ApplicationService applicationService;
     private CountryService countryService;
-    private VisaService visaService;
 
     @Autowired
-    public ApplicationController(ApplicationService applicationService, CountryService countryService, VisaService visaService) {
+    public ClientEmployeeController(ApplicationService applicationService, CountryService countryService) {
         this.applicationService = applicationService;
         this.countryService = countryService;
-        this.visaService = visaService;
     }
 
     @GetMapping(value = "/get_application/{application_id}")
     public ApplicationResponseDTO getApplication(@PathVariable("application_id") Integer applicationId) throws ApplicationServiceException {
         Application application = applicationService.getApplication(applicationId);
-        return applicationService.convertToDTO(application);//todo
+        return applicationService.convertToDTO(application);
     }
 
     @GetMapping(value = "/get_countries")

@@ -1,7 +1,6 @@
 package com.vironit.onlinevisacenter.controller;
 
 import com.vironit.onlinevisacenter.dto.DocumentTypeDTO;
-import com.vironit.onlinevisacenter.dto.Message;
 import com.vironit.onlinevisacenter.dto.CountryDTO;
 import com.vironit.onlinevisacenter.dto.request.VisaRequestDTO;
 import com.vironit.onlinevisacenter.dto.response.ApplicationResponseDTO;
@@ -20,6 +19,7 @@ import com.vironit.onlinevisacenter.service.inrefaces.VisaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 @RestController
@@ -57,13 +57,13 @@ public class EmployeeController {
     }
 
     @PostMapping(value = "/add_country")
-    public void addCountry(@RequestBody CountryDTO countryDTO) throws CountryServiceException, DuplicateException {
+    public void addCountry(@Valid @RequestBody CountryDTO countryDTO) throws CountryServiceException, DuplicateException {
         Country country = countryService.convertToEntity(countryDTO);
         countryService.addCountry(country);
     }
 
     @PostMapping(value = "/change_country")
-    public void changeCountry(@RequestBody CountryDTO countryDTO) throws CountryServiceException {
+    public void changeCountry(@Valid @RequestBody CountryDTO countryDTO) throws CountryServiceException {
         Country country = countryService.convertToEntity(countryDTO);
         countryService.updateCountry(country);
     }
@@ -82,7 +82,7 @@ public class EmployeeController {
     }
 
     @PostMapping(value = "/add_document_type")
-    public void addDocumentType(@RequestBody DocumentTypeDTO documentTypeDTO) throws DocumentServiceException, DuplicateException {
+    public void addDocumentType(@Valid @RequestBody DocumentTypeDTO documentTypeDTO) throws DocumentServiceException, DuplicateException {
         DocumentType documentType = documentService.convertToEntity(documentTypeDTO);
         documentService.addDocument(documentType);
     }
@@ -101,13 +101,13 @@ public class EmployeeController {
     }
 
     @PostMapping(value = "/add_visa")
-    public void addVisa(@RequestBody VisaRequestDTO visaDTO) throws VisaServiceException, DuplicateException, CountryServiceException, DocumentServiceException {
+    public void addVisa(@Valid @RequestBody VisaRequestDTO visaDTO) throws VisaServiceException, DuplicateException, CountryServiceException, DocumentServiceException {
         Visa visa = visaService.convertToEntity(visaDTO);
         visaService.addVisa(visa);
     }
 
     @PostMapping(value = "/change_visa")
-    public void changeVisa(@RequestBody VisaRequestDTO visaDTO) throws VisaServiceException, CountryServiceException, DocumentServiceException {
+    public void changeVisa(@Valid @RequestBody VisaRequestDTO visaDTO) throws VisaServiceException, CountryServiceException, DocumentServiceException {
         Visa visa = visaService.convertToEntity(visaDTO);
         visaService.updateVisa(visa);
     }

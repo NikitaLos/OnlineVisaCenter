@@ -2,6 +2,7 @@ package com.vironit.onlinevisacenter.dao.interfaces;
 
 
 import com.vironit.onlinevisacenter.entity.User;
+import com.vironit.onlinevisacenter.exceptions.DuplicateException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityDeleteException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntitySaveException;
@@ -15,10 +16,8 @@ public interface UserDAO {
     User find(Integer key) throws EntityFindException;
     void update(User user) throws EntityUpdateException;
     List<User> findAll(Class<User> classType) throws EntityFindException;
-    boolean isDuplicate(User user);
+    void checkDuplicate(User user) throws DuplicateException;
     User getUserByLoginAndPassword(User user) throws EntityFindException;
-
     List<User> findAllEmployees() throws EntityFindException;
-
     void deleteById(Integer id) throws EntityDeleteException;
 }

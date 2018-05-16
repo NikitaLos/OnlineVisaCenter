@@ -28,12 +28,9 @@ public class CountryServiceImpl implements CountryService {
 
     @Override
     public void addCountry(Country country) throws CountryServiceException, DuplicateException {
-        try {
-            if (!countryDAO.isDuplicate(country)){
-                countryDAO.save(country);
-            }else {
-                throw new DuplicateException("Such a country already exists");
-            }
+        try{
+            countryDAO.checkDuplicate(country);
+            countryDAO.save(country);
         } catch (EntityFindException | EntitySaveException e) {
             throw new CountryServiceException(e);
         }
