@@ -1,4 +1,4 @@
-package com.vironit.onlinevisacenter.controller;
+package com.vironit.onlinevisacenter.aspects;
 
 import com.vironit.onlinevisacenter.entity.User;
 import com.vironit.onlinevisacenter.entity.enums.Role;
