@@ -15,7 +15,7 @@ public interface CountryService {
     @Transactional
     void updateCountry(Country country) throws CountryServiceException;
     @Transactional
-    void deleteCountryById(Integer id) throws UserServiceException;
+    void deleteCountryById(Integer id) throws  CountryServiceException;
     Country getCountry(Integer id) throws CountryServiceException;
     List<Country> getAll() throws CountryServiceException;
     Country convertToEntity(CountryDTO countryDTO);

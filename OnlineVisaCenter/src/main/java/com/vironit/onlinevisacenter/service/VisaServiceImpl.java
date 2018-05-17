@@ -95,18 +95,23 @@ public class VisaServiceImpl implements VisaService {
 
 
     @Override
-    public Visa convertToEntity(VisaRequestDTO visaDTO) throws CountryServiceException, DocumentServiceException {
-        Visa visa = new Visa();
-        visa.setId(visaDTO.getId());
-        visa.setType(visaDTO.getType());
-        visa.setPrice(visaDTO.getPrice());
-        visa.setCountry(countryService.getCountry(visaDTO.getCountryId()));
-        if(visaDTO.getRequiredDocumentTypesId()!=null) {
-            for (int id : visaDTO.getRequiredDocumentTypesId()) {
-                visa.addDocumentType(documentService.getDocument(id));
+    public Visa convertToEntity(VisaRequestDTO visaDTO) throws VisaServiceException {
+        try {
+            Visa visa = new Visa();
+            visa.setId(visaDTO.getId());
+            visa.setType(visaDTO.getType());
+            visa.setPrice(visaDTO.getPrice());
+            visa.setCountry(countryService.getCountry(visaDTO.getCountryId()));
+            if(visaDTO.getRequiredDocumentTypesId()!=null) {
+                for (int id : visaDTO.getRequiredDocumentTypesId()) {
+                    visa.addDocumentType(documentService.getDocument(id));
+                }
             }
+            return visa;
+        } catch (CountryServiceException | DocumentServiceException e) {
+            throw new VisaServiceException("Error of converting VisaDTO to entity",e);
         }
-        return visa;
+
     }
 
     @Override

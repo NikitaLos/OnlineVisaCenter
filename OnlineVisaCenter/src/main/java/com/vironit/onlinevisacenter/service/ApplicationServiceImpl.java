@@ -33,15 +33,12 @@ public class ApplicationServiceImpl implements ApplicationService {
     private ApplicationDAO applicationDAO;
     private VisaService visaService;
     private UserService userService;
-    private SenderService senderService;
 
     @Autowired
-    public ApplicationServiceImpl(ApplicationDAO applicationDAO, VisaService visaService, UserService userService,
-                                  SenderService senderService) {
+    public ApplicationServiceImpl(ApplicationDAO applicationDAO, VisaService visaService, UserService userService) {
         this.applicationDAO = applicationDAO;
         this.visaService = visaService;
         this.userService = userService;
-        this.senderService = senderService;
     }
 
     @Override
@@ -127,17 +124,22 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public Application convertToEntity(ApplicationRequestDTO applicationRequestDTO) throws VisaServiceException, UserServiceException {
-        Application application = new Application();
-        application.setId(applicationRequestDTO.getId());
-        application.setComments(applicationRequestDTO.getComments());
-        application.setCreationTime(applicationRequestDTO.getCreationTime());
-        application.setResult(applicationRequestDTO.getResult());
-        application.setStatus(applicationRequestDTO.getStatus());
-        application.setUser(userService.getUser(applicationRequestDTO.getUserId()));
-        application.setVisaInfo(convertVisaInfoToEntity(applicationRequestDTO.getVisaInfo()));
-        application.setClientInfo(convertClientInfoToEntity(applicationRequestDTO.getClientInfo()));
-        return application;
+    public Application convertToEntity(ApplicationRequestDTO applicationRequestDTO) throws ApplicationServiceException {
+        try {
+            Application application = new Application();
+            application.setId(applicationRequestDTO.getId());
+            application.setComments(applicationRequestDTO.getComments());
+            application.setCreationTime(applicationRequestDTO.getCreationTime());
+            application.setResult(applicationRequestDTO.getResult());
+            application.setStatus(applicationRequestDTO.getStatus());
+            application.setVisaInfo(convertVisaInfoToEntity(applicationRequestDTO.getVisaInfo()));
+            application.setClientInfo(convertClientInfoToEntity(applicationRequestDTO.getClientInfo()));
+            application.setUser(userService.getUser(applicationRequestDTO.getUserId()));
+            return application;
+        } catch (UserServiceException | VisaServiceException e) {
+           throw new ApplicationServiceException("Error of converting ApplicationDTO to entity",e);
+        }
+
     }
 
     @Override
@@ -230,5 +232,6 @@ public class ApplicationServiceImpl implements ApplicationService {
         visaInfo.setDateTo(visaInfoDTO.getDateTo());
         visaInfo.setNumOfDaysResidence(visaInfoDTO.getNumOfDaysResidence());
         return visaInfo;
+
     }
 }

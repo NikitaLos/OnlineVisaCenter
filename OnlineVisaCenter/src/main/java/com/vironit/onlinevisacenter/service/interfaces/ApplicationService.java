@@ -21,7 +21,7 @@ public interface ApplicationService {
     void deleteApplicationFromQueue(Application application) throws ApplicationServiceException;
     List<Application> getAllApplications() throws ApplicationServiceException;
     Application getApplication(Integer id) throws ApplicationServiceException;
-    Application convertToEntity(ApplicationRequestDTO applicationRequestDTO) throws VisaServiceException, UserServiceException;
+    Application convertToEntity(ApplicationRequestDTO applicationRequestDTO) throws VisaServiceException, UserServiceException, ApplicationServiceException;
     ApplicationResponseDTO convertToDTO(Application application);
 
     List<Application> getUserApplications(Integer userId) throws ApplicationServiceException;

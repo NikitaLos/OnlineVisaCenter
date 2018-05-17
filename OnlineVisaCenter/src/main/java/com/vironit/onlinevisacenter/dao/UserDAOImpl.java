@@ -1,4 +1,4 @@
-package com.vironit.onlinevisacenter.dao.jpa;
+package com.vironit.onlinevisacenter.dao;
 
 import com.vironit.onlinevisacenter.dao.interfaces.UserDAO;
 import com.vironit.onlinevisacenter.entity.User;

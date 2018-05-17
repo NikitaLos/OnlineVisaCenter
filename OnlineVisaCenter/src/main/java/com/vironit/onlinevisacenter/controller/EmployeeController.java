@@ -1,5 +1,6 @@
 package com.vironit.onlinevisacenter.controller;
 
+import org.apache.log4j.Logger;
 import com.vironit.onlinevisacenter.dto.DocumentTypeDTO;
 import com.vironit.onlinevisacenter.dto.CountryDTO;
 import com.vironit.onlinevisacenter.dto.request.VisaRequestDTO;
@@ -13,7 +14,6 @@ import com.vironit.onlinevisacenter.entity.enums.Result;
 import com.vironit.onlinevisacenter.entity.enums.Status;
 import com.vironit.onlinevisacenter.exceptions.DuplicateException;
 import com.vironit.onlinevisacenter.exceptions.service.*;
-import com.vironit.onlinevisacenter.service.EmailSenderServiceImpl;
 import com.vironit.onlinevisacenter.service.interfaces.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
+
 @RestController
 @RequestMapping(value = "/employee")
 public class EmployeeController {
@@ -70,7 +71,7 @@ public class EmployeeController {
     }
 
     @DeleteMapping(value = "/delete_country/{country_id}")
-    public void deleteCountry(@PathVariable("country_id") Integer countryId) throws UserServiceException {
+    public void deleteCountry(@PathVariable("country_id") Integer countryId) throws CountryServiceException {
         countryService.deleteCountryById(countryId);
     }
 
@@ -129,7 +130,7 @@ public class EmployeeController {
             Application application = applicationService.changeApplicationResultAndStatus(id,result);
             senderService.sendResultToClient(application);
         } catch (SenderServiceException e) {
-            //todo
+            Logger.getRootLogger().error("Error of sending result to client",e);
         }
     }
 

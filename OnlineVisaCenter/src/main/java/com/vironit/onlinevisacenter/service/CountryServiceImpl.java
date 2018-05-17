@@ -64,11 +64,11 @@ public class CountryServiceImpl implements CountryService {
     }
 
     @Override
-    public void deleteCountryById(Integer countryId) throws UserServiceException {
+    public void deleteCountryById(Integer countryId) throws CountryServiceException {
         try {
             countryDAO.deleteById(countryId);
         } catch (EntityDeleteException e) {
-            throw new UserServiceException(e);
+            throw new CountryServiceException(e);
         }
     }
 

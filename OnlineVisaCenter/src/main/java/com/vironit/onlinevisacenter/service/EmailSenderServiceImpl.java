@@ -30,21 +30,21 @@ public class EmailSenderServiceImpl implements SenderService {
         String message = "Your application status: " + application.getStatus() + "\n" +
                          "Your application result: " + application.getResult() + "\n" +
                          "Your application comments: " + application.getComments();
-        sendMessage(email,message);
-    }
-
-    private void sendMessage(String email, String messageText) throws SenderServiceException {
         try {
-            Message message = new MimeMessage(createSession());
-            message.setFrom(new InternetAddress(environment.getProperty("visa_center.username")));
-            message.setRecipients(Message.RecipientType.TO,
-                    InternetAddress.parse(email));
-            message.setSubject(environment.getProperty("subject"));
-            message.setText(messageText);
-            Transport.send(message);
+            sendMessage(email,message);
         } catch (MessagingException e) {
             throw new SenderServiceException("Error of sending email",e);
         }
+    }
+
+    private void sendMessage(String email, String messageText) throws MessagingException {
+        Message message = new MimeMessage(createSession());
+        message.setFrom(new InternetAddress(environment.getProperty("visa_center.username")));
+        message.setRecipients(Message.RecipientType.TO,
+                InternetAddress.parse(email));
+        message.setSubject(environment.getProperty("subject"));
+        message.setText(messageText);
+        Transport.send(message);
     }
 
     private Properties setUpProperties(){

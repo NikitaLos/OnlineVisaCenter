@@ -1,6 +1,5 @@
-package com.vironit.onlinevisacenter.dao.jpa;
+package com.vironit.onlinevisacenter.dao;
 
-import com.vironit.onlinevisacenter.ServerLogger;
 import com.vironit.onlinevisacenter.dao.interfaces.GenericDAO;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityDeleteException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;

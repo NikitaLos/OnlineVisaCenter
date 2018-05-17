@@ -1,13 +1,10 @@
-package com.vironit.onlinevisacenter.dao.jpa;
+package com.vironit.onlinevisacenter.dao;
 
 import com.vironit.onlinevisacenter.dao.interfaces.ApplicationDAO;
 import com.vironit.onlinevisacenter.entity.Application;
-import com.vironit.onlinevisacenter.entity.User;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import java.util.List;
