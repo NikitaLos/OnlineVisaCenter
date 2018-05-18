@@ -15,6 +15,6 @@ public class PassportDateImpl implements ConstraintValidator<PassportDate,Applic
     public boolean isValid(ApplicationRequestDTO applicationRequestDTO, ConstraintValidatorContext constraintValidatorContext) {
         LocalDate dateTo = applicationRequestDTO.getVisaInfo().getDateTo();
         LocalDate dateOfEnding = applicationRequestDTO.getClientInfo().getPassport().getDateOfEnding();
-        return !dateOfEnding.isBefore(dateTo);
+        return dateTo.isBefore(dateOfEnding);
     }
 }

@@ -12,7 +12,7 @@ public class PassportRequestDTO {
     private Integer id;
 
     @NotNull(message = "number can not be null")
-    @Size(min = 2, message = "number must have {min} characters minimum")
+    @Size(min = 8, message = "number must have {min} characters minimum")
     private String number;
 
     @NotNull(message = "countryOfResidence can not be null")

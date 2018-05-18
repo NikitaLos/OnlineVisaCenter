@@ -11,6 +11,6 @@ public class VisaDateImpl implements ConstraintValidator<VisaDate,VisaInfoReques
     }
     @Override
     public boolean isValid(VisaInfoRequestDTO visaInfoRequestDTO, ConstraintValidatorContext constraintValidatorContext) {
-        return !visaInfoRequestDTO.getDateTo().isBefore(visaInfoRequestDTO.getDateFrom());
+        return visaInfoRequestDTO.getDateFrom().isBefore(visaInfoRequestDTO.getDateTo());
     }
 }

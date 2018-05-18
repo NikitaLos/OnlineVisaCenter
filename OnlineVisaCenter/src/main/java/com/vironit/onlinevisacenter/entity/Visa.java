@@ -22,11 +22,11 @@ public class Visa implements Serializable {
     @Column(name = "price")
     private Double price;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "country_id")
     private Country country;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "visa_document_type", schema = "visa_center",
                 joinColumns = {@JoinColumn(name = "visa_id")},
                 inverseJoinColumns = {@JoinColumn(name = "document_type_id")})

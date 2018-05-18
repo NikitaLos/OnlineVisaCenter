@@ -33,19 +33,6 @@ public class JPAConfigTest {
 
     @Bean
     @Profile("test")
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-        LocalContainerEntityManagerFactoryBean entityManagerFactory
-                = new LocalContainerEntityManagerFactoryBean();
-        entityManagerFactory.setDataSource(dataSource());
-        entityManagerFactory.setPackagesToScan("com.vironit.onlinevisacenter.entity");
-        JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-        entityManagerFactory.setJpaVendorAdapter(vendorAdapter);
-        entityManagerFactory.setJpaProperties(hibernateProperties());
-        return entityManagerFactory;
-    }
-
-    @Bean
-    @Profile("test")
     public DataSource dataSource(){
         HikariDataSource dataSource = new HikariDataSource();
         dataSource.setMaximumPoolSize(10);
@@ -62,6 +49,17 @@ public class JPAConfigTest {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(entityManagerFactory);
         return transactionManager;
+    }
+
+    @Bean
+    @Profile("test")
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+        LocalContainerEntityManagerFactoryBean testEntityManagerFactory = new LocalContainerEntityManagerFactoryBean();
+        testEntityManagerFactory.setDataSource(dataSource());
+        testEntityManagerFactory.setPackagesToScan("com.vironit.onlinevisacenter.entity");
+        testEntityManagerFactory.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+        testEntityManagerFactory.setJpaProperties(hibernateProperties());
+        return testEntityManagerFactory;
     }
 
     @Profile("test")

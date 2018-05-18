@@ -14,11 +14,9 @@ import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntitySaveException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityUpdateException;
 import com.vironit.onlinevisacenter.exceptions.service.ApplicationServiceException;
-import com.vironit.onlinevisacenter.exceptions.service.SenderServiceException;
 import com.vironit.onlinevisacenter.exceptions.service.UserServiceException;
 import com.vironit.onlinevisacenter.exceptions.service.VisaServiceException;
 import com.vironit.onlinevisacenter.service.interfaces.ApplicationService;
-import com.vironit.onlinevisacenter.service.interfaces.SenderService;
 import com.vironit.onlinevisacenter.service.interfaces.UserService;
 import com.vironit.onlinevisacenter.service.interfaces.VisaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -112,6 +110,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Override
     public Application changeApplicationResultAndStatus(Integer id, Result result) throws ApplicationServiceException {
         Status status = resolveApplicationStatus(result);
+        //todo deleting
         try {
             Application application = applicationDAO.find(id);
             application.setResult(result);
@@ -122,6 +121,8 @@ public class ApplicationServiceImpl implements ApplicationService {
             throw new ApplicationServiceException(e);
         }
     }
+
+
 
     @Override
     public Application convertToEntity(ApplicationRequestDTO applicationRequestDTO) throws ApplicationServiceException {
@@ -156,6 +157,16 @@ public class ApplicationServiceImpl implements ApplicationService {
         return applicationResponseDTO;
     }
 
+    private Status resolveApplicationStatus(Result result) {
+        if (result==Result.APPROVE||result==Result.DENY){
+            return Status.REVIEWED;
+        }else if (result==Result.REQUIRED_CHANGES){
+            return Status.WAITING_FOR_CHANGES;
+        }else{
+            return Status.IN_QUEUE;
+        }
+    }
+
     private PassportResponseDTO convertPassportToDTO(Passport passport){
         PassportResponseDTO passportDTO = new PassportResponseDTO();
         passportDTO.setDateOfEnding(passport.getDateOfEnding());
@@ -166,15 +177,6 @@ public class ApplicationServiceImpl implements ApplicationService {
         return passportDTO;
     }
 
-    private Status resolveApplicationStatus(Result result) {
-        if (result==Result.APPROVE||result==Result.DENY){
-            return Status.REVIEWED;
-        }else if (result==Result.REQUIRED_CHANGES){
-            return Status.WAITING_FOR_CHANGES;
-        }else{
-            return Status.IN_QUEUE;
-        }
-    }
 
     private ClientInfoResponseDTO convertClientInfoToDTO(ClientInfo clientInfo){
         ClientInfoResponseDTO clientInfoDTO = new ClientInfoResponseDTO();
