@@ -1,63 +1,66 @@
 package com.vironit.onlinevisacenter.dao;
 
+import com.vironit.onlinevisacenter.ApplicationStarter;
 import com.vironit.onlinevisacenter.dao.interfaces.VisaDAO;
-import com.vironit.onlinevisacenter.dao.jpa.JPAUtil;
-import com.vironit.onlinevisacenter.dao.jpa.VisaDAOImpl;
 import com.vironit.onlinevisacenter.entity.Country;
 import com.vironit.onlinevisacenter.entity.DocumentType;
 import com.vironit.onlinevisacenter.entity.Visa;
+import com.vironit.onlinevisacenter.exceptions.DuplicateException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityDeleteException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntitySaveException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityUpdateException;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.stereotype.Component;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
+
 import static org.junit.Assert.*;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = {ApplicationStarter.class,JPAConfigTest.class})
+@ActiveProfiles("test")
+@Transactional
 public class VisaDAOTest {
 
-    private static VisaDAO visaDAO;
-    private static EntityManager entityManager;
-    private Visa testVisa;
+    @Autowired
+    private VisaDAO visaDAO;
 
-    @BeforeClass
-    public static void init(){
-        entityManager = JPAUtil.getEntityManagerFactory().createEntityManager();
-        visaDAO = new VisaDAOImpl(entityManager);
-    }
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    private Visa testVisa;
 
     @Before
     public void insertCountry(){
-        testVisa = prepareVisaForInsert();
-        entityManager.getTransaction().begin();
+        testVisa = DAOTestUtil.prepareVisa();
         entityManager.persist(testVisa);
-        entityManager.getTransaction().commit();
     }
 
     @After
     public void deleteCountry(){
-        entityManager.getTransaction().begin();
-        entityManager.createQuery("DELETE from Visa where type='Test Visa Type' or type='New Test Visa'").executeUpdate();
-        entityManager.getTransaction().commit();
-        entityManager.getTransaction().begin();
-        entityManager.createQuery("DELETE from Country where name='Test Country'").executeUpdate();
-        entityManager.getTransaction().commit();
-        entityManager.getTransaction().begin();
-        entityManager.createQuery("DELETE from DocumentType where name='Test Document Type'").executeUpdate();
-        entityManager.getTransaction().commit();
+        entityManager.createQuery("DELETE from Visa").executeUpdate();
+        entityManager.createQuery("DELETE from Country").executeUpdate();
+        entityManager.createQuery("DELETE from DocumentType").executeUpdate();
     }
 
 
     @Test
     public void saveTest() throws EntitySaveException {
-        Visa visa = prepareVisaForInsert();
-        visaDAO.save(visa);
-        assertNotNull(visa.getId());
+        Visa visaExpected = DAOTestUtil.prepareVisa();
+        visaDAO.save(visaExpected);
+        Visa visaActual = entityManager.find(Visa.class,visaExpected.getId());
+        assertEquals(visaExpected,visaActual);
     }
 
     @Test
@@ -80,35 +83,26 @@ public class VisaDAOTest {
         assertEquals(visas.size(),1);
     }
 
-    @Test
-    public void isDuplicateTest() throws EntityFindException {
+    @Test(expected = DuplicateException.class)
+    public void isDuplicateTest() throws EntityFindException, DuplicateException {
         Visa visa = new Visa();
         visa.setType(testVisa.getType());
         visa.setCountry(testVisa.getCountry());
-        assertTrue(visaDAO.isDuplicate(visa));
+        visaDAO.checkDuplicate(visa);
     }
 
     @Test
     public void deleteTest() throws EntityFindException, EntityDeleteException {
         Visa visa = visaDAO.find(testVisa.getId());
-        visaDAO.delete(visa);
+        visaDAO.deleteById(visa.getId());
         visa =  visaDAO.find(testVisa.getId());
         assertNull(visa);
     }
 
-    private Visa prepareVisaForInsert(){
-        Visa visa = new Visa();
-
-        Country country = new Country();
-        country.setName("Test Country");
-
-        DocumentType documentType = new DocumentType();
-        documentType.setName("Test Document Type");
-
-        visa.setType("Test Visa Type");
-        visa.setPrice(999.);
-        visa.setCountry(country);
-        visa.addDocumentType(documentType);
-        return visa;
+    @Test
+    public void findVisasByCountryTest() throws EntityFindException {
+        List<Visa> visas = visaDAO.findVisasByCountry(testVisa.getCountry());
+        assertEquals(testVisa,visas.get(0));
     }
+
 }

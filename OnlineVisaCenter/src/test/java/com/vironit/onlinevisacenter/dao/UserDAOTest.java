@@ -1,63 +1,60 @@
 package com.vironit.onlinevisacenter.dao;
 
+import com.vironit.onlinevisacenter.ApplicationStarter;
 import com.vironit.onlinevisacenter.dao.interfaces.UserDAO;
-import com.vironit.onlinevisacenter.dao.jpa.JPAUtil;
-import com.vironit.onlinevisacenter.dao.jpa.UserDAOImpl;
 import com.vironit.onlinevisacenter.entity.*;
 import com.vironit.onlinevisacenter.entity.enums.Role;
+import com.vironit.onlinevisacenter.exceptions.DuplicateException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityDeleteException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntitySaveException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityUpdateException;
 import org.junit.*;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import java.util.List;
 
 import static org.junit.Assert.*;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = {ApplicationStarter.class,JPAConfigTest.class})
+@ActiveProfiles("test")
+@Transactional
 public class UserDAOTest {
-    private static UserDAO userDAO;
-    private static EntityManager entityManager;
-    private User testUser;
 
-    @BeforeClass
-    public static void init(){
-        entityManager = JPAUtil.getEntityManagerFactory().createEntityManager();
-        userDAO = new UserDAOImpl(entityManager);
-    }
+    @Autowired
+    private  UserDAO userDAO;
+
+    @PersistenceContext
+    private  EntityManager entityManager;
+
+    private User testUser;
 
     @Before
     public void insertCountry(){
-        testUser = new User();
-        testUser.setLogin("Test Login");
-        testUser.setPassword("Test Password");
-        testUser.setRole(Role.CLIENT);
-        testUser.setEmail("Test Email");
-        entityManager.getTransaction().begin();
+        testUser = DAOTestUtil.prepareUser();
         entityManager.persist(testUser);
-        entityManager.getTransaction().commit();
     }
-
 
     @After
     public void deleteCountry(){
-        entityManager.getTransaction().begin();
-        entityManager.createQuery("delete from User where login = 'Test Login' or login ='New Test Login'").executeUpdate();
-        entityManager.getTransaction().commit();
+        entityManager.createQuery("delete from User").executeUpdate();
     }
-
 
     @Test
     public void saveTest() throws EntitySaveException {
-        User user = new User();
-        user.setLogin("Test Login");
-        user.setPassword("Test Password");
-        user.setRole(Role.CLIENT);
-        user.setEmail("Test Email");
-        userDAO.save(user);
-        assertNotNull(user.getId());
+        User userExpected = DAOTestUtil.prepareUser();
+        userDAO.save(userExpected);
+        User userActual = entityManager.find(User.class,userExpected.getId());
+        assertEquals(userExpected,userActual);
     }
 
     @Test
@@ -74,19 +71,18 @@ public class UserDAOTest {
         assertEquals(testUser.getLogin(),user.getLogin());
     }
 
-    @Ignore
     @Test
     public void findAllTest() throws EntityFindException {
         List<User> user = userDAO.findAll(User.class);
         assertEquals(user.size(),1);
     }
 
-    @Test
-    public void isDuplicateTest() throws EntityFindException {
+    @Test(expected = DuplicateException.class)
+    public void isDuplicateTest() throws DuplicateException {
         User user = new User();
         user.setLogin(testUser.getLogin());
         user.setEmail(testUser.getEmail());
-        assertTrue(userDAO.isDuplicate(user));
+        userDAO.checkDuplicate(user);
     }
 
     @Test
@@ -95,5 +91,11 @@ public class UserDAOTest {
         userDAO.delete(user);
         user =  entityManager.find(User.class, testUser.getId());
         assertNull(user);
+    }
+
+    @Test
+    public void getUserByLoginAndPasswordTest() throws  EntityFindException {
+        User user = userDAO.getUserByLoginAndPassword(testUser);;
+        assertEquals(testUser,user);
     }
 }

@@ -1,65 +1,62 @@
 package com.vironit.onlinevisacenter.dao;
 
+import com.vironit.onlinevisacenter.ApplicationStarter;
 import com.vironit.onlinevisacenter.dao.interfaces.CountryDAO;
-import com.vironit.onlinevisacenter.dao.jpa.CountryDAOImpl;
-import com.vironit.onlinevisacenter.dao.jpa.JPAUtil;
 import com.vironit.onlinevisacenter.entity.Country;
+import com.vironit.onlinevisacenter.exceptions.DuplicateException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityDeleteException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntitySaveException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityUpdateException;
 import org.junit.*;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
-import static org.junit.Assert.*;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
-import javax.persistence.*;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
+
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = {ApplicationStarter.class,JPAConfigTest.class})
+@ActiveProfiles("test")
+@Transactional
 public class CountryDAOTest {
 
-    private static CountryDAO countryDAO;
-    private static EntityManager entityManager;
-    private Country testCountry;
+    @Autowired
+    private CountryDAO countryDAO;
 
-    @BeforeClass
-    public static void init(){
-        entityManager = JPAUtil.getEntityManagerFactory().createEntityManager();
-        countryDAO = new CountryDAOImpl(entityManager);
-    }
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    private Country testCountry;
 
     @Before
     public void insertCountry(){
-        testCountry = new Country();
-        testCountry.setName("Test Country");
-        entityManager.getTransaction().begin();
+        testCountry = DAOTestUtil.prepareCountry();
         entityManager.persist(testCountry);
-        entityManager.getTransaction().commit();
     }
-
 
     @After
     public void deleteCountry(){
-        entityManager.getTransaction().begin();
-        entityManager.createQuery("delete from Country where name = 'Test Country' or name='New Test Country'").executeUpdate();
-        entityManager.getTransaction().commit();
+        entityManager.createQuery("delete from Country").executeUpdate();
     }
-
 
     @Test
     public void saveTest() throws EntitySaveException {
-        Country country = new Country();
-        country.setName("Test Country");
-        countryDAO.save(country);
-        assertNotNull(country.getId());
-    }
-
-    @Test
-    public void updateTest() throws EntityUpdateException{
-        testCountry.setName("New Test Country");
-        countryDAO.update(testCountry);
-        testCountry = entityManager.find(Country.class,testCountry.getId());
-        assertEquals("New Test Country",testCountry.getName());
+        Country countryExpected = DAOTestUtil.prepareCountry();
+        countryDAO.save(countryExpected);
+        Country countryActual = entityManager.find(Country.class,countryExpected.getId());
+        Assert.assertEquals(countryExpected,countryActual);
     }
 
     @Test
@@ -69,23 +66,32 @@ public class CountryDAOTest {
     }
 
     @Test
-    public void findAllTest() throws EntityFindException {
-        List<Country> countries = countryDAO.findAll(Country.class);
-        assertEquals(countries.size(),1);
-    }
-
-    @Test
-    public void isDuplicateTest() throws EntityFindException {
-        Country country = new Country();
-        country.setName(testCountry.getName());
-        assertTrue(countryDAO.isDuplicate(country));
+    public void updateTest() throws EntityUpdateException {
+        testCountry.setName("New Test Country");
+        countryDAO.update(testCountry);
+        testCountry = entityManager.find(Country.class,testCountry.getId());
+        assertEquals("New Test Country",testCountry.getName());
     }
 
     @Test
     public void deleteTest() throws EntityDeleteException {
         Country country = entityManager.find(Country.class,testCountry.getId());
-        countryDAO.delete(country);
+        countryDAO.deleteById(country.getId());
         country =  entityManager.find(Country.class,testCountry.getId());
         assertNull(country);
     }
+
+    @Test
+    public void findAllTest() throws EntityFindException {
+        List<Country> countries = countryDAO.findAll(Country.class);
+        assertEquals(countries.size(),1);
+    }
+
+    @Test(expected = DuplicateException.class)
+    public void isDuplicateTest() throws EntityFindException, DuplicateException {
+        Country country = new Country();
+        country.setName(testCountry.getName());
+        countryDAO.checkDuplicate(country);
+    }
+
 }
