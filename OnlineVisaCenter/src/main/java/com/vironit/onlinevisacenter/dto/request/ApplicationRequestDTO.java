@@ -3,6 +3,7 @@ package com.vironit.onlinevisacenter.dto.request;
 
 import com.vironit.onlinevisacenter.dto.validation.DateValidateGroup;
 import com.vironit.onlinevisacenter.dto.validation.PassportDate;
+import com.vironit.onlinevisacenter.entity.User;
 import com.vironit.onlinevisacenter.entity.enums.Result;
 import com.vironit.onlinevisacenter.entity.enums.Status;
 
@@ -21,7 +22,7 @@ public class ApplicationRequestDTO implements Serializable {
     @Valid
     private VisaInfoRequestDTO visaInfo;
 
-    private Integer userId;
+    private User user;
 
     private Status status;
 
@@ -63,8 +64,12 @@ public class ApplicationRequestDTO implements Serializable {
         this.creationTime = creationTime;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Integer getId() {
@@ -75,9 +80,6 @@ public class ApplicationRequestDTO implements Serializable {
         this.id = id;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
 
     public ClientInfoRequestDTO getClientInfo() {
         return clientInfo;

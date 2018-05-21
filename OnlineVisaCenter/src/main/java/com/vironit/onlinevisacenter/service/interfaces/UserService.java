@@ -20,4 +20,6 @@ public interface UserService {
     User getUser(Integer id) throws UserServiceException;
     User convertToEntity(UserDTO userDTO);
     UserDTO convertToDTO(User user);
+
+    User getUserByLogin(String login) throws UserServiceException;
 }

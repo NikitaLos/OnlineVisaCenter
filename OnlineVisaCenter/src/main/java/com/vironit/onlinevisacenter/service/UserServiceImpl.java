@@ -75,6 +75,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getUserByLogin(String login) throws UserServiceException {
+        try {
+            return userDAO.findUserByLogin(login);
+        } catch (EntityFindException e) {
+            throw new UserServiceException(e);
+        }
+    }
+
+    @Override
     public User convertToEntity(UserDTO userDTO)  {
         User user = new User();
         user.setId(userDTO.getId());
@@ -97,5 +106,7 @@ public class UserServiceImpl implements UserService {
         userDTO.setLogin(user.getLogin());
         return userDTO;
     }
+
+
 
 }

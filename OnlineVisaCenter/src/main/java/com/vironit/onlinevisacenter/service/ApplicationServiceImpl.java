@@ -135,9 +135,9 @@ public class ApplicationServiceImpl implements ApplicationService {
             application.setStatus(applicationRequestDTO.getStatus());
             application.setVisaInfo(convertVisaInfoToEntity(applicationRequestDTO.getVisaInfo()));
             application.setClientInfo(convertClientInfoToEntity(applicationRequestDTO.getClientInfo()));
-            application.setUser(userService.getUser(applicationRequestDTO.getUserId()));
+            application.setUser(applicationRequestDTO.getUser());
             return application;
-        } catch (UserServiceException | VisaServiceException e) {
+        } catch (VisaServiceException e) {
            throw new ApplicationServiceException("Error of converting ApplicationDTO to entity",e);
         }
 

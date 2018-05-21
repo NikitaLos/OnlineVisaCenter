@@ -13,8 +13,10 @@ import com.vironit.onlinevisacenter.exceptions.service.UserServiceException;
 import com.vironit.onlinevisacenter.exceptions.service.VisaServiceException;
 import com.vironit.onlinevisacenter.service.interfaces.ApplicationService;
 import com.vironit.onlinevisacenter.service.interfaces.CountryService;
+import com.vironit.onlinevisacenter.service.interfaces.UserService;
 import com.vironit.onlinevisacenter.service.interfaces.VisaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,12 +31,15 @@ public class ClientController {
     private CountryService countryService;
     private ApplicationService applicationService;
     private VisaService visaService;
+    private UserService userService;
 
     @Autowired
-    public ClientController(CountryService countryService, ApplicationService applicationService, VisaService visaService) {
+    public ClientController(CountryService countryService, ApplicationService applicationService, VisaService visaService,
+                            UserService userService) {
         this.countryService = countryService;
         this.applicationService = applicationService;
         this.visaService = visaService;
+        this.userService= userService;
     }
 
     @GetMapping(value = "/get_aims_of_visit")
@@ -60,8 +65,9 @@ public class ClientController {
     }
 
     @PostMapping(value = "/add_application")
-    public void addApplication(@Validated(ValidationSequence.class) @RequestBody ApplicationRequestDTO applicationDTO, HttpSession session) throws ApplicationServiceException, VisaServiceException, UserServiceException {
-        applicationDTO.setUserId((Integer) session.getAttribute("user_id"));
+    public void addApplication(@Validated(ValidationSequence.class) @RequestBody ApplicationRequestDTO applicationDTO, Authentication authentication) throws ApplicationServiceException, VisaServiceException, UserServiceException {
+        User user = userService.getUserByLogin(authentication.getName());
+        applicationDTO.setUser(user);
         Application application = applicationService.convertToEntity(applicationDTO);
         applicationService.addApplicationToQueue(application);
     }
@@ -72,16 +78,18 @@ public class ClientController {
     }
 
     @GetMapping(value = "/get_applications_by_user")
-    public List<ApplicationResponseDTO> viewApplicationsByClient(HttpSession session) throws ApplicationServiceException {
-        List<Application> applications = applicationService.getUserApplications((Integer) session.getAttribute("user_id"));
+    public List<ApplicationResponseDTO> viewApplicationsByClient(Authentication authentication) throws ApplicationServiceException, UserServiceException {
+        User user = userService.getUserByLogin(authentication.getName());
+        List<Application> applications = applicationService.getUserApplications(user.getId());
         return applications.stream()
                 .map(application -> applicationService.convertToDTO(application))
                 .collect(Collectors.toList());
     }
 
     @PostMapping(value = "/update_application")
-    public void updateApplication(@Validated(ValidationSequence.class) @RequestBody ApplicationRequestDTO applicationDTO, HttpSession session) throws ApplicationServiceException, VisaServiceException, UserServiceException {
-        applicationDTO.setUserId((Integer) session.getAttribute("user_id"));
+    public void updateApplication(@Validated(ValidationSequence.class) @RequestBody ApplicationRequestDTO applicationDTO, Authentication authentication) throws ApplicationServiceException, VisaServiceException, UserServiceException {
+        User user = userService.getUserByLogin(authentication.getName());
+        applicationDTO.setUser(user);
         Application application = applicationService.convertToEntity(applicationDTO);
         applicationService.updateApplication(application);
     }
