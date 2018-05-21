@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@RequestMapping("/client")
 public class ClientController {
 
     private CountryService countryService;

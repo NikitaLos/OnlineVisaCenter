@@ -37,8 +37,7 @@ public class AdminController {
         return Role.values();
     }
 
-    @DeleteMapping(value = "/delete_employee/{employee_id}")
-    public void deleteEmployee(@PathVariable("employee_id") Integer employeeId) throws UserServiceException {
+    @DeleteMapping(value = "/delete_employee/{employee_id}")    public void deleteEmployee(@PathVariable("employee_id") Integer employeeId) throws UserServiceException {
         userService.deleteUserById(employeeId);
     }
 

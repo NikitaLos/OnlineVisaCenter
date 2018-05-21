@@ -33,7 +33,7 @@ public class AuthorizationController {
         session.setAttribute("user_id",authorizedUser.getId());
     }
 
-    @PostMapping(value = "/login")
+    @PostMapping(value = "/login_user")
     public UserDTO processLogin(@RequestBody UserDTO userDTO, HttpSession session) throws LoginationException {
         User user = userService.convertToEntity(userDTO);
         User authorizedUser = userService.logIn(user);
@@ -45,6 +45,7 @@ public class AuthorizationController {
     public void logOut(HttpSession session)  {
         session.invalidate();
     }
+
 
     @ExceptionHandler(LoginationException.class)
     public ResponseEntity<ResponseExceptionDTO> userNotExist(LoginationException e) {

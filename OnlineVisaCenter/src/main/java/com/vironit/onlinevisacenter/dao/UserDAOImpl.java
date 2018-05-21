@@ -31,7 +31,7 @@ public class UserDAOImpl extends AbstractJPADAO<User,Integer> implements UserDAO
     }
 
     @Override
-    public User getUserByLoginAndPassword(User user) throws EntityFindException {
+    public User findUserByLoginAndPassword(User user) throws EntityFindException {
         try {
             Query query = entityManager.createQuery("select u from User u where u.login = :login and u.password=:password",User.class);
             return (User) query
@@ -41,6 +41,19 @@ public class UserDAOImpl extends AbstractJPADAO<User,Integer> implements UserDAO
         }catch (PersistenceException e){
             throw new EntityFindException(e);
         }
+    }
+
+    @Override
+    public User findUserByLogin(String login) throws EntityFindException {
+        try {
+            Query query = entityManager.createQuery("select u from User u where u.login = :login",User.class);
+            return (User) query
+                    .setParameter("login",login)
+                    .getSingleResult();
+        }catch (PersistenceException e){
+            throw new EntityFindException(e);
+        }
+
     }
 
     @Override

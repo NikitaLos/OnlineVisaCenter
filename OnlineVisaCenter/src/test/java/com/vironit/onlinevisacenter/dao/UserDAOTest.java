@@ -3,7 +3,6 @@ package com.vironit.onlinevisacenter.dao;
 import com.vironit.onlinevisacenter.ApplicationStarter;
 import com.vironit.onlinevisacenter.dao.interfaces.UserDAO;
 import com.vironit.onlinevisacenter.entity.*;
-import com.vironit.onlinevisacenter.entity.enums.Role;
 import com.vironit.onlinevisacenter.exceptions.DuplicateException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityDeleteException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;
@@ -95,7 +94,7 @@ public class UserDAOTest {
 
     @Test
     public void getUserByLoginAndPasswordTest() throws  EntityFindException {
-        User user = userDAO.getUserByLoginAndPassword(testUser);;
+        User user = userDAO.findUserByLoginAndPassword(testUser);;
         assertEquals(testUser,user);
     }
 }

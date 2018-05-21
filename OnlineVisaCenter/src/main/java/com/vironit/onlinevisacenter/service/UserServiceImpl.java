@@ -11,6 +11,7 @@ import com.vironit.onlinevisacenter.exceptions.service.LoginationException;
 import com.vironit.onlinevisacenter.exceptions.service.UserServiceException;
 import com.vironit.onlinevisacenter.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,10 +20,12 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private UserDAO userDAO;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserDAO userDAO) {
+    public UserServiceImpl(UserDAO userDAO, PasswordEncoder passwordEncoder) {
         this.userDAO = userDAO;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -38,7 +41,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User logIn(User user) throws LoginationException {
         try {
-            return userDAO.getUserByLoginAndPassword(user);
+            return userDAO.findUserByLoginAndPassword(user);
         } catch (EntityFindException e) {
             throw new LoginationException("User not registered");
         }
@@ -79,7 +82,7 @@ public class UserServiceImpl implements UserService {
             user.setRole(userDTO.getRole());
         }
         user.setEmail(userDTO.getEmail());
-        user.setPassword(userDTO.getPassword());
+        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         user.setLogin(userDTO.getLogin());
         return user;
     }
@@ -90,7 +93,7 @@ public class UserServiceImpl implements UserService {
         userDTO.setId(user.getId());
         userDTO.setRole(user.getRole());
         userDTO.setEmail(user.getEmail());
-        userDTO.setPassword(user.getPassword());
+        user.setPassword(userDTO.getPassword());
         userDTO.setLogin(user.getLogin());
         return userDTO;
     }

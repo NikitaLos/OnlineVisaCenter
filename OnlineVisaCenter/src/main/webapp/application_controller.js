@@ -8,14 +8,14 @@ angular.module('visa_center', [])
                 });
         };
         $scope.getUserApp = function(){
-            $http.get('http://localhost:8888/get_applications_by_user')
+            $http.get('http://localhost:8888/client/get_applications_by_user')
                 .then(function (response) {
                     $scope.applications = response.data;
                 }).catch(function (reason) {
                 });
         };
         $scope.deleteApplication = function(application_id){
-            $http.delete('http://localhost:8888/delete_application/'+application_id)
+            $http.delete('http://localhost:8888/client/delete_application/'+application_id)
                 .then(function () {
                     $window.location.href = "/user_applications.html";
                 }).catch(function (reason) {
@@ -23,7 +23,7 @@ angular.module('visa_center', [])
         };
         $scope.getApplication = function(){
             $scope.application_id = localStorage.getItem("applicationId");
-            $http.get('http://localhost:8888/get_application/'+$scope.application_id)
+            $http.get('http://localhost:8888/auth_user/get_application/'+$scope.application_id)
                 .then(function (response) {
                     $scope.obtained_application = response.data;
                 }).catch(function (reason) {
@@ -35,7 +35,7 @@ angular.module('visa_center', [])
             $window.location.href = "/update_application_page.html";
         };
         $scope.addApplication = function(application){
-            $http.post('http://localhost:8888/add_application',application)
+            $http.post('http://localhost:8888/client/add_application',application)
                 .then(function () {
                     $window.location.href = "/user_applications.html";
                 }).catch(function (reason) {
@@ -45,7 +45,7 @@ angular.module('visa_center', [])
             });
         };
         $scope.updateApplication = function(application){
-            $http.post('http://localhost:8888/update_application',application)
+            $http.post('http://localhost:8888/client/update_application',application)
                 .then(function () {
                     $window.location.href = "/user_applications.html";
                 }).catch(function (reason) {
@@ -55,14 +55,14 @@ angular.module('visa_center', [])
             });
         };
         $scope.getCountry = function(){
-            $http.get('http://localhost:8888/get_countries')
+            $http.get('http://localhost:8888/auth_user/get_countries')
                 .then(function (response) {
                     $scope.countries = response.data;
                 }).catch(function (reason) {
             });
         };
         $scope.getAimsOfVisit = function(){
-            $http.get('http://localhost:8888/get_aims_of_visit')
+            $http.get('http://localhost:8888/client/get_aims_of_visit')
                 .then(function (response) {
                     $scope.aims = response.data;
                 }).catch(function (reason) {
@@ -76,7 +76,7 @@ angular.module('visa_center', [])
             });
         };
         $scope.getVisaByCountryId = function(countryId){
-            $http.get('http://localhost:8888/get_visas_by_country/'+countryId)
+            $http.get('http://localhost:8888/client/get_visas_by_country/'+countryId)
                 .then(function (response) {
                     $scope.visas = response.data;
                     $scope.visaBool = true;
@@ -185,7 +185,7 @@ angular.module('visa_center', [])
             });
         };
         $scope.getVisa = function(visa_id){
-            $http.get('http://localhost:8888/get_visa/'+visa_id)
+            $http.get('http://localhost:8888/client/get_visa/'+visa_id)
                 .then(function (response) {
                     $scope.chosenVisa = response.data;
                     $scope.paths = [];
@@ -197,10 +197,68 @@ angular.module('visa_center', [])
         $scope.addDocuments = function(documents,documentTypes){
             console.log(documents);
             console.log(documentTypes);
-            $http.post('http://localhost:8888/add_documents/',documents)
+            $http.post('http://localhost:8888/client/add_documents/',documents)
                 .then(function (response) {
                     $scope.chosenVisa = response.data;
                 }).catch(function (reason) {
+            });
+        };
+        $scope.addEmployee = function(user){
+            $http.post('http://localhost:8888/admin/add_employee', user)
+                .then(function () {
+                    $window.location.href = "/employees.html";
+                }).catch(function (reason) {
+                $scope.errorMessage = reason.data.errorMessage;
+                $scope.errors = reason.data.errors;
+                $scope.messageBool = true;
+            });
+        };
+        $scope.getRoles = function(){
+            $http.get('http://localhost:8888/admin/get_roles')
+                .then(function (response) {
+                    $scope.roles = response.data;
+                }).catch(function (reason) {
+            });
+        };
+        $scope.getAllEmployees = function(){
+            $http.get('http://localhost:8888/admin/get_employees')
+                .then(function (response) {
+                    $scope.employees = response.data;
+                }).catch(function (reason) {
+            });
+        };
+        $scope.deleteEmployee = function(employeeId){
+            $http.delete('http://localhost:8888/admin/delete_employee/'+employeeId)
+                .then(function (response) {
+                    $window.location.href = "/employees.html";
+                }).catch(function (reason) {
+            });
+        };
+        $scope.logUser = function(user){
+            var userParams = {login:user.login,password: user.password};
+            $http({url:'http://localhost:8888/login_user', method:"POST",params:userParams})
+                .then(function (response) {
+                    // if (angular.equals(response.data.role,"ADMIN")){
+                    //     $window.location.href = "/admin_page.html";
+                    // } else if(angular.equals(response.data.role,"EMPLOYEE")){
+                    //     $window.location.href = "/employee_page.html";
+                    // }else {
+                    //     $window.location.href = "/client_page.html";
+                    // }
+                }).catch(function (reason) {
+                $scope.errorMessage = reason.data.errorMessage;
+                $scope.errors = reason.data.errors;
+                $scope.messageBool = true;
+            });
+        };
+        $scope.regUser = function(user){
+            $http.post('http://localhost:8888/register', user)
+                .then(function () {
+                    $window.location.href = "/client_page.html";
+                }).catch(function (reason) {
+                $scope.errorMessage = reason.data.errorMessage;
+                $scope.errors = reason.data.errors;
+                $scope.messageBool = true;
             });
         };
     });

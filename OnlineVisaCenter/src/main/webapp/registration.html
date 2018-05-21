@@ -1,25 +1,11 @@
-<html ng-app="reg">
+<html ng-app="visa_center">
 <head>
     <title>Registration</title>
 </head>
 <body>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-<script>
-    angular.module('reg', [])
-        .controller('register',function($scope, $http, $window) {
-            $scope.regUser = function(user){
-                $http.post('http://localhost:8888/register', user)
-                    .then(function () {
-                        $window.location.href = "/client_page.html";
-                    }).catch(function (reason) {
-                        $scope.errorMessage = reason.data.errorMessage;
-                        $scope.errors = reason.data.errors;
-                        $scope.messageBool = true;
-                    });
-            };
-        });
-</script>
-<div ng-controller="register">
+<script src="application_controller.js"></script>
+<div ng-controller="application_controller">
 <form ng-submit="regUser(user)">
     <table style="with: 50%">
         <tr>
