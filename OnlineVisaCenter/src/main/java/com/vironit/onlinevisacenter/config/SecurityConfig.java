@@ -1,7 +1,7 @@
-package com.vironit.onlinevisacenter.config.security;
+package com.vironit.onlinevisacenter.config;
 
 import com.vironit.onlinevisacenter.dao.interfaces.UserDAO;
-import com.vironit.onlinevisacenter.service.MyUserDetailService;
+import com.vironit.onlinevisacenter.service.UserDetailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -16,16 +16,19 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
     private UserDAO userDAO;
+    private AuthenticationSuccessHandler authenticationSuccessHandler;
 
     @Autowired
-    private AuthenticationSuccessHandler authenticationSuccessHandler;
+    public SecurityConfig(UserDAO userDAO, AuthenticationSuccessHandler authenticationSuccessHandler){
+        this.userDAO = userDAO;
+        this.authenticationSuccessHandler = authenticationSuccessHandler;
+    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
-                .userDetailsService(new MyUserDetailService(userDAO));
+                .userDetailsService(new UserDetailServiceImpl(userDAO));
     }
 
     @Override

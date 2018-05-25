@@ -1,6 +1,5 @@
 package com.vironit.onlinevisacenter.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.vironit.onlinevisacenter.entity.enums.Result;
 import com.vironit.onlinevisacenter.entity.enums.Status;
 
@@ -9,8 +8,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "application", schema = "visa_center")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Table(name = "application")
 public class Application implements Serializable {
 
     @Id

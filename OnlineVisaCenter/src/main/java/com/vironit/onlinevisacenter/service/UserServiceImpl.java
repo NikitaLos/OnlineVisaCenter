@@ -7,7 +7,6 @@ import com.vironit.onlinevisacenter.exceptions.dao.EntityDeleteException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntitySaveException;
 import com.vironit.onlinevisacenter.exceptions.DuplicateException;
-import com.vironit.onlinevisacenter.exceptions.service.LoginationException;
 import com.vironit.onlinevisacenter.exceptions.service.UserServiceException;
 import com.vironit.onlinevisacenter.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +19,10 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private UserDAO userDAO;
-    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserDAO userDAO, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserDAO userDAO) {
         this.userDAO = userDAO;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -39,12 +36,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User logIn(User user) throws LoginationException {
+    public User logIn(User user) throws UserServiceException {
+
         try {
             return userDAO.findUserByLoginAndPassword(user);
         } catch (EntityFindException e) {
-            throw new LoginationException("User not registered");
+            throw new UserServiceException(e);
         }
+
     }
 
     @Override
@@ -82,31 +81,4 @@ public class UserServiceImpl implements UserService {
             throw new UserServiceException(e);
         }
     }
-
-    @Override
-    public User convertToEntity(UserDTO userDTO)  {
-        User user = new User();
-        user.setId(userDTO.getId());
-        if(userDTO.getRole()!=null){
-            user.setRole(userDTO.getRole());
-        }
-        user.setEmail(userDTO.getEmail());
-        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-        user.setLogin(userDTO.getLogin());
-        return user;
-    }
-
-    @Override
-    public UserDTO convertToDTO(User user) {
-        UserDTO userDTO = new UserDTO();
-        userDTO.setId(user.getId());
-        userDTO.setRole(user.getRole());
-        userDTO.setEmail(user.getEmail());
-        user.setPassword(userDTO.getPassword());
-        userDTO.setLogin(user.getLogin());
-        return userDTO;
-    }
-
-
-
 }

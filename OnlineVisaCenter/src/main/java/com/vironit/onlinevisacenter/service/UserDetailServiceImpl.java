@@ -15,14 +15,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-@Transactional
 @Service
-public class MyUserDetailService implements UserDetailsService {
+public class UserDetailServiceImpl implements UserDetailsService {
 
     private UserDAO userDAO;
 
     @Autowired
-    public MyUserDetailService(UserDAO userDAO) {
+    public UserDetailServiceImpl(UserDAO userDAO) {
         this.userDAO=userDAO;
     }
 
@@ -37,6 +36,5 @@ public class MyUserDetailService implements UserDetailsService {
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(user.getRole().toString()));
         return new org.springframework.security.core.userdetails.User(user.getLogin(),user.getPassword(),authorities);
-
     }
 }

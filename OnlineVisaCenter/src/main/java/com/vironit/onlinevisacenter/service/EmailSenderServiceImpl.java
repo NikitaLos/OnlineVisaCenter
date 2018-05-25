@@ -3,9 +3,8 @@ package com.vironit.onlinevisacenter.service;
 import com.vironit.onlinevisacenter.entity.Application;
 import com.vironit.onlinevisacenter.exceptions.service.SenderServiceException;
 import com.vironit.onlinevisacenter.service.interfaces.SenderService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import javax.mail.*;
@@ -17,12 +16,20 @@ import java.util.Properties;
 @PropertySource("classpath:mail.properties")
 public class EmailSenderServiceImpl implements SenderService {
 
-    private Environment environment;
-
-    @Autowired
-    public EmailSenderServiceImpl(Environment environment) {
-        this.environment = environment;
-    }
+    @Value("${visa_center.username}")
+    private String username;
+    @Value("${subject}")
+    private String subject;
+    @Value("${auth}")
+    private String auth;
+    @Value("${starttls}")
+    private String starttls;
+    @Value("${host}")
+    private String host;
+    @Value("${port}")
+    private String port;
+    @Value("${visa_center.pass}")
+    private String password;
 
     @Override
     public void sendResultToClient(Application application) throws SenderServiceException {
@@ -39,20 +46,20 @@ public class EmailSenderServiceImpl implements SenderService {
 
     private void sendMessage(String email, String messageText) throws MessagingException {
         Message message = new MimeMessage(createSession());
-        message.setFrom(new InternetAddress(environment.getProperty("visa_center.username")));
+        message.setFrom(new InternetAddress(username));
         message.setRecipients(Message.RecipientType.TO,
                 InternetAddress.parse(email));
-        message.setSubject(environment.getProperty("subject"));
+        message.setSubject(subject);
         message.setText(messageText);
         Transport.send(message);
     }
 
     private Properties setUpProperties(){
         Properties properties = new Properties();
-        properties.put("mail.smtp.auth", environment.getProperty("auth"));
-        properties.put("mail.smtp.starttls.enable", environment.getProperty("starttls"));
-        properties.put("mail.smtp.host", environment.getProperty("host"));
-        properties.put("mail.smtp.port", environment.getProperty("port"));
+        properties.put("mail.smtp.auth", auth);
+        properties.put("mail.smtp.starttls.enable", starttls);
+        properties.put("mail.smtp.host", host);
+        properties.put("mail.smtp.port", port);
         return properties;
     }
 
@@ -60,8 +67,7 @@ public class EmailSenderServiceImpl implements SenderService {
         return Session.getInstance(setUpProperties(),
                 new Authenticator() {
                     protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(environment.getProperty("visa_center.username"),
-                                environment.getProperty("visa_center.pass"));
+                        return new PasswordAuthentication(username,password);
                     }
                 });
     }

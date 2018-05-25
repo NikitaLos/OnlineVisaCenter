@@ -18,6 +18,4 @@ public interface CountryService {
     void deleteCountryById(Integer id) throws  CountryServiceException;
     Country getCountry(Integer id) throws CountryServiceException;
     List<Country> getAll() throws CountryServiceException;
-    Country convertToEntity(CountryDTO countryDTO);
-    CountryDTO convertToDTO(Country country);
 }

@@ -60,21 +60,4 @@ public class DocumentServiceImpl implements DocumentService {
             throw new DocumentServiceException(e);
         }
     }
-
-    @Override
-    public DocumentType convertToEntity(DocumentTypeDTO documentTypeDTO){
-        DocumentType documentType = new DocumentType();
-        documentType.setName(documentTypeDTO.getName());
-        documentType.setId(documentTypeDTO.getId());
-        return documentType;
-    }
-
-    @Override
-    public DocumentTypeDTO convertToDTO(DocumentType documentType){
-        DocumentTypeDTO documentTypeDTO = new DocumentTypeDTO();
-        documentTypeDTO.setName(documentType.getName());
-        documentTypeDTO.setId(documentType.getId());
-        return documentTypeDTO;
-    }
-
 }

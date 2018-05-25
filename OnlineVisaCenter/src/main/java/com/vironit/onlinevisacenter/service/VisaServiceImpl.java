@@ -28,14 +28,10 @@ import java.util.List;
 public class VisaServiceImpl implements VisaService {
 
     private VisaDAO visaDAO;
-    private CountryService countryService;
-    private DocumentService documentService;
 
     @Autowired
-    public VisaServiceImpl(VisaDAO visaDAO, CountryService countryService, DocumentService documentService) {
+    public VisaServiceImpl(VisaDAO visaDAO) {
         this.visaDAO = visaDAO;
-        this.countryService = countryService;
-        this.documentService = documentService;
     }
 
     @Override
@@ -91,41 +87,5 @@ public class VisaServiceImpl implements VisaService {
         } catch (EntityFindException e) {
             throw new VisaServiceException(e);
         }
-    }
-
-
-    @Override
-    public Visa convertToEntity(VisaRequestDTO visaDTO) throws VisaServiceException {
-        try {
-            Visa visa = new Visa();
-            visa.setId(visaDTO.getId());
-            visa.setType(visaDTO.getType());
-            visa.setPrice(visaDTO.getPrice());
-            visa.setCountry(countryService.getCountry(visaDTO.getCountryId()));
-            if(visaDTO.getRequiredDocumentTypesId()!=null) {
-                for (int id : visaDTO.getRequiredDocumentTypesId()) {
-                    visa.addDocumentType(documentService.getDocument(id));
-                }
-            }
-            return visa;
-        } catch (CountryServiceException | DocumentServiceException e) {
-            throw new VisaServiceException("Error of converting VisaDTO to entity",e);
-        }
-
-    }
-
-    @Override
-    public VisaResponseDTO convertToDTO(Visa visa) {
-        VisaResponseDTO visaResponseDTO = new VisaResponseDTO();
-        visaResponseDTO.setId(visa.getId());
-        visaResponseDTO.setType(visa.getType());
-        visaResponseDTO.setPrice(visa.getPrice());
-        visaResponseDTO.setCountry(countryService.convertToDTO(visa.getCountry()));
-        List<DocumentTypeDTO> documentTypesDTO = new ArrayList<>();
-        for (DocumentType documentType : visa.getRequiredDocumentTypes()){
-            documentTypesDTO.add(documentService.convertToDTO(documentType));
-        }
-        visaResponseDTO.setRequiredDocumentTypes(documentTypesDTO);
-        return visaResponseDTO;
     }
 }

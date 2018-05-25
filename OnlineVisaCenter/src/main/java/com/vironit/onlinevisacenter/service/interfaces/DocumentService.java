@@ -15,6 +15,4 @@ public interface DocumentService {
     void deleteDocumentById(Integer id) throws DocumentServiceException;
     DocumentType getDocument(int key) throws DocumentServiceException;
     List<DocumentType> getAll() throws DocumentServiceException;
-    DocumentType convertToEntity(DocumentTypeDTO documentTypeDTO);
-    DocumentTypeDTO convertToDTO(DocumentType documentType);
 }

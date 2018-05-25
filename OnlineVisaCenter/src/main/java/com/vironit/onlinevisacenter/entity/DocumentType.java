@@ -1,15 +1,11 @@
 package com.vironit.onlinevisacenter.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
-@Table(name = "document_type", schema = "visa_center")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Table(name = "document_type")
 public class DocumentType implements Serializable {
 
     @Id

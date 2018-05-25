@@ -17,7 +17,6 @@ public abstract class AbstractJPADAO<T,PK extends Serializable> implements Gener
 
     @PersistenceContext
     protected EntityManager entityManager;
-
     private Class<T> classType;
 
     AbstractJPADAO(Class<T> classType) {

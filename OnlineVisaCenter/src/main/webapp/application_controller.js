@@ -234,27 +234,10 @@ angular.module('visa_center', [])
                 }).catch(function (reason) {
             });
         };
-        $scope.logUser = function(user){
-            var userParams = {login:user.login,password: user.password};
-            $http({url:'http://localhost:8888/login_user', method:"POST",params:userParams})
-                .then(function (response) {
-                    // if (angular.equals(response.data.role,"ADMIN")){
-                    //     $window.location.href = "/admin_page.html";
-                    // } else if(angular.equals(response.data.role,"EMPLOYEE")){
-                    //     $window.location.href = "/employee_page.html";
-                    // }else {
-                    //     $window.location.href = "/client_page.html";
-                    // }
-                }).catch(function (reason) {
-                $scope.errorMessage = reason.data.errorMessage;
-                $scope.errors = reason.data.errors;
-                $scope.messageBool = true;
-            });
-        };
         $scope.regUser = function(user){
             $http.post('http://localhost:8888/register', user)
                 .then(function () {
-                    $window.location.href = "/client_page.html";
+                    $window.location.href = "/login_page.html";
                 }).catch(function (reason) {
                 $scope.errorMessage = reason.data.errorMessage;
                 $scope.errors = reason.data.errors;

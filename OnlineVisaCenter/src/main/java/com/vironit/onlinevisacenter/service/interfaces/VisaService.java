@@ -22,7 +22,5 @@ public interface VisaService {
     Visa getVisa(Integer id) throws VisaServiceException;
     List<Visa> getAll() throws VisaServiceException;
     List<Visa> getVisasByCountry(Country country) throws VisaServiceException;
-    Visa convertToEntity(VisaRequestDTO visaDTO) throws VisaServiceException, CountryServiceException, DocumentServiceException;
-    VisaResponseDTO convertToDTO(Visa visa);
 
 }

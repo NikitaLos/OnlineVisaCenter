@@ -19,7 +19,6 @@ public class ApplicationDAOImpl extends AbstractJPADAO<Application,Integer> impl
     @Override
     public List<Application> findApplicationsByClient(Integer userId) throws EntityFindException {
         try {
-
             Query query = entityManager.createQuery("select a from Application a where a.user.id = :userId",Application.class);
             return query.setParameter("userId",userId).getResultList();
         }catch (PersistenceException e){

@@ -23,7 +23,6 @@ public class ApplicationResponseDTO {
 
     private String comments;
 
-//    @JsonFormat(pattern = "MM/dd/yyyy hh:mm:ss")
     private LocalDateTime creationTime;
 
     public Integer getId() {
