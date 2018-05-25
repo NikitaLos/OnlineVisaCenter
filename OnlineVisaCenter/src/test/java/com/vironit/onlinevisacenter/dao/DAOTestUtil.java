@@ -6,9 +6,9 @@ import com.vironit.onlinevisacenter.entity.enums.Role;
 
 import java.time.LocalDate;
 
-public class DAOTestUtil {
+class DAOTestUtil {
 
-    public static Application prepareApplicationForInsert() {
+    static Application prepareApplicationForInsert() {
         Application application = new Application();
         application.setUser(prepareUser());
         application.setVisaInfo(prepareVisaInfo());
@@ -17,19 +17,19 @@ public class DAOTestUtil {
         return application;
     }
 
-    public static Country prepareCountry() {
+    static Country prepareCountry() {
         Country country = new Country();
         country.setName("Test Country");
         return country;
     }
 
-    public static DocumentType prepareDocumentType() {
+    static DocumentType prepareDocumentType() {
         DocumentType documentType = new DocumentType();
         documentType.setName("Test Document Type");
         return documentType;
     }
 
-    public static User prepareUser() {
+    static User prepareUser() {
         User user = new User();
         user.setLogin("Test User");
         user.setEmail("Test Email");
@@ -38,16 +38,7 @@ public class DAOTestUtil {
         return user;
     }
 
-    public static Passport preparePasport() {
-        Passport passport = new Passport();
-        passport.setCountryOfResidence("Test Country");
-        passport.setDateOfEnding(LocalDate.now());
-        passport.setDateOfReceiving(LocalDate.now());
-        passport.setNumber("Test Number");
-        return passport;
-    }
-
-    public static Visa prepareVisa() {
+    static Visa prepareVisa() {
         Visa visa = new Visa();
         visa.setType("Test Visa Type");
         visa.setPrice(999.);
@@ -56,7 +47,16 @@ public class DAOTestUtil {
         return visa;
     }
 
-    public static VisaInfo prepareVisaInfo() {
+    private static Passport preparePassport() {
+        Passport passport = new Passport();
+        passport.setCountryOfResidence("Test Country");
+        passport.setDateOfEnding(LocalDate.now());
+        passport.setDateOfReceiving(LocalDate.now());
+        passport.setNumber("Test Number");
+        return passport;
+    }
+
+    private static VisaInfo prepareVisaInfo() {
         VisaInfo visaInfo = new VisaInfo();
         visaInfo.setVisaPathOnServer("Test Visa Path");
         visaInfo.setVisa(prepareVisa());
@@ -69,9 +69,9 @@ public class DAOTestUtil {
         return visaInfo;
     }
 
-    public static ClientInfo prepareClientInfo() {
+    private static ClientInfo prepareClientInfo() {
         ClientInfo clientInfo = new ClientInfo();
-        clientInfo.setPassport(preparePasport());
+        clientInfo.setPassport(preparePassport());
         clientInfo.setAimOfVisit(AimOfVisit.BUSINESS);
         clientInfo.setDateOfBirth(LocalDate.now());
         clientInfo.setPhoneNumber("Test Phone Number");

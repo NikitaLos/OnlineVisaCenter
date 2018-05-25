@@ -2,8 +2,6 @@ package com.vironit.onlinevisacenter.dao;
 
 import com.vironit.onlinevisacenter.ApplicationStarter;
 import com.vironit.onlinevisacenter.dao.interfaces.VisaDAO;
-import com.vironit.onlinevisacenter.entity.Country;
-import com.vironit.onlinevisacenter.entity.DocumentType;
 import com.vironit.onlinevisacenter.entity.Visa;
 import com.vironit.onlinevisacenter.exceptions.DuplicateException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityDeleteException;
@@ -16,8 +14,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.stereotype.Component;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,8 +24,7 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {ApplicationStarter.class,JPAConfigTest.class})
-@ActiveProfiles("test")
+@SpringBootTest(classes = ApplicationStarter.class)
 @Transactional
 public class VisaDAOTest {
 
