@@ -1,6 +1,5 @@
-package com.vironit.onlinevisacenter.config.security;
+package com.vironit.onlinevisacenter.controller;
 
-import com.vironit.onlinevisacenter.exceptions.UndefinedRoleException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.DefaultRedirectStrategy;
@@ -8,7 +7,6 @@ import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -20,7 +18,7 @@ public class RoleBasedAuthenticationSuccessHandler implements AuthenticationSucc
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
+    public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) {
             Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
                 authorities.forEach(authority -> {
                     try {
@@ -30,11 +28,10 @@ public class RoleBasedAuthenticationSuccessHandler implements AuthenticationSucc
                             redirectStrategy.sendRedirect(httpServletRequest, httpServletResponse, "/admin");
                         } else if (authority.getAuthority().equals("EMPLOYEE")) {
                             redirectStrategy.sendRedirect(httpServletRequest, httpServletResponse, "/employee");
-                        } else {
-                            throw new IllegalStateException();
                         }
-                        } catch (Exception e){
-                        }
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 });
 
     }

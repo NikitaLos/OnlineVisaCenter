@@ -1,7 +1,7 @@
 package com.vironit.onlinevisacenter.controller;
 
 import com.vironit.onlinevisacenter.dto.response.ResponseExceptionDTO;
-import com.vironit.onlinevisacenter.exceptions.AuthorizationException;
+import com.vironit.onlinevisacenter.exceptions.ConverterException;
 import com.vironit.onlinevisacenter.exceptions.DuplicateException;
 import com.vironit.onlinevisacenter.exceptions.service.*;
 import org.springframework.http.HttpStatus;
@@ -27,14 +27,9 @@ public class ExceptionController {
         return new ResponseEntity<>(new ResponseExceptionDTO(e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(AuthorizationException.class)
-    public ResponseEntity<ResponseExceptionDTO> notAuthorize(AuthorizationException e) {
-        return new ResponseEntity<>(new ResponseExceptionDTO(e.getMessage()), HttpStatus.UNAUTHORIZED);
-    }
-
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseExceptionDTO NotValid(MethodArgumentNotValidException e) {
+    public ResponseExceptionDTO notValid(MethodArgumentNotValidException e) {
         List<String> validErrors = new ArrayList<>();
         for (ObjectError objectError : e.getBindingResult().getAllErrors()) {
             validErrors.add(objectError.getDefaultMessage());
@@ -44,39 +39,15 @@ public class ExceptionController {
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseExceptionDTO invalidJSON(HttpMessageNotReadableException e) {
+    public ResponseExceptionDTO invalidJSON() {
         return new ResponseExceptionDTO("invalid JSON");
     }
 
-    @ExceptionHandler(ApplicationServiceException.class)
+    @ExceptionHandler({ApplicationServiceException.class,CountryServiceException.class,DocumentServiceException.class,
+            UserServiceException.class,VisaServiceException.class,UsernameNotFoundException.class,ConverterException.class})
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResponseExceptionDTO applicationServiceException (ApplicationServiceException e) {
+    public ResponseExceptionDTO servicesException (Exception e) {
         return new ResponseExceptionDTO(e.getMessage());
     }
-
-    @ExceptionHandler(CountryServiceException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResponseExceptionDTO countryServiceException (CountryServiceException e) {
-        return new ResponseExceptionDTO(e.getMessage());
-    }
-
-    @ExceptionHandler(DocumentServiceException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResponseExceptionDTO documentServiceException (DocumentServiceException e) {
-        return new ResponseExceptionDTO(e.getMessage());
-    }
-
-    @ExceptionHandler(UserServiceException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResponseExceptionDTO userServiceException (UserServiceException e) {
-        return new ResponseExceptionDTO(e.getMessage());
-    }
-
-    @ExceptionHandler(VisaServiceException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResponseExceptionDTO visaServiceException (VisaServiceException e) {
-        return new ResponseExceptionDTO(e.getMessage());
-    }
-
 
 }
