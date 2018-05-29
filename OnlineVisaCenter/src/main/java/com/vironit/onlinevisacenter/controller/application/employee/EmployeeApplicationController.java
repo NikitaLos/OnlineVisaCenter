@@ -51,7 +51,7 @@ public class EmployeeApplicationController {
             Application application = applicationService.changeApplicationResultAndStatus(id,result);
             senderService.sendResultToClient(application);
         } catch (SenderServiceException e) {
-            Logger.getRootLogger().error("Error of sending result to client",e);//todo
+            Logger.getRootLogger().error("Error of sending result to client",e);
         }
     }
 

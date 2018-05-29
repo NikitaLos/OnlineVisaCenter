@@ -1,21 +1,27 @@
-<html>
+<html ng-app="visa_center">
 <head>
     <meta charset="UTF-8">
     <title>Log In</title>
 </head>
 <body>
-    <form action="/login_user" method="post">
-        <table>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script src="application_controller.js"></script>
+<div ng-controller="application_controller">
+    <form ng-submit="logUser(user)">
+        <table >
             <tr>
                 <td>Login</td>
-                <td><input name="login" type="text"/></td>
+                <td><input ng-model="user.login"  name="login" type="text"/></td>
             </tr>
             <tr>
                 <td>Password</td>
-                <td><input name="password" type="password"/></td>
+                <td><input ng-model="user.password" name="password" type="password"/></td>
             </tr>
         </table>
         <input value="Login" type="submit"/>
+        <h3 ng-show="messageBool">{{errorMessage}}</h3>
+        <h3 ng-repeat="error in errors" ng-show="messageBool">{{error}}</h3>
     </form>
+</div>
 </body>
 </html>

@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @SpringBootConfiguration
@@ -18,11 +19,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private UserDAO userDAO;
     private AuthenticationSuccessHandler authenticationSuccessHandler;
+    private AuthenticationEntryPoint authenticationEntryPoint;
 
     @Autowired
-    public SecurityConfig(UserDAO userDAO, AuthenticationSuccessHandler authenticationSuccessHandler){
+    public SecurityConfig(UserDAO userDAO, AuthenticationSuccessHandler authenticationSuccessHandler,
+                          AuthenticationEntryPoint authenticationEntryPoint){
         this.userDAO = userDAO;
         this.authenticationSuccessHandler = authenticationSuccessHandler;
+        this.authenticationEntryPoint = authenticationEntryPoint;
     }
 
     @Override
@@ -39,7 +43,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/client/**").hasAuthority("CLIENT")
                 .antMatchers("/auth_user/**").hasAnyAuthority("CLIENT","EMPLOYEE")
                 .and()
-                .formLogin().loginPage("/login").loginProcessingUrl("/login_user")
+                .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)
+                .and()
+                .formLogin().loginProcessingUrl("/login_user")
                 .usernameParameter("login").passwordParameter("password")
                 .successHandler(authenticationSuccessHandler)
                 .and()

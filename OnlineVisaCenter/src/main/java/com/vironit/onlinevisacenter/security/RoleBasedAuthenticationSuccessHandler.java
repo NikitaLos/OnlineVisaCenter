@@ -1,4 +1,4 @@
-package com.vironit.onlinevisacenter.controller;
+package com.vironit.onlinevisacenter.security;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -23,11 +23,11 @@ public class RoleBasedAuthenticationSuccessHandler implements AuthenticationSucc
                 authorities.forEach(authority -> {
                     try {
                         if (authority.getAuthority().equals("CLIENT")) {
-                            redirectStrategy.sendRedirect(httpServletRequest, httpServletResponse, "/client");
+                            redirectStrategy.sendRedirect(httpServletRequest, httpServletResponse, "/login_success?dest=client_page.html");
                         } else if (authority.getAuthority().equals("ADMIN")) {
-                            redirectStrategy.sendRedirect(httpServletRequest, httpServletResponse, "/admin");
+                            redirectStrategy.sendRedirect(httpServletRequest, httpServletResponse, "/login_success?dest=admin_page.html");
                         } else if (authority.getAuthority().equals("EMPLOYEE")) {
-                            redirectStrategy.sendRedirect(httpServletRequest, httpServletResponse, "/employee");
+                            redirectStrategy.sendRedirect(httpServletRequest, httpServletResponse, "/login_success?dest=employee_page.html");
                         }
                     } catch (IOException e) {
                         throw new RuntimeException(e);
