@@ -1,11 +1,6 @@
 package com.vironit.onlinevisacenter.service;
 
 import com.vironit.onlinevisacenter.dao.interfaces.ApplicationDAO;
-import com.vironit.onlinevisacenter.dto.request.ApplicationRequestDTO;
-import com.vironit.onlinevisacenter.dto.request.ClientInfoRequestDTO;
-import com.vironit.onlinevisacenter.dto.request.PassportRequestDTO;
-import com.vironit.onlinevisacenter.dto.request.VisaInfoRequestDTO;
-import com.vironit.onlinevisacenter.dto.response.*;
 import com.vironit.onlinevisacenter.entity.*;
 import com.vironit.onlinevisacenter.entity.enums.Result;
 import com.vironit.onlinevisacenter.entity.enums.Status;
@@ -14,10 +9,7 @@ import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntitySaveException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityUpdateException;
 import com.vironit.onlinevisacenter.exceptions.service.ApplicationServiceException;
-import com.vironit.onlinevisacenter.exceptions.service.VisaServiceException;
 import com.vironit.onlinevisacenter.service.interfaces.ApplicationService;
-import com.vironit.onlinevisacenter.service.interfaces.UserService;
-import com.vironit.onlinevisacenter.service.interfaces.VisaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -105,7 +97,6 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Override
     public Application changeApplicationResultAndStatus(Integer id, Result result) throws ApplicationServiceException {
         Status status = resolveApplicationStatus(result);
-        //todo deleting
         try {
             Application application = applicationDAO.find(id);
             application.setResult(result);

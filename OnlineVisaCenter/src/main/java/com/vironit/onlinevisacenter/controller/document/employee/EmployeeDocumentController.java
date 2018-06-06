@@ -5,7 +5,7 @@ import com.vironit.onlinevisacenter.dto.converter.DocumentTypeConverter;
 import com.vironit.onlinevisacenter.entity.DocumentType;
 import com.vironit.onlinevisacenter.exceptions.DuplicateException;
 import com.vironit.onlinevisacenter.exceptions.service.DocumentServiceException;
-import com.vironit.onlinevisacenter.service.interfaces.DocumentService;
+import com.vironit.onlinevisacenter.service.interfaces.DocumentTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,11 +17,11 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/employee")
 public class EmployeeDocumentController {
 
-    private DocumentService documentService;
+    private DocumentTypeService documentService;
     private DocumentTypeConverter documentTypeConverter;
 
     @Autowired
-    public EmployeeDocumentController(DocumentService documentService, DocumentTypeConverter documentTypeConverter) {
+    public EmployeeDocumentController(DocumentTypeService documentService, DocumentTypeConverter documentTypeConverter) {
         this.documentService = documentService;
         this.documentTypeConverter = documentTypeConverter;
     }

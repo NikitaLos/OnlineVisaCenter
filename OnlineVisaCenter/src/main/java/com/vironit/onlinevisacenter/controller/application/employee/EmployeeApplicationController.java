@@ -50,6 +50,7 @@ public class EmployeeApplicationController {
         try {
             Application application = applicationService.changeApplicationResultAndStatus(id,result);
             senderService.sendResultToClient(application);
+            //todo deleting
         } catch (SenderServiceException e) {
             Logger.getRootLogger().error("Error of sending result to client",e);
         }

@@ -20,7 +20,7 @@ public interface ApplicationService {
     Application getApplication(Integer id) throws ApplicationServiceException;
     List<Application> getUserApplications(Integer userId) throws ApplicationServiceException;
     @Transactional
-    Application changeApplicationResultAndStatus(Integer id, Result result) throws ApplicationServiceException, SenderServiceException;
+    Application changeApplicationResultAndStatus(Integer id, Result result) throws ApplicationServiceException;
 
     @Transactional
     void addCommentsToApplication(Integer id, String comments) throws ApplicationServiceException;

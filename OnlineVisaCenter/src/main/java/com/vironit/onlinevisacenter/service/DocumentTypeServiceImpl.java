@@ -1,26 +1,25 @@
 package com.vironit.onlinevisacenter.service;
 
 import com.vironit.onlinevisacenter.dao.interfaces.DocumentTypeDAO;
-import com.vironit.onlinevisacenter.dto.DocumentTypeDTO;
 import com.vironit.onlinevisacenter.entity.DocumentType;
 import com.vironit.onlinevisacenter.exceptions.DuplicateException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityDeleteException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntitySaveException;
 import com.vironit.onlinevisacenter.exceptions.service.DocumentServiceException;
-import com.vironit.onlinevisacenter.service.interfaces.DocumentService;
+import com.vironit.onlinevisacenter.service.interfaces.DocumentTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class DocumentServiceImpl implements DocumentService {
+public class DocumentTypeServiceImpl implements DocumentTypeService {
 
     private DocumentTypeDAO documentTypeDAO;
 
     @Autowired
-    public DocumentServiceImpl(DocumentTypeDAO documentTypeDAO) {
+    public DocumentTypeServiceImpl(DocumentTypeDAO documentTypeDAO) {
         this.documentTypeDAO = documentTypeDAO;
     }
 

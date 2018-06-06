@@ -1,27 +1,18 @@
 package com.vironit.onlinevisacenter.service;
 
 import com.vironit.onlinevisacenter.dao.interfaces.VisaDAO;
-import com.vironit.onlinevisacenter.dto.DocumentTypeDTO;
-import com.vironit.onlinevisacenter.dto.request.VisaRequestDTO;
-import com.vironit.onlinevisacenter.dto.response.VisaResponseDTO;
 import com.vironit.onlinevisacenter.entity.Country;
-import com.vironit.onlinevisacenter.entity.DocumentType;
 import com.vironit.onlinevisacenter.entity.Visa;
 import com.vironit.onlinevisacenter.exceptions.DuplicateException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityDeleteException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntitySaveException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityUpdateException;
-import com.vironit.onlinevisacenter.exceptions.service.CountryServiceException;
-import com.vironit.onlinevisacenter.exceptions.service.DocumentServiceException;
 import com.vironit.onlinevisacenter.exceptions.service.VisaServiceException;
-import com.vironit.onlinevisacenter.service.interfaces.CountryService;
-import com.vironit.onlinevisacenter.service.interfaces.DocumentService;
 import com.vironit.onlinevisacenter.service.interfaces.VisaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service

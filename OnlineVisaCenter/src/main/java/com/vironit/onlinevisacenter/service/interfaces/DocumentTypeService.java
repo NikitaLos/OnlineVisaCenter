@@ -1,6 +1,5 @@
 package com.vironit.onlinevisacenter.service.interfaces;
 
-import com.vironit.onlinevisacenter.dto.DocumentTypeDTO;
 import com.vironit.onlinevisacenter.entity.DocumentType;
 import com.vironit.onlinevisacenter.exceptions.DuplicateException;
 import com.vironit.onlinevisacenter.exceptions.service.DocumentServiceException;
@@ -8,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-public interface DocumentService {
+public interface DocumentTypeService {
     @Transactional
     void addDocument(DocumentType documentType) throws DuplicateException, DocumentServiceException;
     @Transactional

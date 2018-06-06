@@ -1,6 +1,5 @@
 package com.vironit.onlinevisacenter.dto.converter;
 
-import com.vironit.onlinevisacenter.dao.interfaces.VisaDAO;
 import com.vironit.onlinevisacenter.dto.DocumentTypeDTO;
 import com.vironit.onlinevisacenter.dto.request.VisaRequestDTO;
 import com.vironit.onlinevisacenter.dto.response.VisaResponseDTO;
@@ -9,9 +8,8 @@ import com.vironit.onlinevisacenter.entity.Visa;
 import com.vironit.onlinevisacenter.exceptions.ConverterException;
 import com.vironit.onlinevisacenter.exceptions.service.CountryServiceException;
 import com.vironit.onlinevisacenter.exceptions.service.DocumentServiceException;
-import com.vironit.onlinevisacenter.exceptions.service.VisaServiceException;
 import com.vironit.onlinevisacenter.service.interfaces.CountryService;
-import com.vironit.onlinevisacenter.service.interfaces.DocumentService;
+import com.vironit.onlinevisacenter.service.interfaces.DocumentTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,12 +20,12 @@ import java.util.List;
 public class VisaConverter {
 
     private CountryService countryService;
-    private DocumentService documentService;
+    private DocumentTypeService documentService;
     private CountryConverter countryConverter;
     private DocumentTypeConverter documentTypeConverter;
 
     @Autowired
-    public VisaConverter(CountryService countryService, DocumentService documentService, CountryConverter countryConverter,
+    public VisaConverter(CountryService countryService, DocumentTypeService documentService, CountryConverter countryConverter,
                          DocumentTypeConverter documentTypeConverter) {
         this.countryService = countryService;
         this.documentService = documentService;
