@@ -1,6 +1,5 @@
 package com.vironit.onlinevisacenter.dao;
 
-import com.vironit.onlinevisacenter.ApplicationStarter;
 import com.vironit.onlinevisacenter.dao.interfaces.UserDAO;
 import com.vironit.onlinevisacenter.entity.*;
 import com.vironit.onlinevisacenter.exceptions.DuplicateException;
@@ -9,35 +8,21 @@ import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntitySaveException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityUpdateException;
 import org.junit.*;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import java.util.List;
 
 import static org.junit.Assert.*;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = ApplicationStarter.class)
-@Transactional
-public class UserDAOTest {
+public class UserDAOTest extends BaseDAOTest{
 
     @Autowired
     private  UserDAO userDAO;
-
-    @PersistenceContext
-    private  EntityManager entityManager;
 
     private User testUser;
 
     @Before
     public void insertCountry(){
-        testUser = DAOTestUtil.prepareUser();
+        testUser = entityHelper.prepareUser();
         entityManager.persist(testUser);
     }
 
@@ -48,7 +33,7 @@ public class UserDAOTest {
 
     @Test
     public void saveTest() throws EntitySaveException {
-        User userExpected = DAOTestUtil.prepareUser();
+        User userExpected = entityHelper.prepareUser();
         userDAO.save(userExpected);
         User userActual = entityManager.find(User.class,userExpected.getId());
         assertEquals(userExpected,userActual);

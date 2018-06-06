@@ -1,6 +1,5 @@
 package com.vironit.onlinevisacenter.dao;
 
-import com.vironit.onlinevisacenter.ApplicationStarter;
 import com.vironit.onlinevisacenter.dao.interfaces.DocumentTypeDAO;
 import com.vironit.onlinevisacenter.entity.DocumentType;
 import com.vironit.onlinevisacenter.exceptions.DuplicateException;
@@ -11,34 +10,21 @@ import com.vironit.onlinevisacenter.exceptions.dao.EntityUpdateException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 
 import static org.junit.Assert.*;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = ApplicationStarter.class)
-@Transactional
-public class DocumentTypeDAOTest {
+public class DocumentTypeDAOTest extends BaseDAOTest{
 
     @Autowired
     private DocumentTypeDAO documentTypeDAO;
-
-    @PersistenceContext
-    private EntityManager entityManager;
 
     private DocumentType testDocumentType;
 
     @Before
     public void insertDocumentType(){
-        testDocumentType = DAOTestUtil.prepareDocumentType();
+        testDocumentType = entityHelper.prepareDocumentType();
         entityManager.persist(testDocumentType);
     }
 
@@ -49,7 +35,7 @@ public class DocumentTypeDAOTest {
 
     @Test
     public void saveTest() throws EntitySaveException {
-        DocumentType documentTypeExpected = DAOTestUtil.prepareDocumentType();
+        DocumentType documentTypeExpected = entityHelper.prepareDocumentType();
         documentTypeDAO.save(documentTypeExpected);
         DocumentType documentTypeActual = entityManager.find(DocumentType.class,documentTypeExpected.getId());
         assertEquals(documentTypeExpected,documentTypeActual);

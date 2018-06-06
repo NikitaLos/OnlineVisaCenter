@@ -1,6 +1,5 @@
 package com.vironit.onlinevisacenter.dao;
 
-import com.vironit.onlinevisacenter.ApplicationStarter;
 import com.vironit.onlinevisacenter.dao.interfaces.CountryDAO;
 import com.vironit.onlinevisacenter.entity.Country;
 import com.vironit.onlinevisacenter.exceptions.DuplicateException;
@@ -9,34 +8,22 @@ import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntitySaveException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityUpdateException;
 import org.junit.*;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = ApplicationStarter.class)
-@Transactional
-public class CountryDAOTest {
+public class CountryDAOTest extends BaseDAOTest{
 
     @Autowired
     private CountryDAO countryDAO;
-
-    @PersistenceContext
-    private EntityManager entityManager;
 
     private Country testCountry;
 
     @Before
     public void insertCountry(){
-        testCountry = DAOTestUtil.prepareCountry();
+        testCountry = entityHelper.prepareCountry();
         entityManager.persist(testCountry);
     }
 
@@ -47,7 +34,7 @@ public class CountryDAOTest {
 
     @Test
     public void saveTest() throws EntitySaveException {
-        Country countryExpected = DAOTestUtil.prepareCountry();
+        Country countryExpected = entityHelper.prepareCountry();
         countryDAO.save(countryExpected);
         Country countryActual = entityManager.find(Country.class,countryExpected.getId());
         Assert.assertEquals(countryExpected,countryActual);

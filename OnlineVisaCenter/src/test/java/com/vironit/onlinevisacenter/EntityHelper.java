@@ -1,14 +1,16 @@
-package com.vironit.onlinevisacenter.dao;
+package com.vironit.onlinevisacenter;
 
 import com.vironit.onlinevisacenter.entity.*;
 import com.vironit.onlinevisacenter.entity.enums.AimOfVisit;
 import com.vironit.onlinevisacenter.entity.enums.Role;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 
-class DAOTestUtil {
+@Component
+public class EntityHelper {
 
-    static Application prepareApplicationForInsert() {
+    public Application prepareApplication() {
         Application application = new Application();
         application.setUser(prepareUser());
         application.setVisaInfo(prepareVisaInfo());
@@ -17,19 +19,19 @@ class DAOTestUtil {
         return application;
     }
 
-    static Country prepareCountry() {
+    public Country prepareCountry() {
         Country country = new Country();
         country.setName("Test Country");
         return country;
     }
 
-    static DocumentType prepareDocumentType() {
+    public DocumentType prepareDocumentType() {
         DocumentType documentType = new DocumentType();
         documentType.setName("Test Document Type");
         return documentType;
     }
 
-    static User prepareUser() {
+    public User prepareUser() {
         User user = new User();
         user.setLogin("Test User");
         user.setEmail("Test Email");
@@ -38,7 +40,7 @@ class DAOTestUtil {
         return user;
     }
 
-    static Visa prepareVisa() {
+    public Visa prepareVisa() {
         Visa visa = new Visa();
         visa.setType("Test Visa Type");
         visa.setPrice(999.);
@@ -47,7 +49,7 @@ class DAOTestUtil {
         return visa;
     }
 
-    private static Passport preparePassport() {
+    private Passport preparePassport() {
         Passport passport = new Passport();
         passport.setCountryOfResidence("Test Country");
         passport.setDateOfEnding(LocalDate.now());
@@ -56,7 +58,7 @@ class DAOTestUtil {
         return passport;
     }
 
-    private static VisaInfo prepareVisaInfo() {
+    private VisaInfo prepareVisaInfo() {
         VisaInfo visaInfo = new VisaInfo();
         visaInfo.setVisaPathOnServer("Test Visa Path");
         visaInfo.setVisa(prepareVisa());
@@ -69,7 +71,7 @@ class DAOTestUtil {
         return visaInfo;
     }
 
-    private static ClientInfo prepareClientInfo() {
+    private ClientInfo prepareClientInfo() {
         ClientInfo clientInfo = new ClientInfo();
         clientInfo.setPassport(preparePassport());
         clientInfo.setAimOfVisit(AimOfVisit.BUSINESS);
@@ -81,5 +83,4 @@ class DAOTestUtil {
         clientInfo.setSex("Men");
         return clientInfo;
     }
-
 }

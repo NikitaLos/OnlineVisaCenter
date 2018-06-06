@@ -7,25 +7,14 @@ import com.vironit.onlinevisacenter.dto.request.VisaInfoRequestDTO;
 import com.vironit.onlinevisacenter.dto.validation.ValidationSequence;
 import com.vironit.onlinevisacenter.entity.enums.AimOfVisit;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
 import java.time.LocalDate;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-public class ApplicationValidationTest {
-
-    @Autowired
-    private Validator validator;
+public class ApplicationValidationTest extends BaseValidationTest {
 
     @Test
     public void invalidDateOfVisaAndPassportDates(){

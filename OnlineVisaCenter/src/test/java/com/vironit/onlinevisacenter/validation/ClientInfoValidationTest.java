@@ -4,24 +4,14 @@ import com.vironit.onlinevisacenter.dto.request.ClientInfoRequestDTO;
 import com.vironit.onlinevisacenter.dto.validation.ValidationSequence;
 import com.vironit.onlinevisacenter.entity.enums.AimOfVisit;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
 import java.time.LocalDate;
 import java.util.Set;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-public class ClientInfoValidationTest {
-
-    @Autowired
-    private Validator validator;
+public class ClientInfoValidationTest extends BaseValidationTest{
 
     @Test
     public void validClientInfo(){

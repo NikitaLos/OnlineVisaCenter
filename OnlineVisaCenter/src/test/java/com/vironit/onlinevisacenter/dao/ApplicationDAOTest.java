@@ -1,6 +1,5 @@
 package com.vironit.onlinevisacenter.dao;
 
-import com.vironit.onlinevisacenter.ApplicationStarter;
 import com.vironit.onlinevisacenter.dao.interfaces.ApplicationDAO;
 import com.vironit.onlinevisacenter.entity.*;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityDeleteException;
@@ -8,33 +7,21 @@ import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntitySaveException;
 import com.vironit.onlinevisacenter.exceptions.dao.EntityUpdateException;
 import org.junit.*;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 
 import static org.junit.Assert.*;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = ApplicationStarter.class)
-@Transactional
-public class ApplicationDAOTest {
+public class ApplicationDAOTest extends BaseDAOTest {
 
     @Autowired
     private ApplicationDAO applicationDAO;
-
-    @PersistenceContext
-    private EntityManager entityManager;
 
     private Application testApplication;
 
     @Before
     public void insertApplication() {
-        testApplication = DAOTestUtil.prepareApplicationForInsert();
+        testApplication = entityHelper.prepareApplication();
         entityManager.persist(testApplication);
     }
 
@@ -52,7 +39,7 @@ public class ApplicationDAOTest {
 
     @Test
     public void saveTest() throws EntitySaveException {
-        Application applicationExpected = DAOTestUtil.prepareApplicationForInsert();
+        Application applicationExpected = entityHelper.prepareApplication();
         applicationDAO.save(applicationExpected);
         Application applicationActual = entityManager.find(Application.class, applicationExpected.getId());
         assertEquals(applicationExpected, applicationActual);
