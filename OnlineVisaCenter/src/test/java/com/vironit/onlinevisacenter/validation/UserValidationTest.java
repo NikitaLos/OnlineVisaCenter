@@ -1,6 +1,7 @@
 package com.vironit.onlinevisacenter.validation;
 
 import com.vironit.onlinevisacenter.dto.UserDTO;
+import com.vironit.onlinevisacenter.entity.enums.Role;
 import org.junit.Test;
 
 import javax.validation.ConstraintViolation;
@@ -17,6 +18,7 @@ public class UserValidationTest extends BaseValidationTest{
         userDTO.setEmail("admin@admin.com");
         userDTO.setLogin("testLogin");
         userDTO.setPassword("testPassport");
+        userDTO.setRole(Role.CLIENT);
         Set<ConstraintViolation<UserDTO>> violations = validator.validate(userDTO);
         assertTrue(violations.isEmpty());
     }
@@ -24,8 +26,19 @@ public class UserValidationTest extends BaseValidationTest{
     @Test
     public void invalidLogin(){
         UserDTO userDTO = new UserDTO();
-        userDTO.setEmail("admin@admin.com");
+        userDTO.setEmail("admin@e.com");
         userDTO.setLogin("lo");
+        userDTO.setPassword("testPassport");
+        userDTO.setRole(Role.CLIENT);
+        Set<ConstraintViolation<UserDTO>> violations = validator.validate(userDTO);
+        assertFalse(violations.isEmpty());
+    }
+
+    @Test
+    public void invalidRole(){
+        UserDTO userDTO = new UserDTO();
+        userDTO.setEmail("admin@admin.com");
+        userDTO.setLogin("login");
         userDTO.setPassword("testPassport");
         Set<ConstraintViolation<UserDTO>> violations = validator.validate(userDTO);
         assertFalse(violations.isEmpty());
@@ -35,7 +48,8 @@ public class UserValidationTest extends BaseValidationTest{
     public void invalidPassword(){
         UserDTO userDTO = new UserDTO();
         userDTO.setEmail("admin@admin.com");
-        userDTO.setLogin("lo");
+        userDTO.setLogin("login");
+        userDTO.setRole(Role.CLIENT);
         Set<ConstraintViolation<UserDTO>> violations = validator.validate(userDTO);
         assertFalse(violations.isEmpty());
     }
@@ -44,8 +58,9 @@ public class UserValidationTest extends BaseValidationTest{
     public void invalidEmail(){
         UserDTO userDTO = new UserDTO();
         userDTO.setEmail("adminadmin.com");
-        userDTO.setLogin("lo");
+        userDTO.setLogin("login");
         userDTO.setPassword("testPassport");
+        userDTO.setRole(Role.CLIENT);
         Set<ConstraintViolation<UserDTO>> violations = validator.validate(userDTO);
         assertFalse(violations.isEmpty());
     }

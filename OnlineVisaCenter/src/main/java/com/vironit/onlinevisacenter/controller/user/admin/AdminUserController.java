@@ -40,6 +40,11 @@ public class AdminUserController {
         return Role.values();
     }
 
+    @GetMapping(value = "/get_employee_roles")
+    public Role[] getEmployeeRoles() {
+        return new Role[]{Role.ADMIN,Role.EMPLOYEE};
+    }
+
     @DeleteMapping(value = "/delete_employee/{employee_id}")
     public void deleteEmployee(@PathVariable("employee_id") Integer employeeId) throws UserServiceException {
         userService.deleteUserById(employeeId);

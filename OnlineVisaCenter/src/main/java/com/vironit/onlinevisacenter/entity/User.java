@@ -26,10 +26,6 @@ public class User implements Serializable {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    public User() {
-        role = Role.CLIENT;
-    }
-
     public Integer getId() {
         return id;
     }

@@ -2,10 +2,11 @@ package com.vironit.onlinevisacenter.config;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -19,7 +20,7 @@ import java.util.Properties;
 
 import static org.hibernate.cfg.AvailableSettings.*;
 
-@SpringBootConfiguration
+@Configuration
 @EnableTransactionManagement
 @PropertySource("classpath:database.properties")
 public class JPAConfig{
@@ -69,5 +70,10 @@ public class JPAConfig{
         properties.setProperty(NON_CONTEXTUAL_LOB_CREATION, lob);
         properties.setProperty(DEFAULT_SCHEMA, schema);
         return properties;
+    }
+
+    @Bean
+    public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
+        return new PropertySourcesPlaceholderConfigurer();
     }
 }

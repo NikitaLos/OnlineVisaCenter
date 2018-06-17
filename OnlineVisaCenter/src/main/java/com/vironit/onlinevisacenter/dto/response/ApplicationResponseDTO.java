@@ -1,6 +1,5 @@
 package com.vironit.onlinevisacenter.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.vironit.onlinevisacenter.dto.UserDTO;
 import com.vironit.onlinevisacenter.entity.enums.Result;
 import com.vironit.onlinevisacenter.entity.enums.Status;

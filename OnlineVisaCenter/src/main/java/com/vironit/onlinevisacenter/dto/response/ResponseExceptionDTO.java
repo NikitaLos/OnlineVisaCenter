@@ -5,19 +5,19 @@ import java.util.List;
 public class ResponseExceptionDTO {
 
     private String errorMessage;
-    private List<String> errors;
+    private List<String> validationErrors;
 
-       public ResponseExceptionDTO(List<String> errors) {
-        this.errors = errors;
+       public ResponseExceptionDTO(List<String> validationErrors) {
+        this.validationErrors = validationErrors;
     }
 
     public ResponseExceptionDTO(String errorMessage) {
         this.errorMessage = errorMessage;
     }
 
-    public ResponseExceptionDTO(String errorMessage, List<String> errors) {
+    public ResponseExceptionDTO(String errorMessage, List<String> validationErrors) {
         this.errorMessage = errorMessage;
-        this.errors = errors;
+        this.validationErrors = validationErrors;
     }
 
     public void setErrorMessage(String errorMessage) {
@@ -30,11 +30,11 @@ public class ResponseExceptionDTO {
         return errorMessage;
     }
 
-    public List<String> getErrors() {
-        return errors;
+    public List<String> getValidationErrors() {
+        return validationErrors;
     }
 
-    public void setErrors(List<String> errors) {
-        this.errors = errors;
+    public void setValidationErrors(List<String> validationErrors) {
+        this.validationErrors = validationErrors;
     }
 }

@@ -19,9 +19,7 @@ public class UserConverter {
     public User convertToEntity(UserDTO userDTO)  {
         User user = new User();
         user.setId(userDTO.getId());
-        if(userDTO.getRole()!=null){
-            user.setRole(userDTO.getRole());
-        }
+        user.setRole(userDTO.getRole());
         user.setEmail(userDTO.getEmail());
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         user.setLogin(userDTO.getLogin());

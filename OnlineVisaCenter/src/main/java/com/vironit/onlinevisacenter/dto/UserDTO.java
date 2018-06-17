@@ -23,6 +23,7 @@ public class UserDTO {
     @NotNull(message = "email can not be null")
     private String email;
 
+    @NotNull(message = "role can not be null")
     private Role role;
 
     public Integer getId() {

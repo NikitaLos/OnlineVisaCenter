@@ -30,11 +30,12 @@ public class ExceptionController {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseExceptionDTO notValid(MethodArgumentNotValidException e) {
+        String errorMessage = "Validation errors occurs:";
         List<String> validErrors = new ArrayList<>();
         for (ObjectError objectError : e.getBindingResult().getAllErrors()) {
             validErrors.add(objectError.getDefaultMessage());
         }
-        return new ResponseExceptionDTO(validErrors);
+        return new ResponseExceptionDTO(errorMessage,validErrors);
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
