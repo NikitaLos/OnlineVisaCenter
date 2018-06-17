@@ -5,11 +5,7 @@
     <title>Admin Page</title>
 </head>
 <body>
-<a href="employees.html">Manage users</a><br/>
-<br/>
-<br/>
-<div ng-controller="application_controller" data-ng-init="getRoles()">
-<button ng-click="LogOut()" >Log out</button>
+<div ng-include="'admin_navbar.html'">
 </div>
 </body>
 </html>

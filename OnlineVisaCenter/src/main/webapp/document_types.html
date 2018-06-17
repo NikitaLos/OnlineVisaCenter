@@ -5,35 +5,47 @@
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 <script src="application_controller.js"></script>
 <body>
-
-<form ng-controller="application_controller"  ng-submit="addDocumentType(document_type)">
-    <table style="with: 50%">
-        <tr>
-            <td>Name</td>
-            <td><input ng-model ="document_type.name" /></td>
-        </tr>
-    </table>
-    <input type="submit"/>
-    <h3 ng-show="messageBool">{{errorMessage}}</h3>
-    <h3 ng-repeat="error in errors" ng-show="messageBool">{{error}}</h3>
-</form>
-
+<div ng-include="'employee_navbar.html'">
+</div>
 <br/>
+<br/>
+<div ng-controller="application_controller">
+    <div class="row justify-content-center">
+        <form class="form-inline"   ng-submit="addDocumentType(document_type)">
+            <label class="sr-only" for="inlineFormInputLogin">Document type</label>
+            <input ng-model ="document_type.name" type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputLogin" placeholder="Document name">
+            <button  type="submit" class="btn btn-success mb-2">Add</button>
+        </form>
+    </div>
 
-<div ng-controller="application_controller" data-ng-init='getDocumentTypes()'>
-    <table ng-repeat="document_type in document_types">
-        <tr>
-            <td>
-                {{document_type.name}}
-            </td>
-        </tr>
+    <div ng-show="messageBool">
+        <div  class="row justify-content-center">
+            <strong class="alert alert-danger">{{errorMessage}}</strong>
+        </div>
 
-        <tr >
-            <td>
-                <button ng-click="deleteDocumentType(document_type.id)" type="submit">Delete</button>
-            </td>
-        </tr>
-    </table>
+        <div class="row justify-content-center">
+            <div  ng-repeat="error in validationErrors"  class="alert alert-danger" role="alert">
+                {{error}}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row justify-content-center">
+    <div ng-controller="application_controller" data-ng-init='getDocumentTypes()' class="col-4">
+        <table ng-repeat="document_type in document_types" class="table table-hover">
+            <tbody>
+            <tr>
+                <td class="col-2">
+                    {{document_type.name}}
+                </td>
+                <td class="col-2">
+                    <button class="btn btn-danger" ng-click="deleteDocumentType(document_type.id)" type="submit">Delete</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 </body>
 </html>

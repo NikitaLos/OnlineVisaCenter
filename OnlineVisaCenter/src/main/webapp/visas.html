@@ -4,74 +4,105 @@
 </head>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 <script src="application_controller.js"></script>
+
+<!--<link type="text/css"  rel="stylesheet"  href="bootstrap.min.css" />-->
+<!--<script type="text/javascript" src="jquery-2.1.3.min.js"></script>-->
+<!--<script type="text/javascript" src="bootstrap-multiselect.js"></script>-->
+<!--<link rel="stylesheet" href="bootstrap-multiselect.css" type="text/css">-->
+<!--<script src="bootstrap.min.js"></script>-->
 <body>
-
-<form ng-controller="application_controller" data-ng-init="getCountry(); getDocumentTypes()" ng-submit="addVisa(visa)">
-    <table style="with: 50%">
-        <tr>
-            <td>Type</td>
-            <td><input ng-model ="visa.type" /></td>
-        </tr>
-        <tr>
-            <td>Price</td>
-            <td><input ng-model ="visa.price" /></td>
-        </tr>
-        <tr>
-            <td>Country</td>
-            <td>
-                <select  ng-model="visa.countryId">
-                    <option ng-repeat="c in countries" value="{{c.id}}">{{c.name}}</option>
-                </select >
-            </td>
-        </tr>
-        <tr>
-            <td>Required Documents</td>
-            <td>
-                <select multiple  ng-model="visa.requiredDocumentTypesId">
-                    <option ng-repeat="d in document_types" value="{{d.id}}">{{d.name}}</option>
-                </select >
-            </td>
-        </tr>
-    </table>
-    <input type="submit"/>
-    <h3 ng-show="messageBool">{{errorMessage}}</h3>
-    <h3 ng-repeat="error in errors" ng-show="messageBool">{{error}}</h3>
-</form>
-
+<div ng-include="'employee_navbar.html'">
+</div>
+<br/>
 <br/>
 
-<div ng-controller="application_controller" data-ng-init='getVisas()'>
-    <table ng-repeat="visa in visas">
-        <tr>
-            <td>
-                {{visa.type}}
-            </td>
-        </tr>
+<div ng-controller="application_controller">
+    <div class="row justify-content-center">
+        <div class="col-9">
+            <form class="form-inline" data-ng-init="getCountry(); getDocumentTypes()" ng-submit="addVisa(visa)">
 
-        <tr>
-            <td>
-                {{visa.price}}
-            </td>
-        </tr>
+                <label class="sr-only" for="type">Type</label>
+                <input ng-model ="visa.type" type="text" class="form-control mr-sm-2" id="type" placeholder="Type">
 
-        <tr>
-            <td>
-                {{visa.country.name}}
-            </td>
-        </tr>
+                <label class="sr-only" for="price">Price</label>
+                <input ng-model ="visa.price" type="number" class="form-control mr-sm-2" id="price" placeholder="Price">
 
-        <tr>
-            <td>
-                {{visa.requiredDocumentTypes}}
-            </td>
-        </tr>
+                <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Country</label>
+                <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref" ng-model="visa.countryId">
+                    <option ng-repeat="c in countries" value="{{c.id}}">{{c.name}}</option>
+                </select >
 
-        <tr >
-            <td>
-                <button ng-click="deleteVisa(visa.id)" type="submit">Delete</button>
-            </td>
-        </tr>
-    </table>
+                <label class="my-1 mr-2" for="documents">Documents</label>
+                <select class="custom-select my-1 mr-sm-2" id="documents" multiple  ng-model="visa.requiredDocumentTypesId">
+                    <option ng-repeat="d in document_types" value="{{d.id}}">{{d.name}}</option>
+                </select >
+
+                <button  type="submit" class="btn btn-success mb-2">Add</button>
+            </form>
+        </div>
+    </div>
+
+    <div ng-show="messageBool">
+        <div  class="row justify-content-center">
+            <strong class="alert alert-danger">{{errorMessage}}</strong>
+        </div>
+
+        <div class="row justify-content-center">
+            <div  ng-repeat="error in validationErrors"  class="alert alert-danger" role="alert">
+                {{error}}
+            </div>
+        </div>
+    </div>
+
 </div>
+
+<div ng-controller="application_controller">
+    <div class="row justify-content-center">
+        <br/>
+        <div ng-controller="application_controller" data-ng-init='getVisas()' class="col-10">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">
+                        <a href="#" ng-click="sortBy('type')">Type</a>
+                        <span class="sortorder" ng-show="propertyName === 'type'" ng-class="{reverse: reverse}"></span>
+                    </th>
+                    <th scope="col">
+                        <a href="#" ng-click="sortBy('price')">Price</a>
+                        <span class="sortorder" ng-show="propertyName === 'price'" ng-class="{reverse: reverse}"></span></th>
+                    <th scope="col">
+                        <a href="#" ng-click="sortBy('country.name')">Country</a>
+                        <span class="sortorder" ng-show="propertyName === 'country.name'" ng-class="{reverse: reverse}"></span>
+                    </th>
+                    <th scope="col">
+                        Required documents
+                    </th>
+                    <th scope="col">Delete</th>
+                </tr>
+                </thead>
+                <tbody ng-repeat="visa in visas | orderBy: propertyName:reverse">
+                <tr>
+                    <td>
+                        {{visa.type}}
+                    </td>
+                    <td>
+                        {{visa.price}}
+                    </td>
+                    <td>
+                        {{visa.country.name}}
+                    </td>
+                    <td>
+                        <p ng-repeat=" doc in visa.requiredDocumentTypes">{{doc.name}}</p>
+                    </td>
+                    <td>
+                        <button class="btn btn-danger" ng-click="deleteVisa(visa.id)" type="submit">Delete</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>

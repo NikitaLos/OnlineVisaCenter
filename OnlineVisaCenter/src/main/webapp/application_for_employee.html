@@ -7,130 +7,159 @@
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 <script src="application_controller.js"></script>
 <body>
-<div ng-controller="application_controller" data-ng-init="getApplication(); getResults()">
-    <table>
-        <tr>
-            <td>Country</td>
-            <td>
-                {{obtained_application.visaInfo.visa.country.name}}
-            </td>
-        </tr>
-        <tr>
-            <td>Visa Info</td>
-            <td>
-                {{obtained_application.visaInfo.visa.type}}
-            </td>
-            <td>
-                {{obtained_application.visaInfo.visa.price}}
-            </td>
-            <td>
-                {{obtained_application.visaInfo.visa.price}}
-            </td>
-            <td>
-                {{obtained_application.visaInfo.dateFrom}}
-            </td>
-            <td>
-                {{obtained_application.visaInfo.dateTo}}
-            </td>
-            <td>
-                {{obtained_application.visaInfo.numOfDaysResidence}}
-            </td>
-            <td>
-                {{obtained_application.visaInfo.visa.requiredDocumentTypes}}
-            </td>
-        </tr>
-    </table>
-    <table>
-        <tr>
-            <td>Name</td>
-            <td>{{obtained_application.clientInfo.name}}</td>
-        </tr>
-        <tr>
-            <td>Surname</td>
-            <td>{{obtained_application.clientInfo.surname}}</td>
-        </tr>
-        <tr>
-            <td>Sex</td>
-            <td>{{obtained_application.clientInfo.sex}}</td>
-        </tr>
-        <tr>
-            <td>Phone number</td>
-            <td>{{obtained_application.clientInfo.phoneNumber}}</td>
-        </tr>
-        <tr>
-            <td>Date of Birth</td>
-            <td>{{obtained_application.clientInfo.dateOfBirth}}</td>
-        </tr>
-        <tr>
-            <td>Aim of Visit</td>
-            <td>{{obtained_application.clientInfo.aimOfVisit}}</td>
-        </tr>
-        <tr>
-            <td>Passport Number</td>
-            <td>{{obtained_application.clientInfo.passport.number}}</td>
-        </tr>
-        <tr>
-            <td>Country Of Residence</td>
-            <td>{{obtained_application.clientInfo.passport.countryOfResidence}}</td>
-        </tr>
-        <tr>
-            <td>Date of Receiving</td>
-            <td>{{obtained_application.clientInfo.passport.dateOfReceiving}}</td>
-        </tr>
-        <tr>
-            <td>Date of Ending</td>
-            <td>{{obtained_application.clientInfo.passport.dateOfEnding}}</td>
-        </tr>
-        <tr>
-            <td>Number of days</td>
-            <td>{{obtained_application.visaInfo.numOfDaysResidence}}</td>
-        </tr>
-        <tr>
-            <td>Date from</td>
-            <td>{{obtained_application.visaInfo.dateFrom}}</td>
-        </tr>
-        <tr>
-            <td>Date to</td>
-            <td>{{obtained_application.visaInfo.dateTo}}</td>
-        </tr>
-        <tr>
-            <td>Status</td>
-            <td>{{obtained_application.status}}</td>
-        </tr>
-        <tr>
-            <td>Result</td>
-            <td>{{obtained_application.result}}</td>
-        </tr>
-        <tr>
-            <td>Comments</td>
-            <td>{{obtained_application.comments}}</td>
-        </tr>
-        <tr>
-            <td>Creation time</td>
-            <td>{{obtained_application.creationTime}}</td>
-        </tr>
-    </table>
-    <tr>
-        <td>Photo</td>
-        <td><img src={{obtained_application.clientInfo.photoPath}}  width="255" height="255"></td>
-    </tr>
+<div ng-include="'employee_navbar.html'"></div>
+<br/>
+<div class="row justify-content-center">
 
-    <form ng-controller="application_controller"  ng-submit="addCommentsAndResult(obtained_application.id,app)">
-        <table>
-            <tr >
+<div ng-controller="application_controller" data-ng-init="getApplication(); getResults()" class="col-8">
+    <div class="col-12">
+        <table class="table table-bordered table-striped ">
+            <tbody>
+            <tr>
+                <td>Country</td>
                 <td>
-                    <input ng-model="app.comments"/></td>
-                <td>
+                    {{obtained_application.visaInfo.visa.country.name}}
                 </td>
             </tr>
-            <tr >
+            <tr>
+                <td>Visa type</td>
                 <td>
-                    <select  ng-model="app.result" ng-options="s as s for s in results"></select >
+                    {{obtained_application.visaInfo.visa.type}}
                 </td>
             </tr>
+            <tr>
+                <td>Visa price</td>
+                <td>
+                    {{obtained_application.visaInfo.visa.price}}
+                </td>
+            </tr>
+            <tr>
+                <td>Visa date from</td>
+                <td>
+                    {{obtained_application.visaInfo.dateFrom}}
+                </td>
+            </tr>
+            <tr>
+                <td>Visa date to</td>
+                <td>
+                    {{obtained_application.visaInfo.dateTo}}
+                </td>
+            <tr>
+                <td>Number of days</td>
+                <td>
+                    {{obtained_application.visaInfo.numOfDaysResidence}}
+                </td>
+            </tr>
+            <tr>
+                <td>Reqired documents</td>
+                <td>
+                    {{obtained_application.visaInfo.visa.requiredDocumentTypes}}
+                </td>
+            </tr>
+            <tr>
+                <td>Name</td>
+                <td>{{obtained_application.clientInfo.name}}</td>
+            </tr>
+            <tr>
+                <td>Surname</td>
+                <td>{{obtained_application.clientInfo.surname}}</td>
+            </tr>
+            <tr>
+                <td>Sex</td>
+                <td>{{obtained_application.clientInfo.sex}}</td>
+            </tr>
+            <tr>
+                <td>Phone number</td>
+                <td>{{obtained_application.clientInfo.phoneNumber}}</td>
+            </tr>
+            <tr>
+                <td>Date of Birth</td>
+                <td>{{obtained_application.clientInfo.dateOfBirth}}</td>
+            </tr>
+            <tr>
+                <td>Aim of Visit</td>
+                <td>{{obtained_application.clientInfo.aimOfVisit}}</td>
+            </tr>
+            <tr>
+                <td>Passport Number</td>
+                <td>{{obtained_application.clientInfo.passport.number}}</td>
+            </tr>
+            <tr>
+                <td>Country Of Residence</td>
+                <td>{{obtained_application.clientInfo.passport.countryOfResidence}}</td>
+            </tr>
+            <tr>
+                <td>Date of Receiving</td>
+                <td>{{obtained_application.clientInfo.passport.dateOfReceiving}}</td>
+            </tr>
+            <tr>
+                <td>Date of Ending</td>
+                <td>{{obtained_application.clientInfo.passport.dateOfEnding}}</td>
+            </tr>
+            <tr>
+                <td>Number of days</td>
+                <td>{{obtained_application.visaInfo.numOfDaysResidence}}</td>
+            </tr>
+            <tr>
+                <td>Date from</td>
+                <td>{{obtained_application.visaInfo.dateFrom}}</td>
+            </tr>
+            <tr>
+                <td>Date to</td>
+                <td>{{obtained_application.visaInfo.dateTo}}</td>
+            </tr>
+            <tr>
+                <td>Status</td>
+                <td>{{obtained_application.status}}</td>
+            </tr>
+            <tr>
+                <td>Result</td>
+                <td>{{obtained_application.result}}</td>
+            </tr>
+            <tr>
+                <td>Comments</td>
+                <td>{{obtained_application.comments}}</td>
+            </tr>
+            <tr>
+                <td>Creation time</td>
+                <td>{{obtained_application.creationTime}}</td>
+            </tr>
+            <tr>
+                <td>Photo</td>
+                <td><img src={{obtained_application.clientInfo.photoPath}}  width="150" height="150"></td>
+            </tr>
+            </tbody>
         </table>
-        <input type="submit">
-    </form>
+    </div>
+
+    <div class="col-12">
+        <form ng-controller="application_controller"  ng-submit="addCommentsAndResult(obtained_application.id,app)">
+            <table class="col-12">
+                <tr>
+                    <td>
+                        <div class="col-4 offset-4">
+                            <label class="label_margin" for="inlineFormCustomSelectCountry">Change result:</label>
+                            <select class="custom-select margin_app" id="inlineFormCustomSelectCountry"  ng-model="app.result" ng-options="s as s for s in results"></select>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="col-12">
+                            <label class="label_margin" for="comments">Comments:</label>
+                            <input ng-model="app.comments" type="text" class="form-control " placeholder="Comments" id="comments">
+                        </div>
+                    <td>
+                </tr>
+            </table>
+            <br/>
+            <div class="row col-12">
+                <button  class="btn btn-success offset-9 col-3" type="submit">Update</button>
+            </div>
+            <br/>
+        </form>
+    </div>
+</div>
 </div>
 </body>
 </html>

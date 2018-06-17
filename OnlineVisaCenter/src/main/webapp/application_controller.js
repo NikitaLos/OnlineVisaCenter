@@ -1,13 +1,24 @@
 angular.module('visa_center', [])
     .controller('application_controller',function($scope, $http, $window) {
+
+        $scope.loginRedirect = function(reason){
+            if (reason.status===401||reason.status===403){
+                $window.location.href= "/login_page.html"
+            }
+        };
+
+        $scope.displayErrors = function(reason) {
+            $scope.errorMessage = reason.data.errorMessage;
+            $scope.validationErrors = reason.data.validationErrors;
+            $scope.messageBool = true;
+        };
+
         $scope.getAllApplications = function(){
-            $http.get('http://localhost:8888/employee/get_applications')
+                $http.get('http://localhost:8888/employee/get_applications')
                 .then(function (response) {
                     $scope.all_applications = response.data;
                 }).catch(function (reason) {
-                    if (reason.status===401){
-                        $window.location.href= "/login_page.html"
-                    }
+                    $scope.loginRedirect(reason);
                 });
         };
         $scope.getUserApp = function(){
@@ -15,20 +26,16 @@ angular.module('visa_center', [])
                 .then(function (response) {
                     $scope.applications = response.data;
                 }).catch(function (reason) {
-                if (reason.status===401){
-                    $window.location.href= "/login_page.html"
-                }
-                });
+                    $scope.loginRedirect(reason);
+            });
         };
         $scope.deleteApplication = function(application_id){
             $http.delete('http://localhost:8888/client/delete_application/'+application_id)
                 .then(function () {
                     $window.location.href = "/user_applications.html";
                 }).catch(function (reason) {
-                if (reason.status===401){
-                    $window.location.href= "/login_page.html"
-                }
-                });
+                    $scope.loginRedirect(reason);
+            });
         };
         $scope.getApplication = function(){
             $scope.application_id = localStorage.getItem("applicationId");
@@ -36,9 +43,7 @@ angular.module('visa_center', [])
                 .then(function (response) {
                     $scope.obtained_application = response.data;
                 }).catch(function (reason) {
-                if (reason.status===401){
-                    $window.location.href= "/login_page.html"
-                }
+                    $scope.loginRedirect(reason);
             });
         };
         $scope.toUpdateApplication = function(applicationId){
@@ -51,12 +56,8 @@ angular.module('visa_center', [])
                 .then(function () {
                     $window.location.href = "/user_applications.html";
                 }).catch(function (reason) {
-                if (reason.status===401){
-                    $window.location.href= "/login_page.html"
-                }
-                $scope.errorMessage = reason.data.errorMessage;
-                $scope.errors = reason.data.errors;
-                $scope.messageBool = true;
+                    $scope.loginRedirect(reason);
+                    $scope.displayErrors(reason);
             });
         };
         $scope.updateApplication = function(application){
@@ -64,12 +65,8 @@ angular.module('visa_center', [])
                 .then(function () {
                     $window.location.href = "/user_applications.html";
                 }).catch(function (reason) {
-                if (reason.status===401){
-                    $window.location.href= "/login_page.html"
-                }
-                $scope.errorMessage = reason.data.errorMessage;
-                $scope.errors = reason.data.errors;
-                $scope.messageBool = true;
+                $scope.loginRedirect(reason);
+                $scope.displayErrors(reason);
             });
         };
         $scope.getCountry = function(){
@@ -77,9 +74,7 @@ angular.module('visa_center', [])
                 .then(function (response) {
                     $scope.countries = response.data;
                 }).catch(function (reason) {
-                if (reason.status===401){
-                    $window.location.href= "/login_page.html"
-                }
+                $scope.loginRedirect(reason);
             });
         };
         $scope.getAimsOfVisit = function(){
@@ -87,9 +82,7 @@ angular.module('visa_center', [])
                 .then(function (response) {
                     $scope.aims = response.data;
                 }).catch(function (reason) {
-                if (reason.status===401){
-                    $window.location.href= "/login_page.html"
-                }
+                $scope.loginRedirect(reason);
             });
         };
         $scope.getVisas = function(){
@@ -97,9 +90,7 @@ angular.module('visa_center', [])
                 .then(function (response) {
                     $scope.visas = response.data;
                 }).catch(function (reason) {
-                if (reason.status===401){
-                    $window.location.href= "/login_page.html"
-                }
+                $scope.loginRedirect(reason);
             });
         };
         $scope.getVisaByCountryId = function(countryId){
@@ -108,9 +99,7 @@ angular.module('visa_center', [])
                     $scope.visas = response.data;
                     $scope.visaBool = true;
                 }).catch(function (reason) {
-                if (reason.status===401){
-                    $window.location.href= "/login_page.html"
-                }
+                $scope.loginRedirect(reason);
             });
         };
 
@@ -125,11 +114,9 @@ angular.module('visa_center', [])
         $scope.LogOut = function(){
             $http.get('http://localhost:8888/logout')
                 .then(function () {
-                    $window.location.href = "/index.html";
+                    $window.location.href = "/login_page.html";
                 }).catch(function (reason) {
-                if (reason.status===401){
-                    $window.location.href= "/login_page.html"
-                }
+                $scope.loginRedirect(reason);
             });
         };
         $scope.getStatuses = function(){
@@ -137,9 +124,7 @@ angular.module('visa_center', [])
                 .then(function (response) {
                     $scope.statuses = response.data;
                 }).catch(function (reason) {
-                if (reason.status===401){
-                    $window.location.href= "/login_page.html"
-                }
+                $scope.loginRedirect(reason);
             });
         };
         $scope.getResults = function(){
@@ -147,9 +132,7 @@ angular.module('visa_center', [])
                 .then(function (response) {
                     $scope.results = response.data;
                 }).catch(function (reason) {
-                if (reason.status===401){
-                    $window.location.href= "/login_page.html"
-                }
+                $scope.loginRedirect(reason);
             });
         };
         $scope.addCommentsAndResult = function(id,app){
@@ -159,27 +142,19 @@ angular.module('visa_center', [])
                         .then(function () {
                             $window.location.href= "/applications.html";
                         }).catch(function (reason) {
-                        if (reason.status===401){
-                            $window.location.href= "/login_page.html"
-                        }
+                        $scope.loginRedirect(reason);
                     });
                 }).catch(function (reason) {
-                if (reason.status===401){
-                    $window.location.href= "/login_page.html"
-                }
+                $scope.loginRedirect(reason);
             });
         };
         $scope.addCountry = function(country){
             $http.post('http://localhost:8888/employee/add_country/',country)
-                .then(function (response) {
+                .then(function () {
                     $window.location.href = "/countries.html";
                 }).catch(function (reason) {
-                if (reason.status===401){
-                    $window.location.href= "/login_page.html"
-                }
-                $scope.errorMessage = reason.data.errorMessage;
-                $scope.errors = reason.data.errors;
-                $scope.messageBool = true;
+                $scope.loginRedirect(reason);
+                $scope.displayErrors(reason);
             });
         };
         $scope.deleteCountry = function(country_id){
@@ -187,11 +162,7 @@ angular.module('visa_center', [])
                 .then(function () {
                     $window.location.href = "/countries.html";
                 }).catch(function (reason) {
-                if (reason.status===401){
-                    $window.location.href= "/login_page.html"
-                }
-                $scope.message = reason.data.text;
-                $scope.messageBool = true;
+                $scope.loginRedirect(reason);
             });
         };
         $scope.addDocumentType = function(document_type){
@@ -199,12 +170,8 @@ angular.module('visa_center', [])
                 .then(function () {
                     $window.location.href = "/document_types.html";
                 }).catch(function (reason) {
-                if (reason.status===401){
-                    $window.location.href= "/login_page.html"
-                }
-                $scope.errorMessage = reason.data.errorMessage;
-                $scope.errors = reason.data.errors;
-                $scope.messageBool = true;
+                $scope.loginRedirect(reason);
+                $scope.displayErrors(reason);
             });
         };
         $scope.deleteDocumentType = function(document_type_id){
@@ -212,9 +179,7 @@ angular.module('visa_center', [])
                 .then(function () {
                     $window.location.href = "/document_types.html";
                 }).catch(function (reason) {
-                if (reason.status===401){
-                    $window.location.href= "/login_page.html"
-                }
+                $scope.loginRedirect(reason);
             });
         };
         $scope.getDocumentTypes = function(){
@@ -222,9 +187,7 @@ angular.module('visa_center', [])
                 .then(function (response) {
                     $scope.document_types = response.data;
                 }).catch(function (reason) {
-                if (reason.status===401){
-                    $window.location.href= "/login_page.html"
-                }
+                $scope.loginRedirect(reason);
             });
         };
         $scope.deleteVisa = function(visa_id){
@@ -232,9 +195,7 @@ angular.module('visa_center', [])
                 .then(function () {
                     $window.location.href = "/visas.html";
                 }).catch(function (reason) {
-                if (reason.status===401){
-                    $window.location.href= "/login_page.html"
-                }
+                $scope.loginRedirect(reason);
             });
         };
         $scope.addVisa = function(visa){
@@ -242,12 +203,8 @@ angular.module('visa_center', [])
                 .then(function () {
                     $window.location.href = "/visas.html";
                 }).catch(function (reason) {
-                if (reason.status===401){
-                    $window.location.href= "/login_page.html"
-                }
-                $scope.errorMessage = reason.data.errorMessage;
-                $scope.errors = reason.data.errors;
-                $scope.messageBool = true;
+                $scope.loginRedirect(reason);
+                $scope.displayErrors(reason);
             });
         };
         $scope.getVisa = function(visa_id){
@@ -257,9 +214,7 @@ angular.module('visa_center', [])
                     $scope.paths = [];
                     $scope.documentTypes = [];
                 }).catch(function (reason) {
-                if (reason.status===401){
-                    $window.location.href= "/login_page.html"
-                }
+                $scope.loginRedirect(reason);
             });
         };
         $scope.addDocuments = function(documents){
@@ -267,9 +222,7 @@ angular.module('visa_center', [])
                 .then(function (response) {
                     $scope.chosenVisa = response.data;
                 }).catch(function (reason) {
-                if (reason.status===401){
-                    $window.location.href= "/login_page.html"
-                }
+                $scope.loginRedirect(reason);
             });
         };
         $scope.addEmployee = function(user){
@@ -277,12 +230,8 @@ angular.module('visa_center', [])
                 .then(function () {
                     $window.location.href = "/employees.html";
                 }).catch(function (reason) {
-                if (reason.status===401){
-                    $window.location.href= "/login_page.html"
-                }
-                $scope.errorMessage = reason.data.errorMessage;
-                $scope.errors = reason.data.errors;
-                $scope.messageBool = true;
+                $scope.loginRedirect(reason);
+                $scope.displayErrors(reason);
             });
         };
         $scope.getRoles = function(){
@@ -290,9 +239,15 @@ angular.module('visa_center', [])
                 .then(function (response) {
                     $scope.roles = response.data;
                 }).catch(function (reason) {
-                if (reason.status===401){
-                    $window.location.href= "/login_page.html"
-                }
+                $scope.loginRedirect(reason);
+            });
+        };
+        $scope.getEmployeeRoles = function(){
+            $http.get('http://localhost:8888/admin/get_employee_roles')
+                .then(function (response) {
+                    $scope.roles = response.data;
+                }).catch(function (reason) {
+                $scope.loginRedirect(reason);
             });
         };
         $scope.getAllEmployees = function(){
@@ -300,19 +255,14 @@ angular.module('visa_center', [])
                 .then(function (response) {
                     $scope.employees = response.data;
                 }).catch(function (reason) {
-                if (reason.status===401){
-                    $window.location.href= "/login_page.html"
-                }
+                $scope.loginRedirect(reason);
             });
         };
         $scope.deleteEmployee = function(employeeId){
             $http.delete('http://localhost:8888/admin/delete_employee/'+employeeId)
-                .then(function (response) {
+                .then(function () {
                     $window.location.href = "/employees.html";
                 }).catch(function (reason) {
-                if (reason.status===401){
-                    $window.location.href= "/login_page.html"
-                }
             });
         };
         $scope.logUser = function(user){
@@ -321,25 +271,24 @@ angular.module('visa_center', [])
                 .then(function (response) {
                     $window.location.href = response.data.destination;
                 }).catch(function (reason) {
-                if (reason.status===401){
-                    $window.location.href= "/login_page.html"
-                }
-                $scope.errorMessage = reason.data.errorMessage;
-                $scope.errors = reason.data.errors;
+                $scope.errorMessage = reason.data.error;
                 $scope.messageBool = true;
             });
         };
         $scope.regUser = function(user){
+            user.role="CLIENT";
             $http.post('http://localhost:8888/register', user)
                 .then(function () {
                     $window.location.href = "/login_page.html";
                 }).catch(function (reason) {
-                if (reason.status===401){
-                    $window.location.href= "/login_page.html"
-                }
-                $scope.errorMessage = reason.data.errorMessage;
-                $scope.errors = reason.data.errors;
-                $scope.messageBool = true;
+                $scope.loginRedirect(reason);
+                $scope.displayErrors(reason);
             });
+        };
+
+        $scope.reverse = true;
+        $scope.sortBy = function(propertyName) {
+            $scope.reverse = ($scope.propertyName === propertyName) ? !$scope.reverse : false;
+            $scope.propertyName = propertyName;
         };
     });

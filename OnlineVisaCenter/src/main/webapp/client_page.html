@@ -4,17 +4,8 @@
 <head>
     <title>Main Page</title>
 </head>
-<div ng-controller="application_controller" data-ng-init="getAimsOfVisit()"></div>
 <body>
-    <a href="/compose_application.html">Compose application</a>
+<div ng-include="'client_navbar.html'"></div>
 
-    <a href="/user_applications.html">My applications</a>
-
-    <br/>
-    <br/>
-
-    <div ng-controller="application_controller">
-        <button ng-click="LogOut()" >Log out</button>
-    </div>
 </body>
 </html>

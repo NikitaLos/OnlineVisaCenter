@@ -5,38 +5,60 @@
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 <script src="application_controller.js"></script>
 <body>
-<div ng-controller="application_controller" data-ng-init='getUserApp()'>
-    <table  ng-repeat="application in applications">
+<div ng-include="'client_navbar.html'"></div>
+<br/>
+<div class="row justify-content-center">
+<div ng-controller="application_controller" data-ng-init='getUserApp()' class="col-10">
+
+    <table class="table table-hover">
+        <thead>
         <tr>
-            <td>Country</td>
+            <th scope="col">
+                <a href="#" ng-click="sortBy('name')">Country</a>
+                <span class="sortorder" ng-show="propertyName === 'name'" ng-class="{reverse: reverse}"></span>
+            </th>
+            <th scope="col">
+                <a href="#" ng-click="sortBy('type')">Visa Type</a>
+                <span class="sortorder" ng-show="propertyName === 'type'" ng-class="{reverse: reverse}"></span></th>
+            <th scope="col">
+                <a href="#" ng-click="sortBy('status')">Status</a>
+                <span class="sortorder" ng-show="propertyName === 'status'" ng-class="{reverse: reverse}"></span>
+            </th>
+            <th scope="col">
+                <a href="#" ng-click="sortBy('result')">Result</a>
+                <span class="sortorder" ng-show="propertyName === 'result'" ng-class="{reverse: reverse}"></span>
+            </th>
+            <th scope="col">
+                <a href="#" ng-click="sortBy('creationTime')">Creation Time</a>
+                <span class="sortorder" ng-show="propertyName === 'creationTime'" ng-class="{reverse: reverse}"></span>
+            </th>
+            <th scope="col">Show</th>
+        </tr>
+        </thead>
+        <tbody ng-repeat="application in applications | orderBy: propertyName:reverse">
+        <tr>
             <td>
                 {{application.visaInfo.visa.country.name}}
             </td>
-        </tr>
-        <tr>
-            <td>Visa Type</td>
             <td>
                 {{application.visaInfo.visa.type}}
             </td>
-        </tr>
-        <tr >
-            <td>Status</td>
             <td>
                 {{application.status}}
             </td>
-        </tr>
-        <tr >
-            <td>Result</td>
             <td>
                 {{application.result}}
             </td>
-        </tr>
-        <tr >
             <td>
-                <button ng-click="showApplication(application.id)" type="submit">Show</button>
+                {{application.creationTime}}
+            </td>
+            <td>
+                <button class="btn btn-success" ng-click="showApplication(application.id)" type="submit">Show</button>
             </td>
         </tr>
+        </tbody>
     </table>
+</div>
 </div>
 </body>
 </html>
