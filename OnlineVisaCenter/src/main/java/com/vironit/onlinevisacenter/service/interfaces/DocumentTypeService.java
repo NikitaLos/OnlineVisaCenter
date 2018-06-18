@@ -1,17 +1,17 @@
 package com.vironit.onlinevisacenter.service.interfaces;
 
 import com.vironit.onlinevisacenter.entity.DocumentType;
-import com.vironit.onlinevisacenter.exceptions.DuplicateException;
-import com.vironit.onlinevisacenter.exceptions.service.DocumentServiceException;
+import com.vironit.onlinevisacenter.exceptions.ServiceException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 public interface DocumentTypeService {
     @Transactional
-    void addDocument(DocumentType documentType) throws DuplicateException, DocumentServiceException;
+    void addDocument(DocumentType documentType) throws ServiceException;
     @Transactional
-    void deleteDocumentById(Integer id) throws DocumentServiceException;
-    DocumentType getDocument(int key) throws DocumentServiceException;
-    List<DocumentType> getAll() throws DocumentServiceException;
+    void deleteDocumentById(Integer id) throws ServiceException;
+    DocumentType getDocument(int key) throws ServiceException;
+    List<DocumentType> getAll() throws ServiceException;
+
 }

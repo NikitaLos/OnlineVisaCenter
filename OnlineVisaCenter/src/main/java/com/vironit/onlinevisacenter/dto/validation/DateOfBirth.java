@@ -18,7 +18,7 @@ import static java.time.temporal.ChronoUnit.YEARS;
 @Retention(RUNTIME)
 @Constraint(validatedBy = DateOfBirth.DateOfBirthImpl.class)
 public @interface DateOfBirth {
-    String message() default "You need to be 18 years old to make a an application";
+    String message() default "{date_of_birth}";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 

@@ -11,20 +11,20 @@ public class PassportRequestDTO {
 
     private Integer id;
 
-    @NotNull(message = "number can not be null")
-    @Size(min = 8, message = "number must have {min} characters minimum")
+    @NotNull(message = "{passport.number.null}")
+    @Size(min = 8, message = "{passport.number.size}")
     private String number;
 
-    @NotNull(message = "countryOfResidence can not be null")
-    @Size(min = 2, message = "country must have {min} characters minimum")
+    @NotNull(message = "{passport.country.null}")
+    @Size(min = 2, message = "{passport.country.size}")
     private String countryOfResidence;
 
-    @NotNull(message = "dateOfReceiving can not be null")
-    @Past(message = "dateOfReceiving must be in past")
+    @NotNull(message = "{passport.date_of_receiving.null}")
+    @Past(message = "{passport.date_of_receiving}")
     private LocalDate dateOfReceiving;
 
-    @NotNull(message = "dateOfEnding can not be null")
-    @Future(message = "dateOfEnding must be in future")
+    @NotNull(message = "{passport.date_of_ending.null}")
+    @Future(message = "{passport.date_of_ending}")
     private LocalDate dateOfEnding;
 
     public Integer getId() {

@@ -2,7 +2,7 @@ package com.vironit.onlinevisacenter.service;
 
 import com.vironit.onlinevisacenter.dao.interfaces.UserDAO;
 import com.vironit.onlinevisacenter.entity.User;
-import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;
+import com.vironit.onlinevisacenter.exceptions.DAOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -10,7 +10,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +29,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
         User user;
         try {
             user = userDAO.findUserByLogin(login);
-        } catch (EntityFindException e) {
+        } catch (DAOException e) {
             throw new UsernameNotFoundException("User + " + login + " not found");
         }
         List<GrantedAuthority> authorities = new ArrayList<>();

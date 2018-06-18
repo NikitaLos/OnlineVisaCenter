@@ -16,7 +16,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 @Constraint(validatedBy = VisaDate.VisaDateImpl.class)
 public @interface  VisaDate {
-    String message() default "DateFrom must be before dateTo";
+    String message() default "visa_date";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 

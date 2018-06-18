@@ -163,6 +163,7 @@ angular.module('visa_center', [])
                     $window.location.href = "/countries.html";
                 }).catch(function (reason) {
                 $scope.loginRedirect(reason);
+                $scope.displayErrors(reason);
             });
         };
         $scope.addDocumentType = function(document_type){
@@ -180,6 +181,7 @@ angular.module('visa_center', [])
                     $window.location.href = "/document_types.html";
                 }).catch(function (reason) {
                 $scope.loginRedirect(reason);
+                $scope.displayErrors(reason);
             });
         };
         $scope.getDocumentTypes = function(){
@@ -196,6 +198,7 @@ angular.module('visa_center', [])
                     $window.location.href = "/visas.html";
                 }).catch(function (reason) {
                 $scope.loginRedirect(reason);
+                $scope.displayErrors(reason);
             });
         };
         $scope.addVisa = function(visa){

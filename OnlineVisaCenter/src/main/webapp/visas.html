@@ -41,7 +41,6 @@
             </form>
         </div>
     </div>
-
     <div ng-show="messageBool">
         <div  class="row justify-content-center">
             <strong class="alert alert-danger">{{errorMessage}}</strong>
@@ -54,55 +53,56 @@
         </div>
     </div>
 
-</div>
 
-<div ng-controller="application_controller">
-    <div class="row justify-content-center">
-        <br/>
-        <div ng-controller="application_controller" data-ng-init='getVisas()' class="col-10">
-            <table class="table table-hover">
-                <thead>
-                <tr>
-                    <th scope="col">
-                        <a href="#" ng-click="sortBy('type')">Type</a>
-                        <span class="sortorder" ng-show="propertyName === 'type'" ng-class="{reverse: reverse}"></span>
-                    </th>
-                    <th scope="col">
-                        <a href="#" ng-click="sortBy('price')">Price</a>
-                        <span class="sortorder" ng-show="propertyName === 'price'" ng-class="{reverse: reverse}"></span></th>
-                    <th scope="col">
-                        <a href="#" ng-click="sortBy('country.name')">Country</a>
-                        <span class="sortorder" ng-show="propertyName === 'country.name'" ng-class="{reverse: reverse}"></span>
-                    </th>
-                    <th scope="col">
-                        Required documents
-                    </th>
-                    <th scope="col">Delete</th>
-                </tr>
-                </thead>
-                <tbody ng-repeat="visa in visas | orderBy: propertyName:reverse">
-                <tr>
-                    <td>
-                        {{visa.type}}
-                    </td>
-                    <td>
-                        {{visa.price}}
-                    </td>
-                    <td>
-                        {{visa.country.name}}
-                    </td>
-                    <td>
-                        <p ng-repeat=" doc in visa.requiredDocumentTypes">{{doc.name}}</p>
-                    </td>
-                    <td>
-                        <button class="btn btn-danger" ng-click="deleteVisa(visa.id)" type="submit">Delete</button>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+    <div>
+        <div class="row justify-content-center">
+            <br/>
+            <div data-ng-init='getVisas()' class="col-10">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col">
+                            <a href="#" ng-click="sortBy('type')">Type</a>
+                            <span class="sortorder" ng-show="propertyName === 'type'" ng-class="{reverse: reverse}"></span>
+                        </th>
+                        <th scope="col">
+                            <a href="#" ng-click="sortBy('price')">Price</a>
+                            <span class="sortorder" ng-show="propertyName === 'price'" ng-class="{reverse: reverse}"></span></th>
+                        <th scope="col">
+                            <a href="#" ng-click="sortBy('country.name')">Country</a>
+                            <span class="sortorder" ng-show="propertyName === 'country.name'" ng-class="{reverse: reverse}"></span>
+                        </th>
+                        <th scope="col">
+                            Required documents
+                        </th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                    </thead>
+                    <tbody ng-repeat="visa in visas | orderBy: propertyName:reverse">
+                    <tr>
+                        <td>
+                            {{visa.type}}
+                        </td>
+                        <td>
+                            {{visa.price}}
+                        </td>
+                        <td>
+                            {{visa.country.name}}
+                        </td>
+                        <td>
+                            <div ng-repeat=" doc in visa.requiredDocumentTypes">{{doc.name}}</div>
+                        </td>
+                        <td>
+                            <button class="btn btn-danger" ng-click="deleteVisa(visa.id)" type="submit">Delete</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
+
 
 </body>
 </html>

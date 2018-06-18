@@ -3,7 +3,7 @@ package com.vironit.onlinevisacenter.controller.country.authorized;
 import com.vironit.onlinevisacenter.dto.CountryDTO;
 import com.vironit.onlinevisacenter.dto.converter.CountryConverter;
 import com.vironit.onlinevisacenter.entity.Country;
-import com.vironit.onlinevisacenter.exceptions.service.CountryServiceException;
+import com.vironit.onlinevisacenter.exceptions.ServiceException;
 import com.vironit.onlinevisacenter.service.interfaces.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +28,7 @@ public class AuthCountryController {
     }
 
     @GetMapping(value = "/get_countries")
-    public List<CountryDTO> getCountries() throws CountryServiceException {
+    public List<CountryDTO> getCountries() throws ServiceException {
         List<Country> countries = countryService.getAll();
         return countries.stream()
                 .map(country -> countryConverter.convertToDTO(country))

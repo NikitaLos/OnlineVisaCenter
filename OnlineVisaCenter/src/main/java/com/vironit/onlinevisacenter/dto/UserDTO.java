@@ -6,24 +6,23 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
 public class UserDTO {
 
     private Integer id;
 
-    @NotNull(message = "login can not be null")
-    @Size(min = 5,max = 20, message = "login must have from {min} to {max} characters")
+    @NotNull(message = "{user.login.null}")
+    @Size(min = 5,max = 20, message = "{user.login.size}")
     private String login;
 
-    @NotNull(message = "password can not be null")
-    @Size(min = 5,max = 20, message = "password must have from {min} to {max} characters")
+    @NotNull(message = "{user.password.null}")
+    @Size(min = 5,max = 20, message = "{user.password.size}")
     private String password;
 
     @Email
-    @NotNull(message = "email can not be null")
+    @NotNull(message = "{user.email.null}")
     private String email;
 
-    @NotNull(message = "role can not be null")
+    @NotNull(message = "{user.role.null}")
     private Role role;
 
     public Integer getId() {

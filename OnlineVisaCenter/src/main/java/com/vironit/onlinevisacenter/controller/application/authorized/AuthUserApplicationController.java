@@ -3,7 +3,7 @@ package com.vironit.onlinevisacenter.controller.application.authorized;
 import com.vironit.onlinevisacenter.dto.converter.ApplicationConverter;
 import com.vironit.onlinevisacenter.dto.response.ApplicationResponseDTO;
 import com.vironit.onlinevisacenter.entity.Application;
-import com.vironit.onlinevisacenter.exceptions.service.ApplicationServiceException;
+import com.vironit.onlinevisacenter.exceptions.ServiceException;
 import com.vironit.onlinevisacenter.service.interfaces.ApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +25,7 @@ public class AuthUserApplicationController {
     }
 
     @GetMapping(value = "/get_application/{application_id}")
-    public ApplicationResponseDTO getApplication(@PathVariable("application_id") Integer applicationId) throws ApplicationServiceException {
+    public ApplicationResponseDTO getApplication(@PathVariable("application_id") Integer applicationId) throws ServiceException {
         Application application = applicationService.getApplication(applicationId);
         return applicationConverter.convertToDTO(application);
     }

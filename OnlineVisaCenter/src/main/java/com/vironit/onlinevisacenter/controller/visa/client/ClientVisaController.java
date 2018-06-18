@@ -1,13 +1,11 @@
 package com.vironit.onlinevisacenter.controller.visa.client;
 
-import com.vironit.onlinevisacenter.dto.converter.CountryConverter;
 import com.vironit.onlinevisacenter.dto.converter.VisaConverter;
 import com.vironit.onlinevisacenter.dto.response.VisaResponseDTO;
 import com.vironit.onlinevisacenter.entity.Country;
 import com.vironit.onlinevisacenter.entity.Visa;
 import com.vironit.onlinevisacenter.entity.enums.AimOfVisit;
-import com.vironit.onlinevisacenter.exceptions.service.CountryServiceException;
-import com.vironit.onlinevisacenter.exceptions.service.VisaServiceException;
+import com.vironit.onlinevisacenter.exceptions.ServiceException;
 import com.vironit.onlinevisacenter.service.interfaces.CountryService;
 import com.vironit.onlinevisacenter.service.interfaces.VisaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +34,7 @@ public class ClientVisaController {
     }
 
     @GetMapping(value = "/get_visas_by_country/{country_id}")
-    public List<VisaResponseDTO> getVisasByCountry(@PathVariable("country_id") Integer id) throws VisaServiceException, CountryServiceException {
+    public List<VisaResponseDTO> getVisasByCountry(@PathVariable("country_id") Integer id) throws ServiceException {
         Country country = countryService.getCountry(id);
         List<Visa> visas = visaService.getVisasByCountry(country);
         return visas.stream()
@@ -45,7 +43,7 @@ public class ClientVisaController {
     }
 
     @GetMapping(value = "/get_visa/{visa_id}")
-    public VisaResponseDTO getVisasById(@PathVariable("visa_id") Integer id) throws VisaServiceException {
+    public VisaResponseDTO getVisasById(@PathVariable("visa_id") Integer id) throws ServiceException {
         Visa visa =  visaService.getVisa(id);
         return visaConverter.convertToDTO(visa);
     }

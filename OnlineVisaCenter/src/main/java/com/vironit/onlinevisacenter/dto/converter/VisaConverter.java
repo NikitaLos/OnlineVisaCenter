@@ -6,8 +6,7 @@ import com.vironit.onlinevisacenter.dto.response.VisaResponseDTO;
 import com.vironit.onlinevisacenter.entity.DocumentType;
 import com.vironit.onlinevisacenter.entity.Visa;
 import com.vironit.onlinevisacenter.exceptions.ConverterException;
-import com.vironit.onlinevisacenter.exceptions.service.CountryServiceException;
-import com.vironit.onlinevisacenter.exceptions.service.DocumentServiceException;
+import com.vironit.onlinevisacenter.exceptions.ServiceException;
 import com.vironit.onlinevisacenter.service.interfaces.CountryService;
 import com.vironit.onlinevisacenter.service.interfaces.DocumentTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +44,7 @@ public class VisaConverter {
                 }
             }
             return visa;
-        } catch (CountryServiceException | DocumentServiceException e) {
+        } catch (ServiceException e) {
             throw new ConverterException("Error of converting VisaDTO to entity",e);
         }
 

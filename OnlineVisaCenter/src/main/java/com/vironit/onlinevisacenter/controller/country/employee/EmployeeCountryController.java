@@ -3,8 +3,7 @@ package com.vironit.onlinevisacenter.controller.country.employee;
 import com.vironit.onlinevisacenter.dto.CountryDTO;
 import com.vironit.onlinevisacenter.dto.converter.CountryConverter;
 import com.vironit.onlinevisacenter.entity.Country;
-import com.vironit.onlinevisacenter.exceptions.DuplicateException;
-import com.vironit.onlinevisacenter.exceptions.service.CountryServiceException;
+import com.vironit.onlinevisacenter.exceptions.ServiceException;
 import com.vironit.onlinevisacenter.service.interfaces.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +26,7 @@ public class EmployeeCountryController {
     }
 
     @GetMapping(value = "/get_countries")
-    public List<CountryDTO> getCountries() throws CountryServiceException {
+    public List<CountryDTO> getCountries() throws ServiceException {
         List<Country> countries = countryService.getAll();
         return countries.stream()
                 .map(country -> countryConverter.convertToDTO(country))
@@ -35,19 +34,19 @@ public class EmployeeCountryController {
     }
 
     @PostMapping(value = "/add_country")
-    public void addCountry(@Valid @RequestBody CountryDTO countryDTO) throws CountryServiceException, DuplicateException {
+    public void addCountry(@Valid @RequestBody CountryDTO countryDTO) throws ServiceException {
         Country country = countryConverter.convertToEntity(countryDTO);
         countryService.addCountry(country);
     }
 
     @PostMapping(value = "/change_country")
-    public void changeCountry(@Valid @RequestBody CountryDTO countryDTO) throws CountryServiceException {
+    public void changeCountry(@Valid @RequestBody CountryDTO countryDTO) throws ServiceException {
         Country country = countryConverter.convertToEntity(countryDTO);
         countryService.updateCountry(country);
     }
 
     @DeleteMapping(value = "/delete_country/{country_id}")
-    public void deleteCountry(@PathVariable("country_id") Integer countryId) throws CountryServiceException {
+    public void deleteCountry(@PathVariable("country_id") Integer countryId) throws ServiceException {
         countryService.deleteCountryById(countryId);
     }
 }

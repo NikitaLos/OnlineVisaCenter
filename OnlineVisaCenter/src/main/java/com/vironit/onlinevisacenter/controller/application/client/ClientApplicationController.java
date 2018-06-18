@@ -7,8 +7,7 @@ import com.vironit.onlinevisacenter.dto.validation.ValidationSequence;
 import com.vironit.onlinevisacenter.entity.Application;
 import com.vironit.onlinevisacenter.entity.User;
 import com.vironit.onlinevisacenter.exceptions.ConverterException;
-import com.vironit.onlinevisacenter.exceptions.service.ApplicationServiceException;
-import com.vironit.onlinevisacenter.exceptions.service.UserServiceException;
+import com.vironit.onlinevisacenter.exceptions.ServiceException;
 import com.vironit.onlinevisacenter.service.interfaces.ApplicationService;
 import com.vironit.onlinevisacenter.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +36,7 @@ public class ClientApplicationController {
 
 
     @PostMapping(value = "/add_application")
-    public void addApplication(@Validated(ValidationSequence.class) @RequestBody ApplicationRequestDTO applicationDTO, Authentication authentication) throws ApplicationServiceException, UserServiceException, ConverterException {
+    public void addApplication(@Validated(ValidationSequence.class) @RequestBody ApplicationRequestDTO applicationDTO, Authentication authentication) throws ServiceException, ConverterException {
         User user = userService.getUserByLogin(authentication.getName());
         applicationDTO.setUser(user);
         Application application = applicationConverter.convertToEntity(applicationDTO);
@@ -45,7 +44,7 @@ public class ClientApplicationController {
     }
 
     @GetMapping(value = "/get_applications_by_user")
-    public List<ApplicationResponseDTO> viewApplicationsByClient(Authentication authentication) throws ApplicationServiceException, UserServiceException {
+    public List<ApplicationResponseDTO> viewApplicationsByClient(Authentication authentication) throws ServiceException {
         User user = userService.getUserByLogin(authentication.getName());
         List<Application> applications = applicationService.getUserApplications(user.getId());
         return applications.stream()
@@ -54,7 +53,7 @@ public class ClientApplicationController {
     }
 
     @PostMapping(value = "/update_application")
-    public void updateApplication(@Validated(ValidationSequence.class) @RequestBody ApplicationRequestDTO applicationDTO, Authentication authentication) throws ApplicationServiceException, UserServiceException, ConverterException {
+    public void updateApplication(@Validated(ValidationSequence.class) @RequestBody ApplicationRequestDTO applicationDTO, Authentication authentication) throws ServiceException, ConverterException {
         User user = userService.getUserByLogin(authentication.getName());
         applicationDTO.setUser(user);
         Application application = applicationConverter.convertToEntity(applicationDTO);
@@ -62,7 +61,7 @@ public class ClientApplicationController {
     }
 
     @DeleteMapping(value = "/delete_application/{application_id}")
-    public void deleteApplication(@PathVariable("application_id") Integer applicationId) throws ApplicationServiceException {
+    public void deleteApplication(@PathVariable("application_id") Integer applicationId) throws ServiceException {
         Application application = applicationService.getApplication(applicationId);
         applicationService.deleteApplicationFromQueue(application);
     }

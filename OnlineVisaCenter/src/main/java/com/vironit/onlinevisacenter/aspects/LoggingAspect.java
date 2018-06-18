@@ -26,7 +26,9 @@ public class LoggingAspect {
 
     @AfterThrowing(value = "execution(* com.vironit.onlinevisacenter.service..*(..))",throwing = "e")
     public void logServiceException(JoinPoint joinPoint, Exception e){
+        String currentMethod = joinPoint.getSignature().toShortString();
+        String currentClass = joinPoint.getTarget().getClass().toString();
         logger = LogManager.getLogger(joinPoint.getTarget().getClass());
-        logger.error(e.getMessage(),e);
+        logger.error(currentMethod + " of " + currentClass + " throw exception: " + e.getMessage(),e);
     }
 }

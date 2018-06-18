@@ -2,11 +2,7 @@ package com.vironit.onlinevisacenter.dao;
 
 import com.vironit.onlinevisacenter.dao.interfaces.UserDAO;
 import com.vironit.onlinevisacenter.entity.*;
-import com.vironit.onlinevisacenter.exceptions.DuplicateException;
-import com.vironit.onlinevisacenter.exceptions.dao.EntityDeleteException;
-import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;
-import com.vironit.onlinevisacenter.exceptions.dao.EntitySaveException;
-import com.vironit.onlinevisacenter.exceptions.dao.EntityUpdateException;
+import com.vironit.onlinevisacenter.exceptions.DAOException;
 import org.junit.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
@@ -32,7 +28,7 @@ public class UserDAOTest extends BaseDAOTest{
     }
 
     @Test
-    public void saveTest() throws EntitySaveException {
+    public void saveTest() throws DAOException {
         User userExpected = entityHelper.prepareUser();
         userDAO.save(userExpected);
         User userActual = entityManager.find(User.class,userExpected.getId());
@@ -40,7 +36,7 @@ public class UserDAOTest extends BaseDAOTest{
     }
 
     @Test
-    public void updateTest() throws EntityUpdateException {
+    public void updateTest() throws DAOException {
         testUser.setLogin("New Test Login");
         userDAO.update(testUser);
         testUser = entityManager.find(User.class, testUser.getId());
@@ -48,27 +44,19 @@ public class UserDAOTest extends BaseDAOTest{
     }
 
     @Test
-    public void findTest() throws EntityFindException {
+    public void findTest() throws DAOException {
         User user = userDAO.find(testUser.getId());
         assertEquals(testUser.getLogin(),user.getLogin());
     }
 
     @Test
-    public void findAllTest() throws EntityFindException {
+    public void findAllTest() throws DAOException {
         List<User> user = userDAO.findAll(User.class);
         assertEquals(user.size(),1);
     }
 
-    @Test(expected = DuplicateException.class)
-    public void isDuplicateTest() throws DuplicateException {
-        User user = new User();
-        user.setLogin(testUser.getLogin());
-        user.setEmail(testUser.getEmail());
-        userDAO.checkDuplicate(user);
-    }
-
     @Test
-    public void deleteTest() throws EntityDeleteException {
+    public void deleteTest() throws DAOException {
         User user = entityManager.find(User.class, testUser.getId());
         userDAO.delete(user);
         user =  entityManager.find(User.class, testUser.getId());
@@ -76,8 +64,8 @@ public class UserDAOTest extends BaseDAOTest{
     }
 
     @Test
-    public void getUserByLoginAndPasswordTest() throws  EntityFindException {
-        User user = userDAO.findUserByLoginAndPassword(testUser);;
+    public void getUserByLoginAndPasswordTest() throws DAOException {
+        User user = userDAO.findUserByLoginAndPassword(testUser);
         assertEquals(testUser,user);
     }
 }

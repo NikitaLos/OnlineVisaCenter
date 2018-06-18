@@ -7,8 +7,8 @@ public class CountryDTO {
 
     private Integer id;
 
-    @NotNull
-    @Size(min = 3, message = "name must have {min} characters minimum")
+    @NotNull(message = "{country.name.null}")
+    @Size(min = 3, message = "{country.name.size}")
     private String name;
 
     public Integer getId() {

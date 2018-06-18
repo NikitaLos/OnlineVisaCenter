@@ -17,7 +17,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 @Constraint(validatedBy = PassportDate.PassportDateImpl.class)
 public @interface PassportDate {
-    String message() default "Your passport will be invalid before dateTo ";
+    String message() default "{passport_invalid}";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 

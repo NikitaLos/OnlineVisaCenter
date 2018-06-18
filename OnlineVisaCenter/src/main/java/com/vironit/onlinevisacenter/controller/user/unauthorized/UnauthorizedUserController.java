@@ -3,8 +3,7 @@ package com.vironit.onlinevisacenter.controller.user.unauthorized;
 import com.vironit.onlinevisacenter.dto.UserDTO;
 import com.vironit.onlinevisacenter.dto.converter.UserConverter;
 import com.vironit.onlinevisacenter.entity.User;
-import com.vironit.onlinevisacenter.exceptions.DuplicateException;
-import com.vironit.onlinevisacenter.exceptions.service.UserServiceException;
+import com.vironit.onlinevisacenter.exceptions.ServiceException;
 import com.vironit.onlinevisacenter.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,7 +24,7 @@ public class UnauthorizedUserController {
     }
 
     @PostMapping(value = "/register")
-    public void processRegister(@Valid @RequestBody UserDTO userDTO) throws UserServiceException, DuplicateException {
+    public void processRegister(@Valid @RequestBody UserDTO userDTO) throws ServiceException {
         User user = userConverter.convertToEntity(userDTO);
         userService.register(user);
     }

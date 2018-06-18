@@ -5,8 +5,7 @@ import com.vironit.onlinevisacenter.dto.request.VisaRequestDTO;
 import com.vironit.onlinevisacenter.dto.response.VisaResponseDTO;
 import com.vironit.onlinevisacenter.entity.Visa;
 import com.vironit.onlinevisacenter.exceptions.ConverterException;
-import com.vironit.onlinevisacenter.exceptions.DuplicateException;
-import com.vironit.onlinevisacenter.exceptions.service.VisaServiceException;
+import com.vironit.onlinevisacenter.exceptions.ServiceException;
 import com.vironit.onlinevisacenter.service.interfaces.VisaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +28,7 @@ public class EmployeeVisaController {
     }
 
     @GetMapping(value = "/get_visas")
-    public List<VisaResponseDTO> showVisas() throws VisaServiceException {
+    public List<VisaResponseDTO> showVisas() throws ServiceException {
         List<Visa> visas = visaService.getAll();
         return visas.stream()
                 .map(visa -> visaConverter.convertToDTO(visa))
@@ -37,19 +36,19 @@ public class EmployeeVisaController {
     }
 
     @PostMapping(value = "/add_visa")
-    public void addVisa(@Valid @RequestBody VisaRequestDTO visaDTO) throws VisaServiceException, DuplicateException, ConverterException {
+    public void addVisa(@Valid @RequestBody VisaRequestDTO visaDTO) throws ServiceException, ConverterException {
         Visa visa = visaConverter.convertToEntity(visaDTO);
         visaService.addVisa(visa);
     }
 
     @PostMapping(value = "/change_visa")
-    public void changeVisa(@Valid @RequestBody VisaRequestDTO visaDTO) throws VisaServiceException, ConverterException {
+    public void changeVisa(@Valid @RequestBody VisaRequestDTO visaDTO) throws ServiceException, ConverterException {
         Visa visa = visaConverter.convertToEntity(visaDTO);
         visaService.updateVisa(visa);
     }
 
     @DeleteMapping(value = "/delete_visa/{visa_id}")
-    public void deleteVisa(@PathVariable("visa_id") Integer id) throws VisaServiceException {
+    public void deleteVisa(@PathVariable("visa_id") Integer id) throws ServiceException {
         visaService.deleteVisaById(id);
     }
 }

@@ -4,8 +4,7 @@ import com.vironit.onlinevisacenter.dto.UserDTO;
 import com.vironit.onlinevisacenter.dto.converter.UserConverter;
 import com.vironit.onlinevisacenter.entity.User;
 import com.vironit.onlinevisacenter.entity.enums.Role;
-import com.vironit.onlinevisacenter.exceptions.DuplicateException;
-import com.vironit.onlinevisacenter.exceptions.service.UserServiceException;
+import com.vironit.onlinevisacenter.exceptions.ServiceException;
 import com.vironit.onlinevisacenter.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +27,7 @@ public class AdminUserController {
     }
 
     @GetMapping(value = "/get_employees")
-    public List<UserDTO> getEmployees() throws UserServiceException {
+    public List<UserDTO> getEmployees() throws ServiceException {
         List<User> employees = userService.findAllEmployees();
         return employees.stream()
                 .map(user -> userConverter.convertToDTO(user))
@@ -46,12 +45,12 @@ public class AdminUserController {
     }
 
     @DeleteMapping(value = "/delete_employee/{employee_id}")
-    public void deleteEmployee(@PathVariable("employee_id") Integer employeeId) throws UserServiceException {
+    public void deleteEmployee(@PathVariable("employee_id") Integer employeeId) throws ServiceException {
         userService.deleteUserById(employeeId);
     }
 
     @PostMapping(value = "/add_employee")
-    public  void addEmployee(@Valid @RequestBody UserDTO userDTO) throws UserServiceException, DuplicateException {
+    public  void addEmployee(@Valid @RequestBody UserDTO userDTO) throws ServiceException {
         User employee = userConverter.convertToEntity(userDTO);
         userService.register(employee);
     }

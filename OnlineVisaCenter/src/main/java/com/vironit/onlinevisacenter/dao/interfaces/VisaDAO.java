@@ -3,21 +3,17 @@ package com.vironit.onlinevisacenter.dao.interfaces;
 
 import com.vironit.onlinevisacenter.entity.Country;
 import com.vironit.onlinevisacenter.entity.Visa;
-import com.vironit.onlinevisacenter.exceptions.DuplicateException;
-import com.vironit.onlinevisacenter.exceptions.dao.EntityDeleteException;
-import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;
-import com.vironit.onlinevisacenter.exceptions.dao.EntitySaveException;
-import com.vironit.onlinevisacenter.exceptions.dao.EntityUpdateException;
+import com.vironit.onlinevisacenter.exceptions.DAOException;
 
 import java.util.List;
 
 public interface VisaDAO {
-    void save(Visa visa) throws EntitySaveException;
-    void delete(Visa visa) throws EntityDeleteException;
-    void deleteById(Integer id) throws EntityDeleteException;
-    Visa find(Integer key) throws EntityFindException;
-    void update(Visa visa) throws EntityUpdateException;
-    List<Visa> findAll(Class<Visa> classType) throws EntityFindException;
-    void checkDuplicate(Visa visa) throws EntityFindException, DuplicateException;
-    List<Visa> findVisasByCountry(Country country) throws EntityFindException;
+    void save(Visa visa) throws DAOException;
+    void delete(Visa visa) throws DAOException;
+    void deleteById(Integer id) throws DAOException;
+    Visa find(Integer key) throws DAOException;
+    void update(Visa visa) throws DAOException;
+    List<Visa> findAll(Class<Visa> classType) throws DAOException;
+    List findVisaByType(Visa visa) throws DAOException;
+    List<Visa> findVisasByCountry(Country country) throws DAOException;
 }

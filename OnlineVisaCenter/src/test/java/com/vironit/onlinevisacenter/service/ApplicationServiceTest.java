@@ -4,11 +4,8 @@ import com.vironit.onlinevisacenter.dao.interfaces.ApplicationDAO;
 import com.vironit.onlinevisacenter.entity.Application;
 import com.vironit.onlinevisacenter.entity.enums.Result;
 import com.vironit.onlinevisacenter.entity.enums.Status;
-import com.vironit.onlinevisacenter.exceptions.dao.EntityDeleteException;
-import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;
-import com.vironit.onlinevisacenter.exceptions.dao.EntitySaveException;
-import com.vironit.onlinevisacenter.exceptions.dao.EntityUpdateException;
-import com.vironit.onlinevisacenter.exceptions.service.ApplicationServiceException;
+import com.vironit.onlinevisacenter.exceptions.DAOException;
+import com.vironit.onlinevisacenter.exceptions.ServiceException;
 import com.vironit.onlinevisacenter.service.interfaces.ApplicationService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,14 +27,14 @@ public class ApplicationServiceTest extends BaseServiceTest{
     private ApplicationDAO applicationDAO;
 
     @Test
-    public void getApplicationTest() throws EntityFindException, ApplicationServiceException {
+    public void getApplicationTest() throws DAOException, ServiceException {
         Application application = entityHelper.prepareApplication();
         when(applicationDAO.find(1)).thenReturn(application);
         assertEquals(application,applicationService.getApplication(1));
     }
 
     @Test
-    public void addApplicationToQueueTest() throws ApplicationServiceException, EntitySaveException {
+    public void addApplicationToQueueTest() throws DAOException, ServiceException {
         Application application = entityHelper.prepareApplication();
         doAnswer(invocation ->{
                 Application app = invocation.getArgument(0);
@@ -50,35 +47,35 @@ public class ApplicationServiceTest extends BaseServiceTest{
     }
 
     @Test
-    public void updateApplicationTest() throws EntityUpdateException, ApplicationServiceException {
+    public void updateApplicationTest() throws ServiceException, DAOException {
         Application application = entityHelper.prepareApplication();
         applicationService.updateApplication(application);
         verify(applicationDAO,times(1)).update(application);
     }
 
     @Test
-    public void deleteApplicationFromQueueTest() throws  ApplicationServiceException, EntityDeleteException {
+    public void deleteApplicationFromQueueTest() throws ServiceException, DAOException {
         Application application = entityHelper.prepareApplication();
         applicationService.deleteApplicationFromQueue(application);
         verify(applicationDAO,times(1)).delete(application);
     }
 
     @Test
-    public void getAllApplicationTest() throws EntityFindException, ApplicationServiceException {
+    public void getAllApplicationTest() throws DAOException, ServiceException {
         Application[] applications = {entityHelper.prepareApplication(),entityHelper.prepareApplication()};
         when(applicationDAO.findAll(Application.class)).thenReturn(Arrays.asList(applications));
         assertEquals(2,applicationService.getAllApplications().size());
     }
 
     @Test
-    public void getUserApplicationsTest() throws EntityFindException, ApplicationServiceException {
+    public void getUserApplicationsTest() throws DAOException, ServiceException {
         Application[] applications = {entityHelper.prepareApplication(),entityHelper.prepareApplication()};
         when(applicationDAO.findApplicationsByClient(1)).thenReturn(Arrays.asList(applications));
         assertEquals(2,applicationService.getUserApplications(1).size());
     }
 
     @Test
-    public void addCommentsToApplicationTest() throws EntityFindException, ApplicationServiceException, EntityUpdateException {
+    public void addCommentsToApplicationTest() throws DAOException, ServiceException {
         Application application = entityHelper.prepareApplication();
         when(applicationDAO.find(1)).thenReturn(application);
         doAnswer(invocation ->{
@@ -90,7 +87,7 @@ public class ApplicationServiceTest extends BaseServiceTest{
     }
 
     @Test
-    public void changeApplicationResultAndStatusTest() throws EntityFindException, ApplicationServiceException, EntityUpdateException {
+    public void changeApplicationResultAndStatusTest() throws DAOException, ServiceException {
         Application application = entityHelper.prepareApplication();
         when(applicationDAO.find(1)).thenReturn(application);
         doAnswer(invocation ->{

@@ -2,10 +2,7 @@ package com.vironit.onlinevisacenter.dao;
 
 import com.vironit.onlinevisacenter.dao.interfaces.ApplicationDAO;
 import com.vironit.onlinevisacenter.entity.*;
-import com.vironit.onlinevisacenter.exceptions.dao.EntityDeleteException;
-import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;
-import com.vironit.onlinevisacenter.exceptions.dao.EntitySaveException;
-import com.vironit.onlinevisacenter.exceptions.dao.EntityUpdateException;
+import com.vironit.onlinevisacenter.exceptions.DAOException;
 import org.junit.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
@@ -38,7 +35,7 @@ public class ApplicationDAOTest extends BaseDAOTest {
     }
 
     @Test
-    public void saveTest() throws EntitySaveException {
+    public void saveTest() throws DAOException {
         Application applicationExpected = entityHelper.prepareApplication();
         applicationDAO.save(applicationExpected);
         Application applicationActual = entityManager.find(Application.class, applicationExpected.getId());
@@ -46,7 +43,7 @@ public class ApplicationDAOTest extends BaseDAOTest {
     }
 
     @Test
-    public void updateTest() throws EntityUpdateException, EntityFindException {
+    public void updateTest() throws DAOException {
         testApplication.setComments("New Test Comments");
         applicationDAO.update(testApplication);
         testApplication = applicationDAO.find(testApplication.getId());
@@ -54,19 +51,19 @@ public class ApplicationDAOTest extends BaseDAOTest {
     }
 
     @Test
-    public void findTest() throws EntityFindException {
+    public void findTest() throws DAOException {
         Application application = applicationDAO.find(testApplication.getId());
         assertEquals(testApplication.getCreationTime(), application.getCreationTime());
     }
 
     @Test
-    public void findAllTest() throws EntityFindException {
+    public void findAllTest() throws DAOException {
         List<Application> applications = applicationDAO.findAll(Application.class);
         assertEquals(applications.size(), 1);
     }
 
     @Test
-    public void deleteTest() throws EntityFindException, EntityDeleteException {
+    public void deleteTest() throws DAOException {
         Application application = entityManager.find(Application.class, testApplication.getId());
         applicationDAO.delete(application);
         application = applicationDAO.find(application.getId());
@@ -74,7 +71,7 @@ public class ApplicationDAOTest extends BaseDAOTest {
     }
 
     @Test
-    public void findApplicationByClientTest() throws EntityFindException {
+    public void findApplicationByClientTest() throws DAOException {
         User user = testApplication.getUser();
         List<Application> applications = applicationDAO.findApplicationsByClient(user.getId());
         assertEquals(testApplication,applications.get(0));

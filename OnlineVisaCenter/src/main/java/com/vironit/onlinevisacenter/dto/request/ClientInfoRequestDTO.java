@@ -14,32 +14,32 @@ public class ClientInfoRequestDTO {
 
     private Integer id;
 
-    @NotNull(message = "name can not be null")
-    @Size(min = 2, message = "name must have {min} characters minimum")
+    @NotNull(message = "{client_info.name.null}")
+    @Size(min = 2, message = "{client_info.name.size}")
     private String name;
 
-    @NotNull(message = "surname can not be null")
-    @Size(min = 2, message = "name must have {min} characters minimum")
+    @NotNull(message = "{client_info.surname.null}")
+    @Size(min = 2, message = "{client_info.surname.size}")
     private String surname;
 
-    @NotNull(message = "sex can not be null")
+    @NotNull(message = "{client_info.sex.null}")
     private String sex;
 
-    @NotNull(message = "phoneNumber can not be null")
-    @Size(min = 5, max = 7, message = "phoneNumber mut have from {min} to {max} characters")
+    @NotNull(message = "{client_info.phone_number.null}")
+    @Size(min = 5, max = 7, message = "{client_info.phone_number.size}")
     private String phoneNumber;
 
-    @NotNull(message = "photoPath can not be null")
+    @NotNull(message = "{client_info.photo_path.null}")
     private String photoPath;
 
-    @NotNull(message = "dateOfBirth can not be null")
-    @Past(message = "dateOfBirth must be in past")
+    @NotNull(message = "{client_info.date_of_birth.null}")
+    @Past(message = "{client_info.date_of_birth}")
     private LocalDate dateOfBirth;
 
     @Valid
     private PassportRequestDTO passport;
 
-    @NotNull(message = "aim of visit can not be null")
+    @NotNull(message = "{client_info.aim_of_visit}")
     private AimOfVisit aimOfVisit;
 
     public Integer getId() {

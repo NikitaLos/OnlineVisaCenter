@@ -1,7 +1,7 @@
 package com.vironit.onlinevisacenter.service;
 
 import com.vironit.onlinevisacenter.entity.Application;
-import com.vironit.onlinevisacenter.exceptions.service.SenderServiceException;
+import com.vironit.onlinevisacenter.exceptions.ServiceException;
 import com.vironit.onlinevisacenter.service.interfaces.SenderService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -32,7 +32,7 @@ public class EmailSenderServiceImpl implements SenderService {
     private String password;
 
     @Override
-    public void sendResultToClient(Application application) throws SenderServiceException {
+    public void sendResultToClient(Application application) throws ServiceException {
         String email = application.getUser().getEmail();
         String message = "Your application status: " + application.getStatus() + "\n" +
                          "Your application result: " + application.getResult() + "\n" +
@@ -40,7 +40,7 @@ public class EmailSenderServiceImpl implements SenderService {
         try {
             sendMessage(email,message);
         } catch (MessagingException e) {
-            throw new SenderServiceException("Error of sending email",e);
+            throw new ServiceException("Error of sending email",e);
         }
     }
 

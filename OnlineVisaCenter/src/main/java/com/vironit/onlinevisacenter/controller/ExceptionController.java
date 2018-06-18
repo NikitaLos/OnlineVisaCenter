@@ -2,10 +2,9 @@ package com.vironit.onlinevisacenter.controller;
 
 import com.vironit.onlinevisacenter.dto.response.ResponseExceptionDTO;
 import com.vironit.onlinevisacenter.exceptions.ConverterException;
-import com.vironit.onlinevisacenter.exceptions.DuplicateException;
-import com.vironit.onlinevisacenter.exceptions.service.*;
+import com.vironit.onlinevisacenter.exceptions.ServiceException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.ObjectError;
@@ -21,11 +20,6 @@ import java.util.List;
 @ControllerAdvice(annotations = {RestController.class})
 @RestController
 public class ExceptionController {
-
-    @ExceptionHandler(DuplicateException.class)
-    public ResponseEntity<ResponseExceptionDTO> duplicate(DuplicateException e) {
-        return new ResponseEntity<>(new ResponseExceptionDTO(e.getMessage()), HttpStatus.BAD_REQUEST);
-    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -44,11 +38,16 @@ public class ExceptionController {
         return new ResponseExceptionDTO("invalid JSON");
     }
 
-    @ExceptionHandler({ApplicationServiceException.class,CountryServiceException.class,DocumentServiceException.class,
-            UserServiceException.class,VisaServiceException.class,UsernameNotFoundException.class,ConverterException.class})
+    @ExceptionHandler({ServiceException.class,UsernameNotFoundException.class,ConverterException.class})
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseExceptionDTO servicesException (Exception e) {
         return new ResponseExceptionDTO(e.getMessage());
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseExceptionDTO deleteException() {
+        return new ResponseExceptionDTO("Can't be deleted. This object used by others.");
     }
 
 }

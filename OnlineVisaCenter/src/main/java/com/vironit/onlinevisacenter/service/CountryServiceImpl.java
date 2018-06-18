@@ -2,12 +2,8 @@ package com.vironit.onlinevisacenter.service;
 
 import com.vironit.onlinevisacenter.dao.interfaces.CountryDAO;
 import com.vironit.onlinevisacenter.entity.Country;
-import com.vironit.onlinevisacenter.exceptions.DuplicateException;
-import com.vironit.onlinevisacenter.exceptions.dao.EntityDeleteException;
-import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;
-import com.vironit.onlinevisacenter.exceptions.dao.EntitySaveException;
-import com.vironit.onlinevisacenter.exceptions.dao.EntityUpdateException;
-import com.vironit.onlinevisacenter.exceptions.service.CountryServiceException;
+import com.vironit.onlinevisacenter.exceptions.DAOException;
+import com.vironit.onlinevisacenter.exceptions.ServiceException;
 import com.vironit.onlinevisacenter.service.interfaces.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,48 +21,54 @@ public class CountryServiceImpl implements CountryService {
     }
 
     @Override
-    public void addCountry(Country country) throws CountryServiceException, DuplicateException {
+    public void addCountry(Country country) throws ServiceException {
         try{
-            countryDAO.checkDuplicate(country);
+            checkDuplicate(country);
             countryDAO.save(country);
-        } catch (EntityFindException | EntitySaveException e) {
-            throw new CountryServiceException(e);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
         }
     }
 
     @Override
-    public void updateCountry(Country country) throws CountryServiceException {
+    public void updateCountry(Country country) throws ServiceException {
         try {
             countryDAO.update(country);
-        } catch (EntityUpdateException e) {
-            throw new CountryServiceException(e);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
         }
     }
 
     @Override
-    public Country getCountry(Integer id) throws CountryServiceException {
+    public Country getCountry(Integer id) throws ServiceException {
         try {
             return countryDAO.find(id);
-        } catch (EntityFindException e) {
-            throw new CountryServiceException(e);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
         }
     }
 
     @Override
-    public List<Country> getAll() throws CountryServiceException {
+    public List<Country> getAll() throws ServiceException {
         try {
             return countryDAO.findAll(Country.class);
-        } catch (EntityFindException e) {
-            throw new CountryServiceException(e);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
         }
     }
 
     @Override
-    public void deleteCountryById(Integer countryId) throws CountryServiceException {
+    public void deleteCountryById(Integer countryId) throws ServiceException {
         try {
             countryDAO.deleteById(countryId);
-        } catch (EntityDeleteException e) {
-            throw new CountryServiceException(e);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    private void checkDuplicate(Country country) throws ServiceException, DAOException {
+        if (!countryDAO.findCountryByName(country).isEmpty()){
+            throw new ServiceException("Such a country already exists");
         }
     }
 

@@ -2,11 +2,7 @@ package com.vironit.onlinevisacenter.dao;
 
 import com.vironit.onlinevisacenter.dao.interfaces.DocumentTypeDAO;
 import com.vironit.onlinevisacenter.entity.DocumentType;
-import com.vironit.onlinevisacenter.exceptions.DuplicateException;
-import com.vironit.onlinevisacenter.exceptions.dao.EntityDeleteException;
-import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;
-import com.vironit.onlinevisacenter.exceptions.dao.EntitySaveException;
-import com.vironit.onlinevisacenter.exceptions.dao.EntityUpdateException;
+import com.vironit.onlinevisacenter.exceptions.DAOException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,7 +30,7 @@ public class DocumentTypeDAOTest extends BaseDAOTest{
     }
 
     @Test
-    public void saveTest() throws EntitySaveException {
+    public void saveTest() throws DAOException {
         DocumentType documentTypeExpected = entityHelper.prepareDocumentType();
         documentTypeDAO.save(documentTypeExpected);
         DocumentType documentTypeActual = entityManager.find(DocumentType.class,documentTypeExpected.getId());
@@ -42,7 +38,7 @@ public class DocumentTypeDAOTest extends BaseDAOTest{
     }
 
     @Test
-    public void updateTest() throws EntityUpdateException {
+    public void updateTest() throws DAOException {
         testDocumentType.setName("New Test Document Type");
         documentTypeDAO.update(testDocumentType);
         testDocumentType = entityManager.find(DocumentType.class,testDocumentType.getId());
@@ -50,26 +46,20 @@ public class DocumentTypeDAOTest extends BaseDAOTest{
     }
 
     @Test
-    public void findTest() throws EntityFindException {
+    public void findTest() throws DAOException {
         DocumentType documentType = documentTypeDAO.find(testDocumentType.getId());
         assertEquals(testDocumentType.getName(),documentType.getName());
     }
 
     @Test
-    public void findAllTest() throws EntityFindException {
+    public void findAllTest() throws DAOException {
         List<DocumentType> documentTypes = documentTypeDAO.findAll(DocumentType.class);
         assertEquals(documentTypes.size(),1);
     }
 
-    @Test(expected = DuplicateException.class)
-    public void isDuplicateTest() throws EntityFindException, DuplicateException {
-        DocumentType documentType = new DocumentType();
-        documentType.setName(testDocumentType.getName());
-        documentTypeDAO.checkDuplicate(documentType);
-    }
 
     @Test
-    public void deleteTest() throws EntityDeleteException {
+    public void deleteTest() throws DAOException {
         DocumentType documentType = entityManager.find(DocumentType.class,testDocumentType.getId());
         documentTypeDAO.deleteById(documentType.getId());
         documentType =  entityManager.find(DocumentType.class,testDocumentType.getId());

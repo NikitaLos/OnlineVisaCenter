@@ -1,16 +1,11 @@
 package com.vironit.onlinevisacenter.service;
 
 import com.vironit.onlinevisacenter.dao.interfaces.UserDAO;
-import com.vironit.onlinevisacenter.dto.UserDTO;
 import com.vironit.onlinevisacenter.entity.User;
-import com.vironit.onlinevisacenter.exceptions.dao.EntityDeleteException;
-import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;
-import com.vironit.onlinevisacenter.exceptions.dao.EntitySaveException;
-import com.vironit.onlinevisacenter.exceptions.DuplicateException;
-import com.vironit.onlinevisacenter.exceptions.service.UserServiceException;
+import com.vironit.onlinevisacenter.exceptions.DAOException;
+import com.vironit.onlinevisacenter.exceptions.ServiceException;
 import com.vironit.onlinevisacenter.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,59 +21,65 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void register(User user) throws DuplicateException, UserServiceException {
+    public void register(User user) throws ServiceException {
         try {
-            userDAO.checkDuplicate(user);
+            checkDuplicate(user);
             userDAO.save(user);
-        } catch (EntitySaveException e) {
-            throw new UserServiceException(e);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
         }
     }
 
     @Override
-    public User logIn(User user) throws UserServiceException {
+    public User logIn(User user) throws ServiceException {
 
         try {
             return userDAO.findUserByLoginAndPassword(user);
-        } catch (EntityFindException e) {
-            throw new UserServiceException(e);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
         }
 
     }
 
     @Override
-    public List<User> findAllEmployees() throws UserServiceException {
+    public List<User> findAllEmployees() throws ServiceException {
         try {
             return userDAO.findAllEmployees();
-        } catch (EntityFindException e) {
-            throw new UserServiceException(e);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
         }
     }
 
     @Override
-    public void deleteUserById(Integer id) throws UserServiceException {
+    public void deleteUserById(Integer id) throws ServiceException {
         try {
             userDAO.deleteById(id);
-        } catch (EntityDeleteException e) {
-            throw new UserServiceException(e);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
         }
     }
 
     @Override
-    public User getUser(Integer id) throws UserServiceException {
+    public User getUser(Integer id) throws ServiceException {
         try {
             return userDAO.find(id);
-        } catch (EntityFindException e) {
-            throw new UserServiceException(e);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
         }
     }
 
     @Override
-    public User getUserByLogin(String login) throws UserServiceException {
+    public User getUserByLogin(String login) throws ServiceException {
         try {
             return userDAO.findUserByLogin(login);
-        } catch (EntityFindException e) {
-            throw new UserServiceException(e);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    private void checkDuplicate(User user) throws ServiceException, DAOException {
+        if (!userDAO.findUserByLoginOrEmail(user).isEmpty()){
+            throw new ServiceException("Such a user already exists");
         }
     }
 }

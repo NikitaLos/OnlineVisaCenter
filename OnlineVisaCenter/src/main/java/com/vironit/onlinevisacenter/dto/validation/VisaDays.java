@@ -17,7 +17,7 @@ import static java.time.temporal.ChronoUnit.DAYS;
 @Retention(RUNTIME)
 @Constraint(validatedBy = VisaDays.VisaDaysImpl.class)
 public @interface VisaDays {
-    String message() default "Duration between dateFrom and dateTO must be equal or greater number of days residence";
+    String message() default "{visa_days}";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 

@@ -2,11 +2,7 @@ package com.vironit.onlinevisacenter.dao;
 
 import com.vironit.onlinevisacenter.dao.interfaces.VisaDAO;
 import com.vironit.onlinevisacenter.entity.Visa;
-import com.vironit.onlinevisacenter.exceptions.DuplicateException;
-import com.vironit.onlinevisacenter.exceptions.dao.EntityDeleteException;
-import com.vironit.onlinevisacenter.exceptions.dao.EntityFindException;
-import com.vironit.onlinevisacenter.exceptions.dao.EntitySaveException;
-import com.vironit.onlinevisacenter.exceptions.dao.EntityUpdateException;
+import com.vironit.onlinevisacenter.exceptions.DAOException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,7 +33,7 @@ public class VisaDAOTest extends BaseDAOTest{
 
 
     @Test
-    public void saveTest() throws EntitySaveException {
+    public void saveTest() throws DAOException {
         Visa visaExpected = entityHelper.prepareVisa();
         visaDAO.save(visaExpected);
         Visa visaActual = entityManager.find(Visa.class,visaExpected.getId());
@@ -45,7 +41,7 @@ public class VisaDAOTest extends BaseDAOTest{
     }
 
     @Test
-    public void updateTest() throws EntityUpdateException, EntityFindException {
+    public void updateTest() throws DAOException {
         testVisa.setType("New Test Visa");
         visaDAO.update(testVisa);
         testVisa = visaDAO.find(testVisa.getId());
@@ -53,27 +49,20 @@ public class VisaDAOTest extends BaseDAOTest{
     }
 
     @Test
-    public void findTest() throws EntityFindException {
+    public void findTest() throws DAOException {
         Visa visa = visaDAO.find(testVisa.getId());
         assertEquals(testVisa.getType(),visa.getType());
     }
 
     @Test
-    public void findAllTest() throws EntityFindException {
+    public void findAllTest() throws DAOException {
         List<Visa> visas = visaDAO.findAll(Visa.class);
         assertEquals(visas.size(),1);
     }
 
-    @Test(expected = DuplicateException.class)
-    public void isDuplicateTest() throws EntityFindException, DuplicateException {
-        Visa visa = new Visa();
-        visa.setType(testVisa.getType());
-        visa.setCountry(testVisa.getCountry());
-        visaDAO.checkDuplicate(visa);
-    }
 
     @Test
-    public void deleteTest() throws EntityFindException, EntityDeleteException {
+    public void deleteTest() throws DAOException {
         Visa visa = visaDAO.find(testVisa.getId());
         visaDAO.deleteById(visa.getId());
         visa =  visaDAO.find(testVisa.getId());
@@ -81,7 +70,7 @@ public class VisaDAOTest extends BaseDAOTest{
     }
 
     @Test
-    public void findVisasByCountryTest() throws EntityFindException {
+    public void findVisasByCountryTest() throws DAOException {
         List<Visa> visas = visaDAO.findVisasByCountry(testVisa.getCountry());
         assertEquals(testVisa,visas.get(0));
     }

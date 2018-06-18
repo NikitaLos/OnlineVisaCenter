@@ -13,9 +13,7 @@ import com.vironit.onlinevisacenter.entity.ClientInfo;
 import com.vironit.onlinevisacenter.entity.Passport;
 import com.vironit.onlinevisacenter.entity.VisaInfo;
 import com.vironit.onlinevisacenter.exceptions.ConverterException;
-import com.vironit.onlinevisacenter.exceptions.service.ApplicationServiceException;
-import com.vironit.onlinevisacenter.exceptions.service.VisaServiceException;
-import com.vironit.onlinevisacenter.service.interfaces.UserService;
+import com.vironit.onlinevisacenter.exceptions.ServiceException;
 import com.vironit.onlinevisacenter.service.interfaces.VisaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -46,7 +44,7 @@ public class ApplicationConverter {
             application.setClientInfo(convertClientInfoToEntity(applicationRequestDTO.getClientInfo()));
             application.setUser(applicationRequestDTO.getUser());
             return application;
-        } catch (VisaServiceException e) {
+        } catch (ServiceException e) {
             throw new ConverterException("Error of converting ApplicationDTO to entity",e);
         }
 
@@ -124,7 +122,7 @@ public class ApplicationConverter {
         return clientInfo;
     }
 
-    private VisaInfo convertVisaInfoToEntity(VisaInfoRequestDTO visaInfoDTO) throws VisaServiceException {
+    private VisaInfo convertVisaInfoToEntity(VisaInfoRequestDTO visaInfoDTO) throws ServiceException {
         VisaInfo visaInfo = new VisaInfo();
         visaInfo.setId(visaInfoDTO.getId());
         visaInfo.setVisa(visaService.getVisa(visaInfoDTO.getVisaId()));

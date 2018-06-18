@@ -51,9 +51,9 @@
                 </td>
             </tr>
             <tr>
-                <td>Reqired documents</td>
+                <td>Required documents</td>
                 <td>
-                    {{obtained_application.visaInfo.visa.requiredDocumentTypes}}
+                    <div ng-repeat=" doc in obtained_application.visaInfo.visa.requiredDocumentTypes">{{doc.name}}</div>
                 </td>
             </tr>
             <tr>

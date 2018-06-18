@@ -3,8 +3,7 @@ package com.vironit.onlinevisacenter.controller.document.employee;
 import com.vironit.onlinevisacenter.dto.DocumentTypeDTO;
 import com.vironit.onlinevisacenter.dto.converter.DocumentTypeConverter;
 import com.vironit.onlinevisacenter.entity.DocumentType;
-import com.vironit.onlinevisacenter.exceptions.DuplicateException;
-import com.vironit.onlinevisacenter.exceptions.service.DocumentServiceException;
+import com.vironit.onlinevisacenter.exceptions.ServiceException;
 import com.vironit.onlinevisacenter.service.interfaces.DocumentTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +26,7 @@ public class EmployeeDocumentController {
     }
 
     @GetMapping(value = "/get_document_types")
-    public List<DocumentTypeDTO> getDocumentTypes() throws DocumentServiceException {
+    public List<DocumentTypeDTO> getDocumentTypes() throws ServiceException {
         List<DocumentType> documentTypes = documentService.getAll();
         return documentTypes.stream()
                 .map(documentType -> documentTypeConverter.convertToDTO(documentType))
@@ -35,13 +34,13 @@ public class EmployeeDocumentController {
     }
 
     @PostMapping(value = "/add_document_type")
-    public void addDocumentType(@Valid @RequestBody DocumentTypeDTO documentTypeDTO) throws DocumentServiceException, DuplicateException {
+    public void addDocumentType(@Valid @RequestBody DocumentTypeDTO documentTypeDTO) throws ServiceException {
         DocumentType documentType = documentTypeConverter.convertToEntity(documentTypeDTO);
         documentService.addDocument(documentType);
     }
 
     @DeleteMapping(value = "/delete_document_type/{document_type_id}")
-    public void deleteDocumentType(@PathVariable("document_type_id") Integer id) throws DocumentServiceException {
+    public void deleteDocumentType(@PathVariable("document_type_id") Integer id) throws ServiceException {
         documentService.deleteDocumentById(id);
     }
 }

@@ -7,8 +7,8 @@ public class DocumentTypeDTO {
 
     private Integer id;
 
-    @NotNull
-    @Size(min = 2, message = "name must have {min} characters minimum")
+    @NotNull(message = "{document_type.name.null}")
+    @Size(min = 2, message = "{document_type.name.size}")
     private String name;
 
     public Integer getId() {

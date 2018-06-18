@@ -15,18 +15,18 @@ public class VisaInfoRequestDTO {
 
     private Integer id;
 
-    @NotNull(message = "visa can not be null")
+    @NotNull(message = "{visa_info.visa.null}")
     private Integer visaId;
 
-    @NotNull(message = "dateFrom can not be null")
-    @Future(message = "dateFrom must be in future")
+    @NotNull(message = "{visa_info.date_from.null}")
+    @Future(message = "{visa_info.date_from}")
     private LocalDate dateFrom;
 
-    @NotNull(message = "dateTo can not be null")
-    @Future(message = "dateTo must be in future")
+    @NotNull(message = "{visa_info.date_to.null}")
+    @Future(message = "{visa_info.date_to}")
     private LocalDate dateTo;
 
-    @NotNull(message = "numOfDaysResidence can not be null")
+    @NotNull(message = "{visa_info.days.null}")
     private Integer numOfDaysResidence;
 
     public Integer getId() {

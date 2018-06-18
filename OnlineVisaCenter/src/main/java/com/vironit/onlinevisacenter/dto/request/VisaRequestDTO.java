@@ -8,14 +8,14 @@ public class VisaRequestDTO {
 
     private Integer id;
 
-    @NotNull(message = "type can not be null")
+    @NotNull(message = "{visa.type.null}")
     private String type;
 
-    @NotNull(message = "price can not be null")
-    @Digits(integer = 4, fraction = 2, message = "price must consist of {integer} integer digits and {fraction} fraction")
+    @NotNull(message = "{visa.price.null}")
+    @Digits(integer = 4, fraction = 2, message = "{visa.price}")
     private Double price;
 
-    @NotNull(message = "country can not be null")
+    @NotNull(message = "{visa.country.null}")
     private Integer countryId;
 
     private List<Integer> requiredDocumentTypesId;
