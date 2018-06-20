@@ -10,7 +10,7 @@
 <div ng-include="'client_navbar.html'"></div>
 <br/>
 <div class="row justify-content-center">
-    <div ng-controller="application_controller" data-ng-init="getApplication()" class="col-8">
+    <div ng-controller="application_controller" data-ng-init="getApplicationForShow()" class="col-8">
         <table class="table table-bordered table-striped ">
             <tbody>
             <tr>
@@ -131,7 +131,7 @@
                     <button class="btn btn-danger" ng-click="deleteApplication(obtained_application.id)" type="submit">Delete</button>
                 </td>
                 <td>
-                    <button class="btn btn-success" ng-click="toUpdateApplication(obtained_application.id)" type="submit">Update</button>
+                    <button class="btn btn-success" ng-click="toUpdateApplication(obtained_application)" type="submit">Update</button>
                 </td>
             </tr>
             </tbody>

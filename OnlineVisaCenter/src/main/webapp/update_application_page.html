@@ -14,20 +14,18 @@
     <div class="row justify-content-center">
         <div class="row col-10">
             <div class="col-4">
-                <label class="label_margin" for="inlineFormCustomSelectCountry">Country:</label>
-                <select class="custom-select margin_app" id="inlineFormCustomSelectCountry" ng-change="getVisaByCountryId(country.id)" ng-model="country" ng-options="c.name for c in countries"></select >
+                <label class="label_margin" for="SelectCountry">Country:</label>
+                <select class="custom-select margin_app" id="SelectCountry" ng-change="getVisaByCountryId(countryId)"  ng-model="countryId" ng-init="countryId=obtained_application.visaInfo.visa.country.id;getVisaByCountryId(countryId);" ng-options="c.id as c.name for c in countries"></select >
             </div>
 
             <div class="col-4">
-                <label class="label_margin" for="inlineFormCustomSelectVisa">Visa type:</label>
-                <select  class="custom-select margin_app" id="inlineFormCustomSelectVisa"  ng-model="obtained_application.visaInfo.visaId">
-                    <option ng-repeat="v in visas" value="{{v.id}}">{{v.type}}</option>
-                </select >
+                <label class="label_margin" for="SelectVisa">Visa type:</label>
+                <select  class="custom-select margin_app" id="SelectVisa"  ng-model="obtained_application.visaInfo.visaId" ng-init="obtained_application.visaInfo.visaId=obtained_application.visaInfo.visa.id" ng-options="v.id as v.type for v in visas"></select>
             </div>
 
             <div class="col-4">
-                <label class="label_margin" for="inlineFormCustomSelectAim">Aim of visit:</label>
-                <select ng-model="obtained_application.clientInfo.aimOfVisit" ng-options="a as a for a in aims"  class="custom-select margin_app" id="inlineFormCustomSelectAim">
+                <label class="label_margin" for="SelectAim">Aim of visit:</label>
+                <select ng-model="obtained_application.clientInfo.aimOfVisit" ng-options="a as a for a in aims"  class="custom-select margin_app" id="SelectAim">
                 </select >
             </div>
         </div>
@@ -71,7 +69,7 @@
         <div class="row col-10">
             <div class="col-4">
                 <label class="label_margin" for="dateBirth">Date of Birth:</label>
-                <input ng-model="obtained_application.clientInfo.dateOfBirth" type="date" class="form-control" id="dateBirth">
+                <input ng-model="obtained_application.clientInfo.dateOfBirth"  type="date" class="form-control" id="dateBirth">
             </div>
             <div class="col-4">
                 <label class="label_margin" for="dateRec">Date of passport receiving:</label>

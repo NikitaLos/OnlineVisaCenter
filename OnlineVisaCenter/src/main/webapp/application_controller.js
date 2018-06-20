@@ -38,17 +38,21 @@ angular.module('visa_center', [])
             });
         };
         $scope.getApplication = function(){
-            $scope.application_id = localStorage.getItem("applicationId");
-            $http.get('http://localhost:8888/auth_user/get_application/'+$scope.application_id)
-                .then(function (response) {
-                    $scope.obtained_application = response.data;
-                }).catch(function (reason) {
-                    $scope.loginRedirect(reason);
-            });
+            $scope.obtained_application = JSON.parse(localStorage.getItem("application"));
+            $scope.obtained_application.clientInfo.dateOfBirth = new Date(Date.parse($scope.obtained_application.clientInfo.dateOfBirth));
+            $scope.obtained_application.clientInfo.passport.dateOfReceiving = new Date(Date.parse($scope.obtained_application.clientInfo.passport.dateOfReceiving));
+            $scope.obtained_application.visaInfo.dateFrom = new Date(Date.parse($scope.obtained_application.visaInfo.dateFrom));
+            $scope.obtained_application.visaInfo.dateTo = new Date(Date.parse($scope.obtained_application.visaInfo.dateTo));
+            $scope.obtained_application.clientInfo.passport.dateOfEnding = new Date(Date.parse($scope.obtained_application.clientInfo.passport.dateOfEnding));
+
         };
-        $scope.toUpdateApplication = function(applicationId){
-            $scope.application_id = applicationId;
-            localStorage.setItem("applicationId",$scope.application_id);
+
+        $scope.getApplicationForShow = function(){
+            $scope.obtained_application = JSON.parse(localStorage.getItem("application"));
+
+        };
+        $scope.toUpdateApplication = function(application){
+            localStorage.setItem("application",JSON.stringify(application));
             $window.location.href = "/update_application_page.html";
         };
         $scope.addApplication = function(application){
@@ -70,6 +74,7 @@ angular.module('visa_center', [])
             });
         };
         $scope.getCountry = function(){
+            $scope.Products = [{id:1,name:"Apple"}, {id:2,name:"Banana"}, {id:3,name:"Carrort"}, {id:4,name:"Dart"}];
             $http.get('http://localhost:8888/auth_user/get_countries')
                 .then(function (response) {
                     $scope.countries = response.data;
@@ -103,12 +108,12 @@ angular.module('visa_center', [])
             });
         };
 
-        $scope.showApplication = function(applicationId){
-            localStorage.setItem("applicationId",applicationId);
+        $scope.showApplication = function(application){
+            localStorage.setItem("application",JSON.stringify(application));
             $window.location.href = "/application.html";
         };
-        $scope.showApplicationForEmployee = function(applicationId){
-            localStorage.setItem("applicationId",applicationId);
+        $scope.showApplicationForEmployee = function(application){
+            localStorage.setItem("application",JSON.stringify(application));
             $window.location.href = "/application_for_employee.html";
         };
         $scope.LogOut = function(){
@@ -283,6 +288,30 @@ angular.module('visa_center', [])
             $http.post('http://localhost:8888/register', user)
                 .then(function () {
                     $window.location.href = "/login_page.html";
+                }).catch(function (reason) {
+                $scope.loginRedirect(reason);
+                $scope.displayErrors(reason);
+            });
+        };
+
+        $scope.toUpdateVisa = function(visa){
+            localStorage.setItem("visaToUpdate",JSON.stringify(visa));
+            $window.location.href = "/update_visa.html";
+        };
+
+        $scope.getVisaToUpdate = function(){
+            $scope.visaToUpdate = JSON.parse(localStorage.getItem("visaToUpdate"));
+            $scope.documentsId = [];
+            for(var i = 0; i < $scope.visaToUpdate.requiredDocumentTypes.length; i++) {
+                $scope.documentsId[i]= $scope.visaToUpdate.requiredDocumentTypes[i].id;
+            }
+        };
+
+        $scope.updateVisa = function(visa){
+            visa.id = $scope.visaToUpdate.id;
+            $http.post('http://localhost:8888/employee/change_visa', visa)
+                .then(function () {
+                    $window.location.href = "/visas.html";
                 }).catch(function (reason) {
                 $scope.loginRedirect(reason);
                 $scope.displayErrors(reason);
