@@ -17,7 +17,7 @@ public class LoggingAspect {
     private Logger logger;
 
     @AfterReturning("execution(* com.vironit.onlinevisacenter.service..*(..))")
-    public void logApplicationService(JoinPoint joinPoint){
+    public void logService(JoinPoint joinPoint){
         String currentMethod = joinPoint.getSignature().toShortString();
         String currentClass = joinPoint.getTarget().getClass().toString();
         logger = LogManager.getLogger(joinPoint.getTarget().getClass());

@@ -4,6 +4,7 @@ import com.vironit.onlinevisacenter.dao.interfaces.UserDAO;
 import com.vironit.onlinevisacenter.entity.User;
 import com.vironit.onlinevisacenter.exceptions.DAOException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Primary
 public class UserDetailServiceImpl implements UserDetailsService {
 
     private UserDAO userDAO;

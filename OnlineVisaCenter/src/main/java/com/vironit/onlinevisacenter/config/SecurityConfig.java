@@ -1,7 +1,6 @@
 package com.vironit.onlinevisacenter.config;
 
-import com.vironit.onlinevisacenter.dao.interfaces.UserDAO;
-import com.vironit.onlinevisacenter.service.UserDetailServiceImpl;
+import com.vironit.onlinevisacenter.entity.enums.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +9,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -20,15 +20,15 @@ import org.springframework.security.web.authentication.logout.HttpStatusReturnin
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private UserDAO userDAO;
+    private UserDetailsService userDetailsService;
     private AuthenticationSuccessHandler authenticationSuccessHandler;
     private AuthenticationFailureHandler authenticationFailureHandler;
     private AuthenticationEntryPoint authenticationEntryPoint;
 
     @Autowired
-    public SecurityConfig(UserDAO userDAO, AuthenticationSuccessHandler authenticationSuccessHandler,
+    public SecurityConfig(UserDetailsService userDetailsService, AuthenticationSuccessHandler authenticationSuccessHandler,
                           AuthenticationEntryPoint authenticationEntryPoint, AuthenticationFailureHandler authenticationFailureHandler){
-        this.userDAO = userDAO;
+        this.userDetailsService = userDetailsService;
         this.authenticationSuccessHandler = authenticationSuccessHandler;
         this.authenticationEntryPoint = authenticationEntryPoint;
         this.authenticationFailureHandler = authenticationFailureHandler;
@@ -37,16 +37,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
-                .userDetailsService(new UserDetailServiceImpl(userDAO));
+                .userDetailsService(userDetailsService);
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/employee/**").hasAuthority("EMPLOYEE")
-                .antMatchers("/admin/**").hasAuthority("ADMIN")
-                .antMatchers("/client/**").hasAuthority("CLIENT")
-                .antMatchers("/auth_user/**").hasAnyAuthority("CLIENT","EMPLOYEE")
+                .antMatchers("/employee/**").hasAuthority(Role.EMPLOYEE.name())
+                .antMatchers("/admin/**").hasAuthority(Role.ADMIN.name())
+                .antMatchers("/client/**").hasAuthority(Role.CLIENT.name())
+                .antMatchers("/auth_user/**").hasAnyAuthority(Role.CLIENT.name(),Role.EMPLOYEE.name())
                 .and()
                 .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)
                 .and()

@@ -45,11 +45,10 @@ public class EmployeeApplicationController {
     }
 
     @GetMapping(value = "/change_result/{application_id}")
-    public void changeApplicationResult(@PathVariable("application_id") Integer id,@RequestParam Result result) throws ServiceException {
+    public void changeApplicationResult(@PathVariable("application_id") Integer id,@RequestParam Result result) {
         try {
             Application application = applicationService.changeApplicationResultAndStatus(id,result);
             senderService.sendResultToClient(application);
-            //todo deleting
         } catch (ServiceException e) {
             Logger.getRootLogger().error("Error of sending result to client",e);
         }
