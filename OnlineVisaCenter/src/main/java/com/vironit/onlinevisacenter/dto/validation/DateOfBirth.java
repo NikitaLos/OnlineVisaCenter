@@ -24,10 +24,6 @@ public @interface DateOfBirth {
 
     class DateOfBirthImpl implements ConstraintValidator<DateOfBirth,ClientInfoRequestDTO> {
         @Override
-        public void initialize(DateOfBirth constraintAnnotation) {
-        }
-
-        @Override
         public boolean isValid(ClientInfoRequestDTO clientInfoRequestDTO, ConstraintValidatorContext constraintValidatorContext) {
             return YEARS.between(clientInfoRequestDTO.getDateOfBirth(), LocalDate.now()) > 18;
         }

@@ -41,7 +41,7 @@ public abstract class AbstractJPADAO<T,PK extends Serializable> implements Gener
     @Override
     public void update(T object) throws DAOException {
         try {
-            entityManager.unwrap(Session.class).update(object);
+            entityManager.merge(object);
         }catch (Exception e){
             throw new DAOException(e);
         }

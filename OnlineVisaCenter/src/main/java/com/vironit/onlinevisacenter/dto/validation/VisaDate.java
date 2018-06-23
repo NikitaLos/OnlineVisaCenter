@@ -16,14 +16,11 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 @Constraint(validatedBy = VisaDate.VisaDateImpl.class)
 public @interface  VisaDate {
-    String message() default "visa_date";
+    String message() default "{visa_date}";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 
     class VisaDateImpl implements ConstraintValidator<VisaDate,VisaInfoRequestDTO> {
-        @Override
-        public void initialize(VisaDate constraintAnnotation) {
-        }
         @Override
         public boolean isValid(VisaInfoRequestDTO visaInfoRequestDTO, ConstraintValidatorContext constraintValidatorContext) {
             return visaInfoRequestDTO.getDateFrom().isBefore(visaInfoRequestDTO.getDateTo());
