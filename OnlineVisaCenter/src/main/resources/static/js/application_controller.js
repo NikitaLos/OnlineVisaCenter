@@ -3,7 +3,7 @@ angular.module('visa_center', [])
 
         $scope.loginRedirect = function(reason){
             if (reason.status===401||reason.status===403){
-                $window.location.href= "/login_page.html"
+                $window.location.href= "/index.html";
             }
         };
 
@@ -44,7 +44,6 @@ angular.module('visa_center', [])
             $scope.obtained_application.visaInfo.dateFrom = new Date(Date.parse($scope.obtained_application.visaInfo.dateFrom));
             $scope.obtained_application.visaInfo.dateTo = new Date(Date.parse($scope.obtained_application.visaInfo.dateTo));
             $scope.obtained_application.clientInfo.passport.dateOfEnding = new Date(Date.parse($scope.obtained_application.clientInfo.passport.dateOfEnding));
-
         };
 
         $scope.getApplicationForShow = function(){
@@ -119,7 +118,7 @@ angular.module('visa_center', [])
         $scope.LogOut = function(){
             $http.get('http://localhost:8888/logout')
                 .then(function () {
-                    $window.location.href = "/login_page.html";
+                    $window.location.href = "/index.html";
                 }).catch(function (reason) {
                 $scope.loginRedirect(reason);
             });
@@ -279,7 +278,7 @@ angular.module('visa_center', [])
                 .then(function (response) {
                     $window.location.href = response.data.destination;
                 }).catch(function (reason) {
-                $scope.errorMessage = reason.data.error;
+                $scope.errorMessage = reason.data.message;
                 $scope.messageBool = true;
             });
         };
@@ -287,7 +286,7 @@ angular.module('visa_center', [])
             user.role="CLIENT";
             $http.post('http://localhost:8888/register', user)
                 .then(function () {
-                    $window.location.href = "/login_page.html";
+                    $window.location.href = "/index.html";
                 }).catch(function (reason) {
                 $scope.loginRedirect(reason);
                 $scope.displayErrors(reason);
