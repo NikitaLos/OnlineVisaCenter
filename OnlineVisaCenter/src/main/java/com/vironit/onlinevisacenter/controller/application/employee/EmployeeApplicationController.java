@@ -1,6 +1,6 @@
 package com.vironit.onlinevisacenter.controller.application.employee;
 
-import com.vironit.onlinevisacenter.dto.converter.ApplicationConverter;
+import com.vironit.onlinevisacenter.converter.ApplicationConverter;
 import com.vironit.onlinevisacenter.dto.response.ApplicationResponseDTO;
 import com.vironit.onlinevisacenter.entity.Application;
 import com.vironit.onlinevisacenter.entity.enums.Result;

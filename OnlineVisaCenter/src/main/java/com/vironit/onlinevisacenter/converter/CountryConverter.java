@@ -1,4 +1,4 @@
-package com.vironit.onlinevisacenter.dto.converter;
+package com.vironit.onlinevisacenter.converter;
 
 import com.vironit.onlinevisacenter.dto.CountryDTO;
 import com.vironit.onlinevisacenter.entity.Country;

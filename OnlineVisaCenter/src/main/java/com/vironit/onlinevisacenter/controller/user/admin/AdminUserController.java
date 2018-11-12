@@ -1,7 +1,7 @@
 package com.vironit.onlinevisacenter.controller.user.admin;
 
 import com.vironit.onlinevisacenter.dto.UserDTO;
-import com.vironit.onlinevisacenter.dto.converter.UserConverter;
+import com.vironit.onlinevisacenter.converter.UserConverter;
 import com.vironit.onlinevisacenter.entity.User;
 import com.vironit.onlinevisacenter.entity.enums.Role;
 import com.vironit.onlinevisacenter.exceptions.ServiceException;

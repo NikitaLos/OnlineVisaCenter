@@ -1,4 +1,4 @@
-package com.vironit.onlinevisacenter.dto.converter;
+package com.vironit.onlinevisacenter.converter;
 
 import com.vironit.onlinevisacenter.dto.DocumentTypeDTO;
 import com.vironit.onlinevisacenter.dto.request.VisaRequestDTO;
@@ -40,7 +40,7 @@ public class VisaConverter {
             visa.setCountry(countryService.getCountry(visaDTO.getCountryId()));
             if(visaDTO.getRequiredDocumentTypesId()!=null) {
                 for (int id : visaDTO.getRequiredDocumentTypesId()) {
-                    visa.addDocumentType(documentService.getDocument(id));
+                    visa.getRequiredDocumentTypes().add(documentService.getDocument(id));
                 }
             }
             return visa;

@@ -1,6 +1,6 @@
 package com.vironit.onlinevisacenter.controller.visa.client;
 
-import com.vironit.onlinevisacenter.dto.converter.VisaConverter;
+import com.vironit.onlinevisacenter.converter.VisaConverter;
 import com.vironit.onlinevisacenter.dto.response.VisaResponseDTO;
 import com.vironit.onlinevisacenter.entity.Country;
 import com.vironit.onlinevisacenter.entity.Visa;

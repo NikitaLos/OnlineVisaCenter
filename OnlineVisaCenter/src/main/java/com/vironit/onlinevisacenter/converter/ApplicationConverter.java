@@ -1,4 +1,4 @@
-package com.vironit.onlinevisacenter.dto.converter;
+package com.vironit.onlinevisacenter.converter;
 
 import com.vironit.onlinevisacenter.dto.request.ApplicationRequestDTO;
 import com.vironit.onlinevisacenter.dto.request.ClientInfoRequestDTO;

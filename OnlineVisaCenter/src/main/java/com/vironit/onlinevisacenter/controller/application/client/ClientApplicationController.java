@@ -1,6 +1,6 @@
 package com.vironit.onlinevisacenter.controller.application.client;
 
-import com.vironit.onlinevisacenter.dto.converter.ApplicationConverter;
+import com.vironit.onlinevisacenter.converter.ApplicationConverter;
 import com.vironit.onlinevisacenter.dto.request.ApplicationRequestDTO;
 import com.vironit.onlinevisacenter.dto.response.ApplicationResponseDTO;
 import com.vironit.onlinevisacenter.dto.validation.ValidationSequence;

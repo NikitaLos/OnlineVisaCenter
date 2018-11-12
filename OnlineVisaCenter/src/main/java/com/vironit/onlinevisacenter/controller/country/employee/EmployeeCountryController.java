@@ -1,7 +1,7 @@
 package com.vironit.onlinevisacenter.controller.country.employee;
 
 import com.vironit.onlinevisacenter.dto.CountryDTO;
-import com.vironit.onlinevisacenter.dto.converter.CountryConverter;
+import com.vironit.onlinevisacenter.converter.CountryConverter;
 import com.vironit.onlinevisacenter.entity.Country;
 import com.vironit.onlinevisacenter.exceptions.ServiceException;
 import com.vironit.onlinevisacenter.service.interfaces.*;

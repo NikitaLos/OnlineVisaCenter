@@ -1,7 +1,7 @@
 package com.vironit.onlinevisacenter.controller.document.employee;
 
 import com.vironit.onlinevisacenter.dto.DocumentTypeDTO;
-import com.vironit.onlinevisacenter.dto.converter.DocumentTypeConverter;
+import com.vironit.onlinevisacenter.converter.DocumentTypeConverter;
 import com.vironit.onlinevisacenter.entity.DocumentType;
 import com.vironit.onlinevisacenter.exceptions.ServiceException;
 import com.vironit.onlinevisacenter.service.interfaces.DocumentTypeService;
