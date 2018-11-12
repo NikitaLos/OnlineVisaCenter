@@ -45,7 +45,7 @@ public class EmployeeApplicationController {
     }
 
     @GetMapping(value = "/change_result/{application_id}")
-    public void changeApplicationResult(@PathVariable("application_id") Integer id,@RequestParam Result result) {
+    public void changeApplicationResult(@PathVariable("application_id") Integer id, @RequestParam Result result) {
         try {
             Application application = applicationService.changeApplicationResultAndStatus(id,result);
             senderService.sendResultToClient(application);
