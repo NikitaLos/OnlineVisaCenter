@@ -4,11 +4,13 @@ package com.vironit.onlinevisacenter.dto.request;
 import com.vironit.onlinevisacenter.dto.validation.DateValidateGroup;
 import com.vironit.onlinevisacenter.dto.validation.VisaDate;
 import com.vironit.onlinevisacenter.dto.validation.VisaDays;
+import lombok.Data;
 
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
+@Data
 @VisaDate(groups = DateValidateGroup.class)
 @VisaDays(groups = DateValidateGroup.class)
 public class VisaInfoRequestDTO {
@@ -28,44 +30,4 @@ public class VisaInfoRequestDTO {
 
     @NotNull(message = "{visa_info.days.null}")
     private Integer numOfDaysResidence;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getVisaId() {
-        return visaId;
-    }
-
-    public void setVisaId(Integer visaId) {
-        this.visaId = visaId;
-    }
-
-    public LocalDate getDateFrom() {
-        return dateFrom;
-    }
-
-    public void setDateFrom(LocalDate dateFrom) {
-        this.dateFrom = dateFrom;
-    }
-
-    public LocalDate getDateTo() {
-        return dateTo;
-    }
-
-    public void setDateTo(LocalDate dateTo) {
-        this.dateTo = dateTo;
-    }
-
-    public Integer getNumOfDaysResidence() {
-        return numOfDaysResidence;
-    }
-
-    public void setNumOfDaysResidence(Integer numOfDaysResidence) {
-        this.numOfDaysResidence = numOfDaysResidence;
-    }
 }

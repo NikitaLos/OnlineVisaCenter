@@ -1,8 +1,11 @@
 package com.vironit.onlinevisacenter.dto;
 
+import lombok.Data;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+@Data
 public class DocumentTypeDTO {
 
     private Integer id;
@@ -10,21 +13,4 @@ public class DocumentTypeDTO {
     @NotNull(message = "{document_type.name.null}")
     @Size(min = 2, message = "{document_type.name.size}")
     private String name;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }

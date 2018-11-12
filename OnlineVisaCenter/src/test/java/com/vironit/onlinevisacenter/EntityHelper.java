@@ -45,7 +45,7 @@ public class EntityHelper {
         visa.setType("Test Visa Type");
         visa.setPrice(999.);
         visa.setCountry(prepareCountry());
-        visa.addDocumentType(prepareDocumentType());
+        visa.getRequiredDocumentTypes().add(prepareDocumentType());
         return visa;
     }
 
