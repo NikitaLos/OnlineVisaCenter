@@ -274,7 +274,7 @@ angular.module('visa_center', [])
         };
         $scope.logUser = function(user){
             var userParams = {login:user.login,password: user.password};
-            $http({url:'http://localhost:8888/login_user', method:"POST",params:userParams})
+            $http({url:'http://localhost:8888/login', method:"POST",params:userParams})
                 .then(function (response) {
                     $window.location.href = response.data.destination;
                 }).catch(function (reason) {

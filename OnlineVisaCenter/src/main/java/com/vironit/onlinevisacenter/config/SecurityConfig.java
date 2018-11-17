@@ -20,24 +20,21 @@ import org.springframework.security.web.authentication.logout.HttpStatusReturnin
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
     private UserDetailsService userDetailsService;
-    private AuthenticationSuccessHandler authenticationSuccessHandler;
-    private AuthenticationFailureHandler authenticationFailureHandler;
-    private AuthenticationEntryPoint authenticationEntryPoint;
 
     @Autowired
-    public SecurityConfig(UserDetailsService userDetailsService, AuthenticationSuccessHandler authenticationSuccessHandler,
-                          AuthenticationEntryPoint authenticationEntryPoint, AuthenticationFailureHandler authenticationFailureHandler){
-        this.userDetailsService = userDetailsService;
-        this.authenticationSuccessHandler = authenticationSuccessHandler;
-        this.authenticationEntryPoint = authenticationEntryPoint;
-        this.authenticationFailureHandler = authenticationFailureHandler;
-    }
+    private AuthenticationSuccessHandler authenticationSuccessHandler;
+
+    @Autowired
+    private AuthenticationFailureHandler authenticationFailureHandler;
+
+    @Autowired
+    private AuthenticationEntryPoint authenticationEntryPoint;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-                .userDetailsService(userDetailsService);
+        auth.userDetailsService(userDetailsService);
     }
 
     @Override
@@ -46,18 +43,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/employee/**").hasAuthority(Role.EMPLOYEE.name())
                 .antMatchers("/admin/**").hasAuthority(Role.ADMIN.name())
                 .antMatchers("/client/**").hasAuthority(Role.CLIENT.name())
-                .antMatchers("/auth_user/**").hasAnyAuthority(Role.CLIENT.name(),Role.EMPLOYEE.name())
-                .and()
-                .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)
-                .and()
-                .formLogin().loginProcessingUrl("/login_user")
-                .usernameParameter("login").passwordParameter("password")
-                .successHandler(authenticationSuccessHandler)
-                .failureHandler(authenticationFailureHandler)
-                .and()
-                .logout().logoutUrl("/logout").logoutSuccessHandler((new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK)))
+                .antMatchers("/auth_user/**").hasAnyAuthority(Role.CLIENT.name(), Role.EMPLOYEE.name())
                 .and()
                 .csrf().disable();
+        http.formLogin()
+                .usernameParameter("login")
+                .passwordParameter("password")
+                .successHandler(authenticationSuccessHandler)
+                .failureHandler(authenticationFailureHandler);
+        http.exceptionHandling()
+                .authenticationEntryPoint(authenticationEntryPoint);
+        http.logout()
+                .invalidateHttpSession(true)
+                .clearAuthentication(true)
+                .logoutSuccessHandler((new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK)));
     }
 
     @Bean
