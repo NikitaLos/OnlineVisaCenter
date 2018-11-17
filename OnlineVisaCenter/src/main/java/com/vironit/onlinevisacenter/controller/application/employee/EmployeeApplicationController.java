@@ -8,9 +8,12 @@ import com.vironit.onlinevisacenter.entity.enums.Status;
 import com.vironit.onlinevisacenter.exceptions.ServiceException;
 import com.vironit.onlinevisacenter.service.interfaces.ApplicationService;
 import com.vironit.onlinevisacenter.service.interfaces.SenderService;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -41,17 +44,13 @@ public class EmployeeApplicationController {
 
     @GetMapping(value = "/add_comments/{application_id}")
     public void addCommentsToApplication(@PathVariable("application_id") Integer id, @RequestParam String comments) throws ServiceException {
-        applicationService.addCommentsToApplication(id,comments);
+        applicationService.addCommentsToApplication(id, comments);
     }
 
     @GetMapping(value = "/change_result/{application_id}")
-    public void changeApplicationResult(@PathVariable("application_id") Integer id, @RequestParam Result result) {
-        try {
-            Application application = applicationService.changeApplicationResultAndStatus(id,result);
-            senderService.sendResultToClient(application);
-        } catch (ServiceException e) {
-            Logger.getRootLogger().error("Error of sending result to client",e);
-        }
+    public void changeApplicationResult(@PathVariable("application_id") Integer id, @RequestParam Result result) throws ServiceException {
+        Application application = applicationService.changeApplicationResultAndStatus(id, result);
+        senderService.sendResultToClient(application);
     }
 
     @GetMapping(value = "/get_statuses")

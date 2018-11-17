@@ -1,19 +1,20 @@
 package com.vironit.onlinevisacenter.service;
 
-import com.vironit.onlinevisacenter.dao.interfaces.ApplicationDAO;
-import com.vironit.onlinevisacenter.entity.*;
+import com.vironit.onlinevisacenter.repository.jpa.ApplicationDAO;
+import com.vironit.onlinevisacenter.entity.Application;
 import com.vironit.onlinevisacenter.entity.enums.Result;
 import com.vironit.onlinevisacenter.entity.enums.Status;
-import com.vironit.onlinevisacenter.exceptions.DAOException;
 import com.vironit.onlinevisacenter.exceptions.ServiceException;
 import com.vironit.onlinevisacenter.service.interfaces.ApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
+@Transactional
 public class ApplicationServiceImpl implements ApplicationService {
 
     private ApplicationDAO applicationDAO;
@@ -24,94 +25,63 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public void addApplicationToQueue(Application application) throws ServiceException {
-        try {
-            application.setCreationTime(LocalDateTime.now());
-            application.setStatus(Status.IN_QUEUE);
-            application.setResult(Result.NO_RESULT);
-            applicationDAO.save(application);
-        } catch (DAOException e) {
-            throw new ServiceException(e);
-        }
+    public void addApplicationToQueue(Application application) {
+        application.setCreationTime(LocalDateTime.now());
+        application.setStatus(Status.IN_QUEUE);
+        application.setResult(Result.NO_RESULT);
+        applicationDAO.save(application);
     }
 
     @Override
-    public void updateApplication(Application application) throws ServiceException {
-        try {
-            applicationDAO.update(application);
-        } catch (DAOException e) {
-            throw new ServiceException(e);
-        }
+    public void updateApplication(Application application) {
+        applicationDAO.save(application);
     }
 
     @Override
-    public void deleteApplicationFromQueue(Application application) throws ServiceException {
-        try {
-            applicationDAO.delete(application);
-        } catch (DAOException e) {
-            throw new ServiceException(e);
-        }
+    public void deleteApplicationFromQueue(Application application) {
+        applicationDAO.delete(application);
     }
 
     @Override
-    public List<Application> getAllApplications() throws ServiceException {
-        try {
-            return  applicationDAO.findAll(Application.class);
-        } catch (DAOException e) {
-            throw new ServiceException(e);
-        }
+    public List<Application> getAllApplications() {
+        return applicationDAO.findAll();
     }
 
     @Override
     public Application getApplication(Integer id) throws ServiceException {
-        try {
-            return applicationDAO.find(id);
-        } catch (DAOException e) {
-            throw  new ServiceException(e);
-        }
+        return applicationDAO.findById(id).orElseThrow(ServiceException::new);
     }
 
     @Override
-    public List<Application> getUserApplications(Integer userId) throws ServiceException {
-        try {
-            return applicationDAO.findApplicationsByClient(userId);
-        } catch (DAOException e) {
-            throw new ServiceException(e);
-        }
+    public List<Application> getUserApplications(Integer userId) {
+        return applicationDAO.findByUserId(userId);
     }
 
     @Override
-    public void addCommentsToApplication(Integer id, String comments) throws ServiceException {
-        try {
-            Application application = applicationDAO.find(id);
-            application.setComments(comments);
-            applicationDAO.update(application);
-        } catch (DAOException e) {
-            throw new ServiceException(e);
-        }
+    public void addCommentsToApplication(Integer id, String comments) {
+        Application application = applicationDAO.findById(id).orElseThrow(SecurityException::new);
+        application.setComments(comments);
+        applicationDAO.save(application);
     }
 
     @Override
-    public Application changeApplicationResultAndStatus(Integer id, Result result) throws ServiceException {
+    public Application changeApplicationResultAndStatus(Integer id, Result result) {
         Status status = resolveApplicationStatus(result);
-        try {
-            Application application = applicationDAO.find(id);
-            application.setResult(result);
-            application.setStatus(status);
-            applicationDAO.update(application);
-            return application;
-        } catch (DAOException e) {
-            throw new ServiceException(e);
-        }
+        Application application = applicationDAO.findById(id).orElseThrow(SecurityException::new);
+        application.setResult(result);
+        application.setStatus(status);
+        applicationDAO.save(application);
+        return application;
+
     }
 
 
     private Status resolveApplicationStatus(Result result) {
-        if (result==Result.APPROVE||result==Result.DENY){
+        if (result == Result.APPROVE || result == Result.DENY) {
             return Status.REVIEWED;
-        }else if (result==Result.REQUIRED_CHANGES){
+        } else if (result == Result.REQUIRED_CHANGES) {
             return Status.WAITING_FOR_CHANGES;
-        }else{
+        } else {
             return Status.IN_QUEUE;
         }
     }

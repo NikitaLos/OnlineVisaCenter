@@ -8,7 +8,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "user")
+@Table(name = "app_user")
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class User extends AbstractIdentifiableEntity implements Serializable {

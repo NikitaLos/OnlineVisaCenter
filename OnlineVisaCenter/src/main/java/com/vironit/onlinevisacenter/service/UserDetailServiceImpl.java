@@ -1,8 +1,7 @@
 package com.vironit.onlinevisacenter.service;
 
-import com.vironit.onlinevisacenter.dao.interfaces.UserDAO;
 import com.vironit.onlinevisacenter.entity.User;
-import com.vironit.onlinevisacenter.exceptions.DAOException;
+import com.vironit.onlinevisacenter.repository.jpa.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.GrantedAuthority;
@@ -14,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Primary
@@ -23,19 +23,15 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
     @Autowired
     public UserDetailServiceImpl(UserDAO userDAO) {
-        this.userDAO=userDAO;
+        this.userDAO = userDAO;
     }
 
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
         User user;
-        try {
-            user = userDAO.findUserByLogin(login);
-        } catch (DAOException e) {
-            throw new UsernameNotFoundException("User + " + login + " not found");
-        }
+        user = Optional.ofNullable(userDAO.findByLogin(login)).orElseThrow(() -> new UsernameNotFoundException("User + " + login + " not found"));
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(user.getRole().toString()));
-        return new org.springframework.security.core.userdetails.User(user.getLogin(),user.getPassword(),authorities);
+        return new org.springframework.security.core.userdetails.User(user.getLogin(), user.getPassword(), authorities);
     }
 }

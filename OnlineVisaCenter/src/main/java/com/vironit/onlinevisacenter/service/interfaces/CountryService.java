@@ -7,11 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 public interface CountryService {
-    @Transactional
     void addCountry(Country country) throws ServiceException;
-    @Transactional
     void updateCountry(Country country) throws ServiceException;
-    @Transactional
     void deleteCountryById(Integer id) throws  ServiceException;
     Country getCountry(Integer id) throws ServiceException;
     List<Country> getAll() throws ServiceException;
