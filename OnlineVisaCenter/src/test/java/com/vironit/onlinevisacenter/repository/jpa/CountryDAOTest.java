@@ -1,16 +1,18 @@
-package com.vironit.onlinevisacenter.dao;
+package com.vironit.onlinevisacenter.repository.jpa;
 
-import com.vironit.onlinevisacenter.dao.interfaces.CountryDAO;
 import com.vironit.onlinevisacenter.entity.Country;
-import com.vironit.onlinevisacenter.exceptions.DAOException;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-public class CountryDAOTest extends BaseDAOTest{
+public class CountryDAOTest extends AbstractDAOTest {
 
     @Autowired
     private CountryDAO countryDAO;
@@ -19,7 +21,7 @@ public class CountryDAOTest extends BaseDAOTest{
 
     @Before
     public void insertCountry(){
-        testCountry = entityHelper.prepareCountry();
+        testCountry = jpaRepositoryTestData.prepareCountry();
         entityManager.persist(testCountry);
     }
 
@@ -29,29 +31,29 @@ public class CountryDAOTest extends BaseDAOTest{
     }
 
     @Test
-    public void saveTest() throws DAOException {
-        Country countryExpected = entityHelper.prepareCountry();
+    public void saveTest() {
+        Country countryExpected = jpaRepositoryTestData.prepareCountry();
         countryDAO.save(countryExpected);
         Country countryActual = entityManager.find(Country.class,countryExpected.getId());
         Assert.assertEquals(countryExpected,countryActual);
     }
 
     @Test
-    public void findTest() throws DAOException {
-        Country country = countryDAO.find(testCountry.getId());
+    public void findTest() {
+        Country country = countryDAO.findById(testCountry.getId()).get();
         assertEquals(testCountry.getName(),country.getName());
     }
 
     @Test
-    public void updateTest() throws DAOException {
+    public void updateTest() {
         testCountry.setName("New Test Country");
-        countryDAO.update(testCountry);
+        countryDAO.save(testCountry);
         testCountry = entityManager.find(Country.class,testCountry.getId());
         assertEquals("New Test Country",testCountry.getName());
     }
 
     @Test
-    public void deleteTest() throws DAOException {
+    public void deleteTest() {
         Country country = entityManager.find(Country.class,testCountry.getId());
         countryDAO.deleteById(country.getId());
         country =  entityManager.find(Country.class,testCountry.getId());
@@ -59,8 +61,8 @@ public class CountryDAOTest extends BaseDAOTest{
     }
 
     @Test
-    public void findAllTest() throws DAOException {
-        List<Country> countries = countryDAO.findAll(Country.class);
+    public void findAllTest() {
+        List<Country> countries = countryDAO.findAll();
         assertEquals(countries.size(),1);
     }
 

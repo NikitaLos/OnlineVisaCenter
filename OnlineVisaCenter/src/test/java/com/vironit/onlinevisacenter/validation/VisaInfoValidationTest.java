@@ -1,7 +1,6 @@
 package com.vironit.onlinevisacenter.validation;
 
-import com.vironit.onlinevisacenter.dto.request.VisaInfoRequestDTO;
-import com.vironit.onlinevisacenter.dto.validation.ValidationSequence;
+import com.vironit.onlinevisacenter.dto.visainfo.VisaInfoRequestDTO;
 import org.junit.Test;
 import javax.validation.ConstraintViolation;
 import java.time.LocalDate;
@@ -10,7 +9,7 @@ import java.util.Set;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class VisaInfoValidationTest extends BaseValidationTest{
+public class VisaInfoValidationTest extends AbstractValidationTest {
 
     @Test
     public void validVisaInfo(){

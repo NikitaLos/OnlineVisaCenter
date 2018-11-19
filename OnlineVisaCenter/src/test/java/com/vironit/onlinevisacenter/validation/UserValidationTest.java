@@ -1,6 +1,6 @@
 package com.vironit.onlinevisacenter.validation;
 
-import com.vironit.onlinevisacenter.dto.UserDTO;
+import com.vironit.onlinevisacenter.dto.user.UserDTO;
 import com.vironit.onlinevisacenter.entity.enums.Role;
 import org.junit.Test;
 
@@ -10,7 +10,7 @@ import java.util.Set;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class UserValidationTest extends BaseValidationTest{
+public class UserValidationTest extends AbstractValidationTest {
 
     @Test
     public void validUser(){

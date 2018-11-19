@@ -1,7 +1,6 @@
-package com.vironit.onlinevisacenter.dao;
+package com.vironit.onlinevisacenter.repository.jpa;
 
-import com.vironit.onlinevisacenter.BaseTest;
-import com.vironit.onlinevisacenter.EntityHelper;
+import com.vironit.onlinevisacenter.AbstractTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -9,9 +8,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 @Transactional
-public abstract class BaseDAOTest extends BaseTest {
+public abstract class AbstractDAOTest extends AbstractTest {
     @Autowired
-    EntityHelper entityHelper;
+    JpaRepositoryTestData jpaRepositoryTestData;
 
     @PersistenceContext
     EntityManager entityManager;

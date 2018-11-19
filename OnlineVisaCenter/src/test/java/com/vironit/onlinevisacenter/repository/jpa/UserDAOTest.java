@@ -1,15 +1,13 @@
-package com.vironit.onlinevisacenter.dao;
+package com.vironit.onlinevisacenter.repository.jpa;
 
-import com.vironit.onlinevisacenter.dao.interfaces.UserDAO;
 import com.vironit.onlinevisacenter.entity.*;
-import com.vironit.onlinevisacenter.exceptions.DAOException;
 import org.junit.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class UserDAOTest extends BaseDAOTest{
+public class UserDAOTest extends AbstractDAOTest {
 
     @Autowired
     private  UserDAO userDAO;
@@ -18,7 +16,7 @@ public class UserDAOTest extends BaseDAOTest{
 
     @Before
     public void insertCountry(){
-        testUser = entityHelper.prepareUser();
+        testUser = jpaRepositoryTestData.prepareUser();
         entityManager.persist(testUser);
     }
 
@@ -28,35 +26,35 @@ public class UserDAOTest extends BaseDAOTest{
     }
 
     @Test
-    public void saveTest() throws DAOException {
-        User userExpected = entityHelper.prepareUser();
+    public void saveTest() {
+        User userExpected = jpaRepositoryTestData.prepareUser();
         userDAO.save(userExpected);
         User userActual = entityManager.find(User.class,userExpected.getId());
         assertEquals(userExpected,userActual);
     }
 
     @Test
-    public void updateTest() throws DAOException {
+    public void updateTest() {
         testUser.setLogin("New Test Login");
-        userDAO.update(testUser);
+        userDAO.save(testUser);
         testUser = entityManager.find(User.class, testUser.getId());
         assertEquals("New Test Login", testUser.getLogin());
     }
 
     @Test
-    public void findTest() throws DAOException {
-        User user = userDAO.find(testUser.getId());
+    public void findTest() {
+        User user = userDAO.findById(testUser.getId()).get();
         assertEquals(testUser.getLogin(),user.getLogin());
     }
 
     @Test
-    public void findAllTest() throws DAOException {
-        List<User> user = userDAO.findAll(User.class);
+    public void findAllTest() {
+        List<User> user = userDAO.findAll();
         assertEquals(user.size(),1);
     }
 
     @Test
-    public void deleteTest() throws DAOException {
+    public void deleteTest() {
         User user = entityManager.find(User.class, testUser.getId());
         userDAO.delete(user);
         user =  entityManager.find(User.class, testUser.getId());
@@ -64,8 +62,8 @@ public class UserDAOTest extends BaseDAOTest{
     }
 
     @Test
-    public void getUserByLoginAndPasswordTest() throws DAOException {
-        User user = userDAO.findUserByLoginAndPassword(testUser);
+    public void getUserByLoginAndPasswordTest() {
+        User user = userDAO.findByLoginAndPassword(testUser.getLogin(),testUser.getPassword());
         assertEquals(testUser,user);
     }
 }

@@ -1,7 +1,6 @@
 package com.vironit.onlinevisacenter.validation;
 
-import com.vironit.onlinevisacenter.dto.request.ClientInfoRequestDTO;
-import com.vironit.onlinevisacenter.dto.validation.ValidationSequence;
+import com.vironit.onlinevisacenter.dto.clientinfo.ClientInfoRequestDTO;
 import com.vironit.onlinevisacenter.entity.enums.AimOfVisit;
 import org.junit.Test;
 import javax.validation.ConstraintViolation;
@@ -11,7 +10,7 @@ import java.util.Set;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class ClientInfoValidationTest extends BaseValidationTest{
+public class ClientInfoValidationTest extends AbstractValidationTest {
 
     @Test
     public void validClientInfo(){

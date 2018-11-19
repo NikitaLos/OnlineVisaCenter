@@ -1,4 +1,4 @@
-package com.vironit.onlinevisacenter;
+package com.vironit.onlinevisacenter.repository.jpa;
 
 import com.vironit.onlinevisacenter.entity.*;
 import com.vironit.onlinevisacenter.entity.enums.AimOfVisit;
@@ -6,14 +6,16 @@ import com.vironit.onlinevisacenter.entity.enums.Role;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.Collections;
+import java.util.List;
 
 @Component
-public class EntityHelper {
+public class JpaRepositoryTestData {
 
-    public Application prepareApplication() {
+    public Application prepareApplication(User user, Visa visa) {
         Application application = new Application();
-        application.setUser(prepareUser());
-        application.setVisaInfo(prepareVisaInfo());
+        application.setUser(user);
+        application.setVisaInfo(prepareVisaInfo(visa));
         application.setClientInfo(prepareClientInfo());
         application.setComments("Test Comments");
         return application;
@@ -40,12 +42,12 @@ public class EntityHelper {
         return user;
     }
 
-    public Visa prepareVisa() {
+    public Visa prepareVisa(Country country, DocumentType documentType) {
         Visa visa = new Visa();
         visa.setType("Test Visa Type");
         visa.setPrice(999.);
-        visa.setCountry(prepareCountry());
-        visa.getRequiredDocumentTypes().add(prepareDocumentType());
+        visa.setCountry(country);
+        visa.setRequiredDocumentTypes(Collections.singletonList(documentType));
         return visa;
     }
 
@@ -58,10 +60,10 @@ public class EntityHelper {
         return passport;
     }
 
-    private VisaInfo prepareVisaInfo() {
+    private VisaInfo prepareVisaInfo(Visa visa) {
         VisaInfo visaInfo = new VisaInfo();
         visaInfo.setVisaPathOnServer("Test Visa Path");
-        visaInfo.setVisa(prepareVisa());
+        visaInfo.setVisa(visa);
         visaInfo.setDateOfReceiving(LocalDate.now());
         visaInfo.setDateFrom(LocalDate.now());
         visaInfo.setDateTo(LocalDate.now());

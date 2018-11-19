@@ -1,10 +1,9 @@
 package com.vironit.onlinevisacenter.validation;
 
-import com.vironit.onlinevisacenter.dto.request.ApplicationRequestDTO;
-import com.vironit.onlinevisacenter.dto.request.ClientInfoRequestDTO;
-import com.vironit.onlinevisacenter.dto.request.PassportRequestDTO;
-import com.vironit.onlinevisacenter.dto.request.VisaInfoRequestDTO;
-import com.vironit.onlinevisacenter.dto.validation.ValidationSequence;
+import com.vironit.onlinevisacenter.dto.application.ApplicationRequestDTO;
+import com.vironit.onlinevisacenter.dto.clientinfo.ClientInfoRequestDTO;
+import com.vironit.onlinevisacenter.dto.passport.PassportRequestDTO;
+import com.vironit.onlinevisacenter.dto.visainfo.VisaInfoRequestDTO;
 import com.vironit.onlinevisacenter.entity.enums.AimOfVisit;
 import org.junit.Test;
 
@@ -14,7 +13,7 @@ import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 
-public class ApplicationValidationTest extends BaseValidationTest {
+public class ApplicationValidationTest extends AbstractValidationTest {
 
     @Test
     public void invalidDateOfVisaAndPassportDates(){

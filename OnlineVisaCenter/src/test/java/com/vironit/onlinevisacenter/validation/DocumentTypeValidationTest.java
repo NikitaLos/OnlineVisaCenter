@@ -1,6 +1,6 @@
 package com.vironit.onlinevisacenter.validation;
 
-import com.vironit.onlinevisacenter.dto.DocumentTypeDTO;
+import com.vironit.onlinevisacenter.dto.documenttype.DocumentTypeDTO;
 import org.junit.Test;
 import javax.validation.ConstraintViolation;
 import java.util.Set;
@@ -8,7 +8,7 @@ import java.util.Set;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class DocumentTypeValidationTest extends BaseValidationTest{
+public class DocumentTypeValidationTest extends AbstractValidationTest {
 
     @Test
     public void haveNameTest(){

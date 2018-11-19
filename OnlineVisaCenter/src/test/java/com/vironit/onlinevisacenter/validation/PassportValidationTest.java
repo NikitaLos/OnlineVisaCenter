@@ -1,6 +1,6 @@
 package com.vironit.onlinevisacenter.validation;
 
-import com.vironit.onlinevisacenter.dto.request.PassportRequestDTO;
+import com.vironit.onlinevisacenter.dto.passport.PassportRequestDTO;
 import org.junit.Test;
 
 import javax.validation.ConstraintViolation;
@@ -10,7 +10,7 @@ import java.util.Set;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class PassportValidationTest extends BaseValidationTest{
+public class PassportValidationTest extends AbstractValidationTest {
 
     @Test
     public void validPassport(){

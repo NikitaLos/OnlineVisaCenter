@@ -1,13 +1,13 @@
 package com.vironit.onlinevisacenter.validation;
 
-import com.vironit.onlinevisacenter.dto.CountryDTO;
+import com.vironit.onlinevisacenter.dto.country.CountryDTO;
 import org.junit.Test;
 import javax.validation.ConstraintViolation;
 import java.util.Set;
 
 import static org.junit.Assert.*;
 
-public class CountryValidationTest extends BaseValidationTest{
+public class CountryValidationTest extends AbstractValidationTest {
 
     @Test
     public void haveNameTest(){
