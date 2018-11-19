@@ -1,7 +1,7 @@
-package com.vironit.onlinevisacenter.dto.response;
+package com.vironit.onlinevisacenter.dto.visa;
 
-import com.vironit.onlinevisacenter.dto.CountryDTO;
-import com.vironit.onlinevisacenter.dto.DocumentTypeDTO;
+import com.vironit.onlinevisacenter.dto.country.CountryDTO;
+import com.vironit.onlinevisacenter.dto.documenttype.DocumentTypeDTO;
 import lombok.Data;
 
 import java.util.List;

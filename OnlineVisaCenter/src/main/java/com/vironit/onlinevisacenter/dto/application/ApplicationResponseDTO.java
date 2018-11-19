@@ -1,6 +1,8 @@
-package com.vironit.onlinevisacenter.dto.response;
+package com.vironit.onlinevisacenter.dto.application;
 
-import com.vironit.onlinevisacenter.dto.UserDTO;
+import com.vironit.onlinevisacenter.dto.user.UserDTO;
+import com.vironit.onlinevisacenter.dto.clientinfo.ClientInfoResponseDTO;
+import com.vironit.onlinevisacenter.dto.visainfo.VisaInfoResponseDTO;
 import com.vironit.onlinevisacenter.entity.enums.Result;
 import com.vironit.onlinevisacenter.entity.enums.Status;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package com.vironit.onlinevisacenter.dto.response;
+package com.vironit.onlinevisacenter.dto.passport;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;

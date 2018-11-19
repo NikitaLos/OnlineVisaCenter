@@ -1,4 +1,4 @@
-package com.vironit.onlinevisacenter.dto;
+package com.vironit.onlinevisacenter.dto.user;
 
 import com.vironit.onlinevisacenter.entity.enums.Role;
 import lombok.Data;

@@ -1,7 +1,8 @@
-package com.vironit.onlinevisacenter.dto.request;
+package com.vironit.onlinevisacenter.dto.clientinfo;
 
-import com.vironit.onlinevisacenter.dto.validation.DateOfBirth;
-import com.vironit.onlinevisacenter.dto.validation.DateValidateGroup;
+import com.vironit.onlinevisacenter.dto.passport.PassportRequestDTO;
+import com.vironit.onlinevisacenter.validation.DateOfBirth;
+import com.vironit.onlinevisacenter.validation.DateValidateGroup;
 import com.vironit.onlinevisacenter.entity.enums.AimOfVisit;
 import lombok.Data;
 

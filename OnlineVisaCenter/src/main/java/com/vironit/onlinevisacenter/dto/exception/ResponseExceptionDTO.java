@@ -1,4 +1,4 @@
-package com.vironit.onlinevisacenter.dto.response;
+package com.vironit.onlinevisacenter.dto.exception;
 
 import java.util.List;
 

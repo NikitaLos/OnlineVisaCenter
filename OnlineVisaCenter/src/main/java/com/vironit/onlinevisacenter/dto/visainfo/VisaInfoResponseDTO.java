@@ -1,7 +1,8 @@
-package com.vironit.onlinevisacenter.dto.response;
+package com.vironit.onlinevisacenter.dto.visainfo;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.vironit.onlinevisacenter.dto.visa.VisaResponseDTO;
 import lombok.Data;
 
 import java.time.LocalDate;

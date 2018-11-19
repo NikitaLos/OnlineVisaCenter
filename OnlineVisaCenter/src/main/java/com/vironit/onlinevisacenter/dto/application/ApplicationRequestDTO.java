@@ -1,8 +1,11 @@
-package com.vironit.onlinevisacenter.dto.request;
+package com.vironit.onlinevisacenter.dto.application;
 
 
-import com.vironit.onlinevisacenter.dto.validation.DateValidateGroup;
-import com.vironit.onlinevisacenter.dto.validation.PassportDate;
+import com.vironit.onlinevisacenter.dto.clientinfo.ClientInfoRequestDTO;
+import com.vironit.onlinevisacenter.dto.user.UserDTO;
+import com.vironit.onlinevisacenter.dto.visainfo.VisaInfoRequestDTO;
+import com.vironit.onlinevisacenter.validation.DateValidateGroup;
+import com.vironit.onlinevisacenter.validation.PassportDate;
 import com.vironit.onlinevisacenter.entity.User;
 import com.vironit.onlinevisacenter.entity.enums.Result;
 import com.vironit.onlinevisacenter.entity.enums.Status;
@@ -24,7 +27,7 @@ public class ApplicationRequestDTO implements Serializable {
     @Valid
     private VisaInfoRequestDTO visaInfo;
 
-    private User user;
+    private UserDTO userDTO;
 
     private Status status;
 

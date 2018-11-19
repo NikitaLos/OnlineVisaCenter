@@ -1,9 +1,9 @@
-package com.vironit.onlinevisacenter.dto.request;
+package com.vironit.onlinevisacenter.dto.visainfo;
 
 
-import com.vironit.onlinevisacenter.dto.validation.DateValidateGroup;
-import com.vironit.onlinevisacenter.dto.validation.VisaDate;
-import com.vironit.onlinevisacenter.dto.validation.VisaDays;
+import com.vironit.onlinevisacenter.validation.DateValidateGroup;
+import com.vironit.onlinevisacenter.validation.VisaDate;
+import com.vironit.onlinevisacenter.validation.VisaDays;
 import lombok.Data;
 
 import javax.validation.constraints.Future;

@@ -1,6 +1,7 @@
-package com.vironit.onlinevisacenter.dto.response;
+package com.vironit.onlinevisacenter.dto.clientinfo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.vironit.onlinevisacenter.dto.passport.PassportResponseDTO;
 import com.vironit.onlinevisacenter.entity.enums.AimOfVisit;
 import lombok.Data;
 

@@ -1,4 +1,4 @@
-package com.vironit.onlinevisacenter.dto;
+package com.vironit.onlinevisacenter.dto.country;
 
 import lombok.Data;
 
