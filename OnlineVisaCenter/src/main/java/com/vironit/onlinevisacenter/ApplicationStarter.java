@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
@@ -23,6 +24,7 @@ public class ApplicationStarter {
     }
 
     @Bean
+    @Primary
     public LocalValidatorFactoryBean  getValidator() {
         LocalValidatorFactoryBean factoryBean = new LocalValidatorFactoryBean();
         factoryBean.setValidationMessageSource(messageSource());

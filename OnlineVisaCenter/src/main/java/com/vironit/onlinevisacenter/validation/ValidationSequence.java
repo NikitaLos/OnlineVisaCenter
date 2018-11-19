@@ -1,4 +1,4 @@
-package com.vironit.onlinevisacenter.dto.validation;
+package com.vironit.onlinevisacenter.validation;
 
 import javax.validation.GroupSequence;
 import javax.validation.groups.Default;

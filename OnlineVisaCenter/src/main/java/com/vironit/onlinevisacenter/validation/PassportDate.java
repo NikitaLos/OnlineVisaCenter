@@ -1,6 +1,6 @@
-package com.vironit.onlinevisacenter.dto.validation;
+package com.vironit.onlinevisacenter.validation;
 
-import com.vironit.onlinevisacenter.dto.request.ApplicationRequestDTO;
+import com.vironit.onlinevisacenter.dto.application.ApplicationRequestDTO;
 
 import javax.validation.Constraint;
 import javax.validation.ConstraintValidator;

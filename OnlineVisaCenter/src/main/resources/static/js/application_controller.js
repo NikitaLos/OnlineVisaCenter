@@ -14,7 +14,7 @@ angular.module('visa_center', [])
         };
 
         $scope.getAllApplications = function(){
-                $http.get('http://localhost:8888/employee/get_applications')
+                $http.get('http://localhost:8888/employee/applications')
                 .then(function (response) {
                     $scope.all_applications = response.data;
                 }).catch(function (reason) {
@@ -22,15 +22,15 @@ angular.module('visa_center', [])
                 });
         };
         $scope.getUserApp = function(){
-            $http.get('http://localhost:8888/client/get_applications_by_user')
+            $http.get('http://localhost:8888/client/applications')
                 .then(function (response) {
                     $scope.applications = response.data;
                 }).catch(function (reason) {
                     $scope.loginRedirect(reason);
             });
         };
-        $scope.deleteApplication = function(application_id){
-            $http.delete('http://localhost:8888/client/delete_application/'+application_id)
+        $scope.deleteApplication = function(id){
+            $http.delete('http://localhost:8888/client/applications/'+id)
                 .then(function () {
                     $window.location.href = "/user_applications.html";
                 }).catch(function (reason) {
@@ -55,7 +55,7 @@ angular.module('visa_center', [])
             $window.location.href = "/update_application_page.html";
         };
         $scope.addApplication = function(application){
-            $http.post('http://localhost:8888/client/add_application',application)
+            $http.post('http://localhost:8888/client/applications',application)
                 .then(function () {
                     $window.location.href = "/user_applications.html";
                 }).catch(function (reason) {
@@ -64,7 +64,7 @@ angular.module('visa_center', [])
             });
         };
         $scope.updateApplication = function(application){
-            $http.post('http://localhost:8888/client/update_application',application)
+            $http.patch('http://localhost:8888/client/applications',application)
                 .then(function () {
                     $window.location.href = "/user_applications.html";
                 }).catch(function (reason) {
@@ -73,8 +73,7 @@ angular.module('visa_center', [])
             });
         };
         $scope.getCountry = function(){
-            $scope.Products = [{id:1,name:"Apple"}, {id:2,name:"Banana"}, {id:3,name:"Carrort"}, {id:4,name:"Dart"}];
-            $http.get('http://localhost:8888/auth_user/get_countries')
+            $http.get('http://localhost:8888/employee/countries')
                 .then(function (response) {
                     $scope.countries = response.data;
                 }).catch(function (reason) {
@@ -82,7 +81,7 @@ angular.module('visa_center', [])
             });
         };
         $scope.getAimsOfVisit = function(){
-            $http.get('http://localhost:8888/client/get_aims_of_visit')
+            $http.get('http://localhost:8888/client/visas/aims')
                 .then(function (response) {
                     $scope.aims = response.data;
                 }).catch(function (reason) {
@@ -90,7 +89,7 @@ angular.module('visa_center', [])
             });
         };
         $scope.getVisas = function(){
-            $http.get('http://localhost:8888/employee/get_visas')
+            $http.get('http://localhost:8888/employee/visas')
                 .then(function (response) {
                     $scope.visas = response.data;
                 }).catch(function (reason) {
@@ -98,7 +97,7 @@ angular.module('visa_center', [])
             });
         };
         $scope.getVisaByCountryId = function(countryId){
-            $http.get('http://localhost:8888/client/get_visas_by_country/'+countryId)
+            $http.get('http://localhost:8888/client/visas/country/'+countryId)
                 .then(function (response) {
                     $scope.visas = response.data;
                     $scope.visaBool = true;
@@ -124,7 +123,7 @@ angular.module('visa_center', [])
             });
         };
         $scope.getStatuses = function(){
-            $http.get('http://localhost:8888/employee/get_statuses')
+            $http.get('http://localhost:8888/employee/applications/statuses')
                 .then(function (response) {
                     $scope.statuses = response.data;
                 }).catch(function (reason) {
@@ -132,7 +131,7 @@ angular.module('visa_center', [])
             });
         };
         $scope.getResults = function(){
-            $http.get('http://localhost:8888/employee/get_results')
+            $http.get('http://localhost:8888/employee/applications/results')
                 .then(function (response) {
                     $scope.results = response.data;
                 }).catch(function (reason) {
@@ -140,20 +139,27 @@ angular.module('visa_center', [])
             });
         };
         $scope.addCommentsAndResult = function(id,app){
-            $http({url:'http://localhost:8888/employee/add_comments/'+id, method:"GET", params: {comments: app.comments}})
+            app.id=id;
+            $http.patch('http://localhost:8888/employee/applications/review',app)
                 .then(function () {
-                    $http({url:'http://localhost:8888/employee/change_result/'+id, method:"GET", params:{ result: app.result}})
-                        .then(function () {
-                            $window.location.href= "/applications.html";
-                        }).catch(function (reason) {
-                        $scope.loginRedirect(reason);
-                    });
+                    $window.location.href= "/applications.html";
                 }).catch(function (reason) {
                 $scope.loginRedirect(reason);
+
+            // $http({url:'http://localhost:8888/employee/applications/add_comments/'+id, method:"GET", params: {comments: app.comments}})
+            //     .then(function () {
+            //         $http({url:'http://localhost:8888/employee/applications/change_result/'+id, method:"GET", params:{ result: app.result}})
+            //             .then(function () {
+            //                 $window.location.href= "/applications.html";
+            //             }).catch(function (reason) {
+            //             $scope.loginRedirect(reason);
+            //         });
+            //     }).catch(function (reason) {
+            //     $scope.loginRedirect(reason);
             });
         };
         $scope.addCountry = function(country){
-            $http.post('http://localhost:8888/employee/add_country/',country)
+            $http.post('http://localhost:8888/employee/countries',country)
                 .then(function () {
                     $window.location.href = "/countries.html";
                 }).catch(function (reason) {
@@ -161,8 +167,8 @@ angular.module('visa_center', [])
                 $scope.displayErrors(reason);
             });
         };
-        $scope.deleteCountry = function(country_id){
-            $http.delete('http://localhost:8888/employee/delete_country/'+country_id)
+        $scope.deleteCountry = function(id){
+            $http.delete('http://localhost:8888/employee/countries/'+id)
                 .then(function () {
                     $window.location.href = "/countries.html";
                 }).catch(function (reason) {
@@ -171,7 +177,7 @@ angular.module('visa_center', [])
             });
         };
         $scope.addDocumentType = function(document_type){
-            $http.post('http://localhost:8888/employee/add_document_type/',document_type)
+            $http.post('http://localhost:8888/employee/doctypes',document_type)
                 .then(function () {
                     $window.location.href = "/document_types.html";
                 }).catch(function (reason) {
@@ -179,8 +185,8 @@ angular.module('visa_center', [])
                 $scope.displayErrors(reason);
             });
         };
-        $scope.deleteDocumentType = function(document_type_id){
-            $http.delete('http://localhost:8888/employee/delete_document_type/'+ document_type_id)
+        $scope.deleteDocumentType = function(id){
+            $http.delete('http://localhost:8888/employee/doctypes/'+ id)
                 .then(function () {
                     $window.location.href = "/document_types.html";
                 }).catch(function (reason) {
@@ -189,7 +195,7 @@ angular.module('visa_center', [])
             });
         };
         $scope.getDocumentTypes = function(){
-            $http.get('http://localhost:8888/employee/get_document_types')
+            $http.get('http://localhost:8888/employee/doctypes')
                 .then(function (response) {
                     $scope.document_types = response.data;
                 }).catch(function (reason) {
@@ -197,7 +203,7 @@ angular.module('visa_center', [])
             });
         };
         $scope.deleteVisa = function(visa_id){
-            $http.delete('http://localhost:8888/employee/delete_visa/'+ visa_id)
+            $http.delete('http://localhost:8888/employee/visas/'+ visa_id)
                 .then(function () {
                     $window.location.href = "/visas.html";
                 }).catch(function (reason) {
@@ -206,7 +212,7 @@ angular.module('visa_center', [])
             });
         };
         $scope.addVisa = function(visa){
-            $http.post('http://localhost:8888/employee/add_visa/',visa)
+            $http.post('http://localhost:8888/employee/visas',visa)
                 .then(function () {
                     $window.location.href = "/visas.html";
                 }).catch(function (reason) {
@@ -215,7 +221,7 @@ angular.module('visa_center', [])
             });
         };
         $scope.getVisa = function(visa_id){
-            $http.get('http://localhost:8888/client/get_visa/'+visa_id)
+            $http.get('http://localhost:8888/client/visas/'+visa_id)
                 .then(function (response) {
                     $scope.chosenVisa = response.data;
                     $scope.paths = [];
@@ -233,7 +239,7 @@ angular.module('visa_center', [])
             });
         };
         $scope.addEmployee = function(user){
-            $http.post('http://localhost:8888/admin/add_employee', user)
+            $http.post('http://localhost:8888/admin/users', user)
                 .then(function () {
                     $window.location.href = "/employees.html";
                 }).catch(function (reason) {
@@ -242,7 +248,7 @@ angular.module('visa_center', [])
             });
         };
         $scope.getRoles = function(){
-            $http.get('http://localhost:8888/admin/get_roles')
+            $http.get('http://localhost:8888/admin/users/roles')
                 .then(function (response) {
                     $scope.roles = response.data;
                 }).catch(function (reason) {
@@ -250,7 +256,7 @@ angular.module('visa_center', [])
             });
         };
         $scope.getEmployeeRoles = function(){
-            $http.get('http://localhost:8888/admin/get_employee_roles')
+            $http.get('http://localhost:8888/admin/users/employeeRoles')
                 .then(function (response) {
                     $scope.roles = response.data;
                 }).catch(function (reason) {
@@ -258,7 +264,7 @@ angular.module('visa_center', [])
             });
         };
         $scope.getAllEmployees = function(){
-            $http.get('http://localhost:8888/admin/get_employees')
+            $http.get('http://localhost:8888/admin/users/employees')
                 .then(function (response) {
                     $scope.employees = response.data;
                 }).catch(function (reason) {
@@ -266,7 +272,7 @@ angular.module('visa_center', [])
             });
         };
         $scope.deleteEmployee = function(employeeId){
-            $http.delete('http://localhost:8888/admin/delete_employee/'+employeeId)
+            $http.delete('http://localhost:8888/admin/users/'+employeeId)
                 .then(function () {
                     $window.location.href = "/employees.html";
                 }).catch(function (reason) {
@@ -308,7 +314,7 @@ angular.module('visa_center', [])
 
         $scope.updateVisa = function(visa){
             visa.id = $scope.visaToUpdate.id;
-            $http.post('http://localhost:8888/employee/change_visa', visa)
+            $http.patch('http://localhost:8888/employee/visas', visa)
                 .then(function () {
                     $window.location.href = "/visas.html";
                 }).catch(function (reason) {
