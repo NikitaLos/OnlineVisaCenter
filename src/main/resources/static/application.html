@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html ng-app="visa_center">
+<head>
+    <meta charset="UTF-8">
+    <title>Application</title>
+</head>
+<script src="js/angular.js"></script>
+<script src="js/application_controller.js"></script>
+<body>
+<div ng-include="'client_navbar.html'"></div>
+<br/>
+<div class="row justify-content-center">
+    <div ng-controller="application_controller" data-ng-init="getApplicationForShow()" class="col-8">
+        <table class="table table-bordered table-striped ">
+            <tbody>
+            <tr>
+                <td>Country</td>
+                <td>
+                    {{obtained_application.visaInfo.visa.country.name}}
+                </td>
+            </tr>
+            <tr>
+                <td>Visa type</td>
+                <td>
+                    {{obtained_application.visaInfo.visa.type}}
+                </td>
+            </tr>
+            <tr>
+                <td>Visa price</td>
+                <td>
+                    {{obtained_application.visaInfo.visa.price}}
+                </td>
+            </tr>
+            <tr>
+                <td>Visa date from</td>
+                <td>
+                    {{obtained_application.visaInfo.dateFrom}}
+                </td>
+            </tr>
+            <tr>
+                <td>Visa date to</td>
+                <td>
+                    {{obtained_application.visaInfo.dateTo}}
+                </td>
+            <tr>
+                <td>Number of days</td>
+                <td>
+                    {{obtained_application.visaInfo.numOfDaysResidence}}
+                </td>
+            </tr>
+            <tr>
+                <td>Required documents</td>
+                <td>
+                    <div ng-repeat=" doc in obtained_application.visaInfo.visa.requiredDocumentTypes">{{doc.name}}</div>
+                </td>
+            </tr>
+            <tr>
+                <td>Name</td>
+                <td>{{obtained_application.clientInfo.name}}</td>
+            </tr>
+            <tr>
+                <td>Surname</td>
+                <td>{{obtained_application.clientInfo.surname}}</td>
+            </tr>
+            <tr>
+                <td>Sex</td>
+                <td>{{obtained_application.clientInfo.sex}}</td>
+            </tr>
+            <tr>
+                <td>Phone number</td>
+                <td>{{obtained_application.clientInfo.phoneNumber}}</td>
+            </tr>
+            <tr>
+                <td>Date of Birth</td>
+                <td>{{obtained_application.clientInfo.dateOfBirth}}</td>
+            </tr>
+            <tr>
+                <td>Aim of Visit</td>
+                <td>{{obtained_application.clientInfo.aimOfVisit}}</td>
+            </tr>
+            <tr>
+                <td>Passport Number</td>
+                <td>{{obtained_application.clientInfo.passport.number}}</td>
+            </tr>
+            <tr>
+                <td>Country Of Residence</td>
+                <td>{{obtained_application.clientInfo.passport.countryOfResidence}}</td>
+            </tr>
+            <tr>
+                <td>Date of Receiving</td>
+                <td>{{obtained_application.clientInfo.passport.dateOfReceiving}}</td>
+            </tr>
+            <tr>
+                <td>Date of Ending</td>
+                <td>{{obtained_application.clientInfo.passport.dateOfEnding}}</td>
+            </tr>
+            <tr>
+                <td>Number of days</td>
+                <td>{{obtained_application.visaInfo.numOfDaysResidence}}</td>
+            </tr>
+            <tr>
+                <td>Date from</td>
+                <td>{{obtained_application.visaInfo.dateFrom}}</td>
+            </tr>
+            <tr>
+                <td>Date to</td>
+                <td>{{obtained_application.visaInfo.dateTo}}</td>
+            </tr>
+            <tr>
+                <td>Status</td>
+                <td>{{obtained_application.status}}</td>
+            </tr>
+            <tr>
+                <td>Result</td>
+                <td>{{obtained_application.result}}</td>
+            </tr>
+            <tr>
+                <td>Comments</td>
+                <td>{{obtained_application.comments}}</td>
+            </tr>
+            <tr>
+                <td>Creation time</td>
+                <td>{{obtained_application.creationTime}}</td>
+            </tr>
+            <tr>
+                <td>Photo</td>
+                <td><img src={{obtained_application.clientInfo.photoPath}}  width="150" height="150"></td>
+            </tr>
+            <tr >
+                <td>
+                    <button class="btn btn-danger" ng-click="deleteApplication(obtained_application.id)" type="submit">Delete</button>
+                </td>
+                <td>
+                    <button class="btn btn-success" ng-click="toUpdateApplication(obtained_application)" type="submit">Update</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

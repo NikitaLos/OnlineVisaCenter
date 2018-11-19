@@ -1,0 +1,92 @@
+<html ng-app="visa_center">
+<head>
+    <script src="js/angular.js"></script>
+    <script src="js/application_controller.js"></script>
+    <title>All Users</title>
+</head>
+<body>
+<div ng-include="'admin_navbar.html'">
+</div>
+<br/>
+<br/>
+<div ng-controller="application_controller">
+    <div class="row justify-content-center">
+        <div  class="col-9">
+            <form class="form-inline"  data-ng-init="getEmployeeRoles()" ng-submit="addEmployee(user)">
+
+                <label class="sr-only" for="inlineFormInputLogin">Login</label>
+                <input ng-model ="user.login" type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputLogin" placeholder="Login">
+
+                <label class="sr-only" for="inlineFormInputGroupEmail">Email</label>
+                <div class="input-group mb-2 mr-sm-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">@</div>
+                    </div>
+                    <input  ng-model="user.email" type="text" class="form-control" id="inlineFormInputGroupEmail" placeholder="Email">
+                </div>
+
+
+                <label class="sr-only" for="inlineFormInputPass">Password</label>
+                <input ng-model="user.password" type="password" class="form-control mb-2 mr-sm-2" id="inlineFormInputPass" placeholder="Password">
+
+                <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Role</label>
+                <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref" ng-model="user.role" ng-options="r as r for r in roles"></select >
+
+                <button  type="submit" class="btn btn-success mb-2">Add</button>
+            </form>
+        </div>
+    </div>
+
+    <div ng-show="messageBool">
+        <div  class="row justify-content-center">
+            <strong class="alert alert-danger">{{errorMessage}}</strong>
+        </div>
+
+        <div class="row justify-content-center">
+            <div  ng-repeat="error in validationErrors"  class="alert alert-danger" role="alert">
+                {{error}}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row justify-content-center">
+    <div ng-controller="application_controller" data-ng-init='getAllEmployees()' class="col-10">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">
+                    <a href="#" ng-click="sortBy('login')">Login</a>
+                    <span class="sortorder" ng-show="propertyName === 'login'" ng-class="{reverse: reverse}"></span>
+                </th>
+                <th scope="col">
+                    <a href="#" ng-click="sortBy('email')">Email</a>
+                    <span class="sortorder" ng-show="propertyName === 'email'" ng-class="{reverse: reverse}"></span></th>
+                <th scope="col">
+                    <a href="#" ng-click="sortBy('role')">Role</a>
+                    <span class="sortorder" ng-show="propertyName === 'role'" ng-class="{reverse: reverse}"></span>
+                </th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody ng-repeat="employee in employees | orderBy: propertyName:reverse">
+            <tr>
+                <td>
+                    {{employee.login}}
+                </td>
+                <td>
+                    {{employee.email}}
+                </td>
+                <td>
+                    {{employee.role}}
+                </td>
+                <td>
+                    <button class="btn btn-danger" ng-click="deleteEmployee(employee.id)" type="submit">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</div>
+</body>
+</html>

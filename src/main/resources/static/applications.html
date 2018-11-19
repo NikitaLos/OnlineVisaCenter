@@ -1,0 +1,63 @@
+<html ng-app="visa_center">
+<head>
+    <title>Applications</title>
+</head>
+<script src="js/angular.js"></script>
+<script src="js/application_controller.js"></script>
+<body>
+<div ng-include="'employee_navbar.html'"></div>
+<br/>
+<div class="row justify-content-center">
+<div ng-controller="application_controller" data-ng-init='getAllApplications()' class="col-10">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">
+                <a href="#" ng-click="sortBy('name')">Country</a>
+                <span class="sortorder" ng-show="propertyName === 'name'" ng-class="{reverse: reverse}"></span>
+            </th>
+            <th scope="col">
+                <a href="#" ng-click="sortBy('type')">Visa Type</a>
+                <span class="sortorder" ng-show="propertyName === 'type'" ng-class="{reverse: reverse}"></span></th>
+            <th scope="col">
+                <a href="#" ng-click="sortBy('status')">Status</a>
+                <span class="sortorder" ng-show="propertyName === 'status'" ng-class="{reverse: reverse}"></span>
+            </th>
+            <th scope="col">
+                <a href="#" ng-click="sortBy('result')">Result</a>
+                <span class="sortorder" ng-show="propertyName === 'result'" ng-class="{reverse: reverse}"></span>
+            </th>
+            <th scope="col">
+                <a href="#" ng-click="sortBy('creationTime')">Creation Time</a>
+                <span class="sortorder" ng-show="propertyName === 'creationTime'" ng-class="{reverse: reverse}"></span>
+            </th>
+            <th scope="col">Show</th>
+        </tr>
+        </thead>
+        <tbody ng-repeat="application in all_applications | orderBy: propertyName:reverse">
+        <tr>
+            <td>
+                {{application.visaInfo.visa.country.name}}
+            </td>
+            <td>
+                {{application.visaInfo.visa.type}}
+            </td>
+            <td>
+                {{application.status}}
+            </td>
+            <td>
+                {{application.result}}
+            </td>
+            <td>
+                {{application.creationTime}}
+            </td>
+            <td>
+                <button class="btn btn-success" ng-click="showApplicationForEmployee(application)" type="submit">Show</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
+

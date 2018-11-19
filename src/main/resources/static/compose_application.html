@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="visa_center">
+<head>
+    <meta charset="UTF-8">
+    <title>Compose application</title>
+</head>
+<script src="js/angular.js"></script>
+<script src="js/application_controller.js"></script>
+<body>
+<div ng-include="'client_navbar.html'"></div>
+<br/>
+<form  ng-controller="application_controller" data-ng-init='getCountry(); getAimsOfVisit()' ng-submit="addApplication(application)">
+
+    <div class="row justify-content-center">
+        <div class="row col-10">
+            <div class="col-4">
+                <label class="label_margin" for="inlineFormCustomSelectCountry">Country:</label>
+                <select class="custom-select margin_app" id="inlineFormCustomSelectCountry" ng-change="getVisaByCountryId(selectedCountry.id)" ng-model="selectedCountry" ng-options="c.name for c in countries"></select >
+            </div>
+
+            <div class="col-4">
+                <label class="label_margin" for="inlineFormCustomSelectVisa">Visa type:</label>
+                <select  class="custom-select margin_app" id="inlineFormCustomSelectVisa" ng-change="getVisa(application.visaInfo.visaId)" ng-model="application.visaInfo.visaId">
+                    <option ng-repeat="v in visas" value="{{v.id}}">{{v.type}}</option>
+                </select >
+            </div>
+
+            <div class="col-4">
+                <label class="label_margin" for="inlineFormCustomSelectAim">Aim of visit:</label>
+                <select ng-model="application.clientInfo.aimOfVisit" ng-options="a as a for a in aims"  class="custom-select margin_app" id="inlineFormCustomSelectAim">
+                </select >
+            </div>
+        </div>
+        <br/>
+        <br/>
+        <br/>
+        <div class="row col-10">
+            <div class="col-4">
+                <label class="label_margin" for="name">Name:</label>
+                <input ng-model="application.clientInfo.name" type="text" class="form-control" placeholder="First name" id="name">
+            </div>
+            <div class="col-4">
+                <label class="label_margin" for="surname">Surname:</label>
+                <input ng-model="application.clientInfo.surname" type="text" class="form-control" placeholder="Last name" id="surname">
+            </div>
+            <div class="col-4">
+                <label class="label_margin" for="phone">Phone number:</label>
+                <input ng-model="application.clientInfo.phoneNumber" type="number" class="form-control" placeholder="Phone number" id="phone">
+            </div>
+        </div>
+        <br/>
+        <br/>
+        <br/>
+        <div class="row col-10">
+            <div class="col-4">
+                <label class="label_margin" for="passportNumber">Passport number:</label>
+                <input ng-model="application.clientInfo.passport.number"  type="text"  class="form-control" placeholder="Passport number" id="passportNumber"/>
+            </div>
+            <div class="col-4">
+                <label class="label_margin" for="countryResidence">Country of residence:</label>
+                <input ng-model="application.clientInfo.passport.countryOfResidence" type="text" class="form-control" placeholder="Country of residence" id="countryResidence">
+            </div>
+            <div class="col-4">
+                <label class="label_margin" for="photo">Link to photo:</label>
+                <input ng-model="application.clientInfo.photoPath" type="text" class="form-control" placeholder="Link to photo" id="photo">
+            </div>
+        </div>
+        <br/>
+        <br/>
+        <br/>
+        <div class="row col-10">
+            <div class="col-4">
+                <label class="label_margin" for="dateBirth">Date of Birth:</label>
+                <input ng-model="application.clientInfo.dateOfBirth" type="date" class="form-control" id="dateBirth">
+            </div>
+            <div class="col-4">
+                <label class="label_margin" for="dateRec">Date of passport receiving:</label>
+                <input ng-model="application.clientInfo.passport.dateOfReceiving"  type="date" class="form-control" id="dateRec">
+            </div>
+            <div class="col-4">
+                <label class="label_margin" for="dateEnd">Date of passport ending:</label>
+                <input ng-model="application.clientInfo.passport.dateOfEnding"  type="date"  class="form-control" id="dateEnd"/>
+            </div>
+        </div>
+        <br/>
+        <br/>
+        <br/>
+        <div class="row col-10">
+            <div class="col-4">
+                <label class="label_margin" for="dateFrom">Visa from:</label>
+                <input ng-model="application.visaInfo.dateFrom"  type="date" class="form-control" id="dateFrom">
+            </div>
+            <div class="col-4">
+                <label class="label_margin" for="dateTo">Visa to:</label>
+                <input ng-model="application.visaInfo.dateTo"  type="date" class="form-control" id="dateTo">
+            </div>
+            <div class="col-2">
+                <label class="label_margin" for="sex">Sex:</label>
+                <div id="sex" class="sex">
+                <label class="radio-inline"><input ng-model="application.clientInfo.sex" type="radio" value="M"/>Men</label>
+                <label class="radio-inline"><input ng-model="application.clientInfo.sex" type="radio" value="W"/>Women</label>
+                </div>
+            </div>
+            <div class="col-2">
+                <label class="label_margin" for="dateTo">Days:</label>
+                <input ng-model="application.visaInfo.numOfDaysResidence" type="number"  class="form-control" placeholder="days of residence">
+            </div>
+        </div>
+        <br/>
+        <br/>
+        <br/>
+        <div class="row col-10">
+            <button  class="btn btn-success offset-9 col-3" type="submit">Add</button>
+        </div>
+    </div>
+
+    <br/>
+
+    <div class="row col-10 justify-content-center">
+        <div ng-show="messageBool" class="col-4 offset-4">
+            <strong class="alert alert-danger">{{errorMessage}}</strong>
+        </div>
+    </div>
+
+    <br/>
+
+    <div class="row justify-content-center">
+        <div class="row col-10 ">
+            <div  ng-repeat="error in validationErrors" ng-show="messageBool" class="alert alert-danger col-4" role="alert">
+                {{error}}
+            </div>
+        </div>
+    </div>
+
+</form>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<html ng-app="visa_center">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="js/angular.js"></script>
+    <script src="js/application_controller.js"></script>
+    <link href="css/3.3.0_bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <title>Log In</title>
+</head>
+<body>
+<div class="container" ng-controller="application_controller">
+    <div class="row main">
+        <div class="panel-heading">
+            <div class="panel-title text-center">
+                <h1 class="title">Visa Center</h1>
+                <hr />
+            </div>
+        </div>
+        <div class="main-login main-center" >
+            <form class="form-horizontal" ng-submit="logUser(user)">
+
+                <div class="form-group">
+                    <label for="name" class="cols-sm-2 control-label">Your Login</label>
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+                            <input ng-model="user.login" required  type="text" class="form-control" name="name" id="name"  placeholder="Enter your Login"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="cols-sm-2 control-label">Password</label>
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                            <input ng-model="user.password" required type="password" class="form-control" name="password" id="password"  placeholder="Enter your Password"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Sign in" class="btn btn-primary btn-lg btn-block login-button"/>
+                </div>
+                <div class="login-register">
+                    <a href="registration.html">Sign up</a>
+                </div>
+            </form>
+
+            <div ng-show="messageBool" class="alert alert-danger">
+                <strong>{{errorMessage}}</strong>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
