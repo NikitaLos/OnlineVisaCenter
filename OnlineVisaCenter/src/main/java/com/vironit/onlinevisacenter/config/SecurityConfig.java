@@ -4,6 +4,7 @@ import com.vironit.onlinevisacenter.entity.enums.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -40,10 +41,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                .antMatchers(HttpMethod.GET,"/employee/countries").permitAll()
                 .antMatchers("/employee/**").hasAuthority(Role.EMPLOYEE.name())
                 .antMatchers("/admin/**").hasAuthority(Role.ADMIN.name())
                 .antMatchers("/client/**").hasAuthority(Role.CLIENT.name())
-                .antMatchers("/auth_user/**").hasAnyAuthority(Role.CLIENT.name(), Role.EMPLOYEE.name())
                 .and()
                 .csrf().disable();
         http.formLogin()
