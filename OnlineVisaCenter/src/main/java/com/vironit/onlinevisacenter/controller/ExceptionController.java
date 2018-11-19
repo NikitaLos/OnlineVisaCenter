@@ -1,8 +1,8 @@
 package com.vironit.onlinevisacenter.controller;
 
-import com.vironit.onlinevisacenter.dto.response.ResponseExceptionDTO;
-import com.vironit.onlinevisacenter.exceptions.ConverterException;
-import com.vironit.onlinevisacenter.exceptions.ServiceException;
+import com.vironit.onlinevisacenter.dto.exception.ResponseExceptionDTO;
+import com.vironit.onlinevisacenter.exceptions.DuplicateException;
+import com.vironit.onlinevisacenter.exceptions.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -48,7 +48,7 @@ public class ExceptionController {
         return new ResponseExceptionDTO(jsonMessage);
     }
 
-    @ExceptionHandler({ServiceException.class,ConverterException.class})
+    @ExceptionHandler({DuplicateException.class, EntityNotFoundException.class})
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseExceptionDTO servicesException (Exception e) {
         return new ResponseExceptionDTO(e.getMessage());
