@@ -1,4 +1,4 @@
-package com.vironit.onlinevisacenter.service;
+package com.vironit.onlinevisacenter.service.impl;
 
 import com.vironit.onlinevisacenter.entity.User;
 import com.vironit.onlinevisacenter.repository.jpa.UserDAO;
