@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @EqualsAndHashCode(callSuper = true)
 public class VisaInfo extends AbstractIdentifiableEntity implements Serializable {
 
-    @OneToOne(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "visa_id")
     private Visa visa;
 

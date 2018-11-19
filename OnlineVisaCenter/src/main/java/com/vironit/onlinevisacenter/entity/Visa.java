@@ -20,11 +20,11 @@ public class Visa extends AbstractIdentifiableEntity implements Serializable {
     @Column(name = "price")
     private Double price;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JoinColumn(name = "country_id")
     private Country country;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany
     @JoinTable(name = "visa_document_type",
                 joinColumns = {@JoinColumn(name = "visa_id")},
                 inverseJoinColumns = {@JoinColumn(name = "document_type_id")})

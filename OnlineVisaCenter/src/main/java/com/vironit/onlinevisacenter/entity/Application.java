@@ -25,7 +25,7 @@ public class Application extends AbstractIdentifiableEntity implements Serializa
     @JoinColumn(name = "visa_info_id")
     private VisaInfo visaInfo;
 
-    @ManyToOne(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
